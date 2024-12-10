@@ -12,7 +12,7 @@
             success: function(response){
                 if(response.status == "success"){
                     alert('Thank you. Your message has been sent.');
-                    window.location.href = 'https://alicelepissier.com/wedding-template/en/#contact';
+                    window.location.href = '{{ site.url }}{{ site.baseurl }}/en/#contact';
                 }else{
                     alert("An error occured: " + response.message);
                 }
