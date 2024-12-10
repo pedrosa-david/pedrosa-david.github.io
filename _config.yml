@@ -1,5 +1,5 @@
-url: https://walice.github.io
-#baseurl: /wedding-template
+url: https://amira-david.com
+baseurl: ""  # Empty since it will be served from root
 
 # Site settings
 title: Cat + Dog
