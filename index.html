@@ -1,3 +1,25 @@
 ---
-layout: en_default
+layout: null
 ---
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="0; url={{ site.baseurl }}/it">
+    <script>
+        function getBrowserLanguage() {
+            var language = navigator.language || navigator.userLanguage;
+            language = language.toLowerCase().substring(0, 2);
+            console.log('Detected language:', language);
+            
+            var supported = {
+                'it': '/it',
+                'es': '/es'
+            };
+            
+            window.location.href = supported[language] || '/it';
+        }
+    </script>
+</head>
+<body onload="getBrowserLanguage()" style="display:none">
+</body>
+</html>

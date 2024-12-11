@@ -23,4 +23,6 @@ description: "Template for a wedding website."
 markdown: kramdown
 permalink: pretty
 
-include: ['_en_pages', '_fr_pages']
+include: ['_it_pages', '_es_pages']
+
+port: 4001
