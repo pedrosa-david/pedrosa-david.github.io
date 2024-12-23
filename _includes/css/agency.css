@@ -134,12 +134,12 @@ fieldset[disabled] .btn-primary.active {
 }
 
 .btn-xl {
-    padding: 20px 40px;
+    padding: 5px 10px;
     border-color: #{{ site.data.template.color.primary }};
     border-radius: 3px;
     text-transform: uppercase;
     font-family: {{ site.data.template.font.primary }};
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
     color: #fff;
     background-color: #{{ site.data.template.color.primary }};
@@ -238,9 +238,11 @@ fieldset[disabled] .btn-m.active {
 }
 .navbar-default {
     border-color: transparent;
-    background-color: #222;
-    padding-top: 10px;
+    background-color: rgba(34, 34, 34, 0.7);
+    padding-top: 5px;
+    padding-bottom: 5px;
     padding-left: 10px;
+    min-height: 40px;
 }
 
 .navbar-default .navbar-brand {
@@ -261,17 +263,25 @@ fieldset[disabled] .btn-m.active {
 }
 
 .navbar-default .navbar-toggle {
-    border-color: #{{ site.data.template.color.primary }};
-    background-color: #{{ site.data.template.color.primary }};
+    border-color: transparent;
+    background-color: transparent;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 5px 6px;
 }
 
-.navbar-default .navbar-toggle .icon-bar {
-    background-color: #fff;
+.navbar-default .navbar-toggle i {
+    color: #{{ site.data.template.color.primary }};
+    font-size: 20px;
 }
 
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: transparent;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    display: none;
 }
 
 .navbar-default .nav li a {
@@ -284,6 +294,8 @@ fieldset[disabled] .btn-m.active {
     -webkit-transition: all ease .35s;
     -moz-transition: all ease .35s;
     transition: all ease .35s;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .navbar-default .nav li a:hover,
@@ -308,7 +320,8 @@ fieldset[disabled] .btn-m.active {
     /*font-family: "Kaushan Script","Helvetica Neue",Helvetica,Arial,cursive;*/
     font-family: "stay_classy_sldtregular","Helvetica Neue",Helvetica,Arial,cursive;
     color: #{{ site.data.template.color.primary }};
-    font-size: 2.5em;
+    font-size: 2em;
+    padding-top: 0;
 }
 
 .brand {
@@ -326,43 +339,13 @@ fieldset[disabled] .btn-m.active {
     color: #{{ site.data.template.color.secondary }};
 }
 
-@media(min-width:768px) {
-    .navbar-default {
-        padding: 25px 0;
-        border: 0;
-        background-color: transparent;
-        -webkit-transition: padding .3s;
-        -moz-transition: padding .3s;
-        transition: padding .3s;
-    }
 
-    .navbar-default .navbar-brand {
-        font-size: 2em;
-        -webkit-transition: all .3s;
-        -moz-transition: all .3s;
-        transition: all .3s;
-    }
-
-    .navbar-default .navbar-nav>.active>a {
-        border-radius: 3px;
-    }
-
-    .navbar-default.navbar-shrink {
-        padding: 10px 0;
-        background-color: #222;
-    }
-
-/*    .navbar-default.navbar-shrink .navbar-brand {
-        font-size: 1.5em;
-    }*/
-
-}
 
 header {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url('{{ site.baseurl }}/img/backgrounds/header.gif'); 
+    background-image: url('{{ site.baseurl }}/img/backgrounds/header.png'); 
     background-position: center center;
     /*background-position: top center;*/
     background-repeat: none;
@@ -373,7 +356,7 @@ header {
 }
 
 header .intro-text {
-    padding-top: 100px;
+    padding-top: 250px;
     padding-bottom: 50px;
 }
 
@@ -381,18 +364,16 @@ header .intro-text .intro-lead-in {
     margin-bottom: 25px;
     /*font-family: {{ site.data.template.font.secondary }};*/
     /*font-family: {{ site.data.template.font.primary }};*/
-    font-family: 'Lato';
-    font-weight: 300;
-    font-size: 22px;
+    font-family: 'stay_classy_sldtregular';
+    /* font-weight: 300; */
+    font-size: 40px;
     /*font-style: italic;*/
-    line-height: 22px;
+    line-height: 60px;
 }
 
 header .intro-text .intro-heading {
     margin-bottom: 25px;
-    /*text-transform: uppercase;*/
-    /*font-family: {{ site.data.template.font.primary }};*/
-    font-family: 'stay_classy_sldtregular';
+    font-family: 'maxleonregular', Arial, sans-serif;
     text-shadow: 2px 2px 4px #000000;
     font-size: 75px;
     /*font-weight: 700;*/
@@ -405,7 +386,7 @@ header .intro-text .intro-heading {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url('{{ site.baseurl }}/img/backgrounds/header.gif'); 
+    background-image: url('{{ site.baseurl }}/img/backgrounds/header.png'); 
     /*background-position: center center;*/
     background-position: top center;
     background-repeat: none;
@@ -427,18 +408,16 @@ header .intro-text .intro-heading {
         margin-bottom: 25px;
         /*font-family: {{ site.data.template.font.secondary }};*/
         /*font-family: {{ site.data.template.font.primary }};*/
-        font-family: 'Lato';
+        font-family: 'stay_classy_sldtregular';
         font-weight: 300;
-        font-size: 40px;
+        font-size: 60px;
         /*font-style: italic;*/
-        line-height: 40px;
+        line-height: 60px;
     }
 
     header .intro-text .intro-heading {
         margin-bottom: 100px;
-        /*text-transform: uppercase;*/
-        /*font-family: {{ site.data.template.font.primary }};*/
-        font-family: 'stay_classy_sldtregular';
+        font-family: 'maxleonregular', Arial, sans-serif;
         text-shadow: 2px 2px 4px #000000;
         font-size: 75px;
         /*font-weight: 700;*/
