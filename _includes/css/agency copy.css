@@ -4,7 +4,7 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-body {
+ body {
     overflow-x: hidden;
     /*font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;*/
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -236,7 +236,6 @@ fieldset[disabled] .btn-m.active {
     color: #{{ site.data.template.color.primary }};
     background-color: #fff;
 }
-
 .navbar-default {
     border-color: transparent;
     background-color: rgba(34, 34, 34, 0.7);
@@ -334,12 +333,13 @@ fieldset[disabled] .btn-m.active {
 .brand:active {
     text-decoration: none;
 }
-
 .brand:focus,
 .brand:active,
 .brand.active {
     color: #{{ site.data.template.color.secondary }};
 }
+
+
 
 header {
     text-align: center;
@@ -382,20 +382,20 @@ header .intro-text .intro-heading {
 }
 
 @media(min-width:768px) {
-    header {
-        text-align: center;
-        color: #fff;
-        background-attachment: scroll;
-        background-image: url('{{ site.baseurl }}/img/backgrounds/header.png'); 
-        /*background-position: center center;*/
-        background-position: top center;
-        background-repeat: none;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        background-size: cover;
-        -o-background-size: cover;
-        /*opacity: 0.5;*/
-    }
+	header {
+    text-align: center;
+    color: #fff;
+    background-attachment: scroll;
+    background-image: url('{{ site.baseurl }}/img/backgrounds/header.png'); 
+    /*background-position: center center;*/
+    background-position: top center;
+    background-repeat: none;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    /*opacity: 0.5;*/
+	}
 
     header .intro-text {
         /*padding-top: 300px;*/
@@ -970,49 +970,4 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: #{{ site.data.template.color.primary }};
-}
-
-/* RSVP Form Styles */
-.phone-group {
-    display: flex;
-    gap: 10px;
-}
-
-.prefix-select {
-    width: 120px;
-    flex-shrink: 0;
-}
-
-.phone-input {
-    flex-grow: 1;
-}
-
-.rsvp-form .form-group {
-    margin-bottom: 25px;
-}
-
-.rsvp-form select.form-control {
-    height: 46px;
-}
-
-/* Guest Details Styles */
-.guest-details {
-    margin-bottom: 20px;
-}
-
-.guest-section {
-    background: rgba(0,0,0,0.03);
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 4px;
-}
-
-.guest-section h4 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 16px;
-}
-
-.dietary-group {
-    margin-top: 10px;
 }
