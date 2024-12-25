@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">RSVP</h2>
-                <h3 class="section-subheading text-muted">Por favor, confirma tu asistencia antes del 1 de enero</h3>
+                <h2 class="section-heading">Confirma tu asistencia</h2>
+                <h3 class="section-subheading text-muted">Por favor, confirma tu asistencia si es posible antes del 1 de Febrero</h3>
             </div>
         </div>
         <div class="row">
@@ -11,17 +11,12 @@
                 <form class="rsvp-form">
                     <!-- Main contact info -->
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Nombre completo" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
                         <input type="email" class="form-control" placeholder="Email" id="email" name="email" required>
                     </div>
                     <div class="form-group phone-group">
                         <select class="form-control prefix-select" id="phonePrefix" name="phonePrefix" required>
                             <option value="+34">🇪🇸 +34</option>
                             <option value="+39">🇮🇹 +39</option>
-                            <option value="+33">🇫🇷 +33</option>
-                            <option value="+44">🇬🇧 +44</option>
                         </select>
                         <input type="tel" class="form-control phone-input" placeholder="Número de teléfono" id="phone" name="phone" required>
                     </div>
@@ -29,16 +24,23 @@
                     <!-- Guest counts -->
                     <div class="form-group">
                         <select class="form-control" id="numAdults" name="numAdults" required>
-                            <option value="">Número de adultos</option>
+                            <option value="">Número de adultos (menu adulto)</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
                         </select>
+                    </div>
+                    <div id="adultGuests" class="guest-details">
+                        <!-- Will be populated by JavaScript -->
                     </div>
                     <div class="form-group">
                         <select class="form-control" id="numChildren" name="numChildren" required>
-                            <option value="0">Número de niños</option>
+                            <option value="0">Número de niños (menu infantil)</option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -46,18 +48,13 @@
                             <option value="4">4</option>
                         </select>
                     </div>
-
-                    <!-- Dynamic guest details sections -->
-                    <div id="adultGuests" class="guest-details">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-                    
                     <div id="childGuests" class="guest-details">
                         <!-- Will be populated by JavaScript -->
                     </div>
 
                     <!-- Bus service -->
                     <div class="form-group">
+                        <h3 class="section-subheading text-muted">Habrá servicio de autobús ida y vuelta desde Burgos. Horarios por confirmar. Rogamos que nos indiques si necesitas el servicio para que podamos organizarlo con suficiente antelación. El autobús de vuelta regresará a Burgos al final del evento (alrededor de medianoche).</h3>
                         <select class="form-control" id="busService" name="busService" required>
                             <option value="">¿Necesitas servicio de autobús?</option>
                             <option value="yes">Sí</option>
