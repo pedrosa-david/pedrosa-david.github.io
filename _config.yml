@@ -1,28 +1,28 @@
 url: https://amira-david.com
-baseurl: ""  # Empty since it will be served from root
+baseurl: "" # Empty since it will be served from root
 
 # Site settings
 title: Amira & David
-email: petsgetmarried@wedding.com
+email: amira.e.david@gmail.com
 description: "Template for a wedding website."
 
 # Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
 # social:
-  # - title: twitter
-  #   url: http://twitter.com/jekyllrb
-  # - title: facebook
-  #   url:
-  # - title: stack-overflow
-  #   url: http://stackoverflow.com/questions/tagged/jekyll
-  # - title: bitbucket 
-  #   url: http://bitbucket.org/jekyll
-  # - title: github
-  #   url: http://github.com/jekyll
+# - title: twitter
+#   url: http://twitter.com/jekyllrb
+# - title: facebook
+#   url:
+# - title: stack-overflow
+#   url: http://stackoverflow.com/questions/tagged/jekyll
+# - title: bitbucket
+#   url: http://bitbucket.org/jekyll
+# - title: github
+#   url: http://github.com/jekyll
 
 # Build settings
 markdown: kramdown
 permalink: pretty
 
-include: ['_it_pages', '_es_pages']
+include: ["_it_pages", "_es_pages"]
 
 port: 4001

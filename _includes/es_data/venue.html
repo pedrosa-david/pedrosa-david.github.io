@@ -10,21 +10,40 @@
         <style>
         .google-maps {
             position: relative;
-            padding-bottom: 75%; // This is the aspect ratio
-            height: 0;
+            height: 300px; /* Set a fixed height */
             overflow: hidden;
         }
         .google-maps iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100% !important;
-            height: 100% !important;
+            width: 100%;
+            height: 100%;
         }
         </style>
 
-        <div class="google-maps">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d167998.10803373056!2d2.206977064368058!3d48.858774103123785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis!5e0!3m2!1sen!2sfr!4v1620395467989!5m2!1sen!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Map iframe placeholder -->
+                <div class="google-maps">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1493312.2198325617!2d-4.894494789369739!3d43.028270727500995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd4672a7644ac76f%3A0x5bbe0571d7ab2c42!2sBodegas%20Buezo!5e0!3m2!1ses!2sit!4v1735163405254!5m2!1ses!2sit"
+                    width="670" height="365" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>   
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Image placeholder -->
+                <img src="/img/buezo/noche.jpg" alt="Image 1" class="img-responsive">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Image placeholder -->
+                <img src="/img/buezo/sala.jpeg" alt="Image 2" class="img-responsive">
+            </div>
+            <div class="col-md-6">
+                <!-- Image placeholder -->
+                <img src="/img/buezo/viña.jpg" alt="Image 3" class="img-responsive">
+            </div>
         </div>
     </div>
 </section>

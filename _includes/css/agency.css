@@ -295,8 +295,9 @@ fieldset[disabled] .btn-m.active {
     -webkit-transition: all ease .35s;
     -moz-transition: all ease .35s;
     transition: all ease .35s;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
 }
 
 .navbar-default .nav li a:hover,

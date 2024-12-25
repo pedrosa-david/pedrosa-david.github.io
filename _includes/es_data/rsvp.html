@@ -20,46 +20,63 @@
                         </select>
                         <input type="tel" class="form-control phone-input" placeholder="Número de teléfono" id="phone" name="phone" required>
                     </div>
-                    
-                    <!-- Guest counts -->
+                    <!-- Participation question -->
                     <div class="form-group">
-                        <select class="form-control" id="numAdults" name="numAdults" required>
-                            <option value="">Número de adultos (menu adulto)</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                        </select>
-                    </div>
-                    <div id="adultGuests" class="guest-details">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" id="numChildren" name="numChildren" required>
-                            <option value="0">Número de niños (menu infantil)</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-                    <div id="childGuests" class="guest-details">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-
-                    <!-- Bus service -->
-                    <div class="form-group">
-                        <h3 class="section-subheading text-muted">Habrá servicio de autobús ida y vuelta desde Burgos. Horarios por confirmar. Rogamos que nos indiques si necesitas el servicio para que podamos organizarlo con suficiente antelación. El autobús de vuelta regresará a Burgos al final del evento (alrededor de medianoche).</h3>
-                        <select class="form-control" id="busService" name="busService" required>
-                            <option value="">¿Necesitas servicio de autobús?</option>
+                        <select class="form-control" id="participation" name="participation" required>
+                            <option value="">¿Participarás?</option>
                             <option value="yes">Sí</option>
                             <option value="no">No</option>
                         </select>
+                    </div>
+                    <div id="noParticipationFields" style="display: none;">
+                        <!-- Sad message for 'No' selection -->
+                        <h3 class="section-subheading text-muted">Lamentamos que no puedas asistir. Por favor, indícanos tu nombre para registrarlo correctamente.</h3>
+                        <!-- Full name field for 'No' selection -->
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Nombre completo" id="fullName" name="fullName">
+                        </div>
+                    </div>
+                    <div id="yesParticipationFields" style="display: none;">
+                        <!-- Guest counts -->
+                        <div class="form-group">
+                            <select class="form-control" id="numAdults" name="numAdults" required>
+                                <option value="">Número de adultos (menu adulto)</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+                        <div id="adultGuests" class="guest-details">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="numChildren" name="numChildren" required>
+                                <option value="0">Número de niños (menu infantil)</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div id="childGuests" class="guest-details">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+
+                        <!-- Bus service -->
+                        <div class="form-group">
+                            <h3 class="section-subheading text-muted">Habrá servicio de autobús ida y vuelta desde Burgos. Horarios por confirmar. Rogamos que nos indiques si necesitas el servicio para que podamos organizarlo con suficiente antelación. El autobús de vuelta regresará a Burgos al final del evento (alrededor de medianoche).</h3>
+                            <select class="form-control" id="busService" name="busService" required>
+                                <option value="">¿Necesitas servicio de autobús?</option>
+                                <option value="yes">Sí</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-xl">Enviar</button>
@@ -68,3 +85,20 @@
         </div>
     </div>
 </section> 
+
+<script>
+    document.getElementById('participation').addEventListener('change', function() {
+        var noParticipationFields = document.getElementById('noParticipationFields');
+        var yesParticipationFields = document.getElementById('yesParticipationFields');
+        if (this.value === 'yes') {
+            yesParticipationFields.style.display = 'block';
+            noParticipationFields.style.display = 'none';
+        } else if (this.value === 'no') {
+            noParticipationFields.style.display = 'block';
+            yesParticipationFields.style.display = 'none';
+        } else {
+            noParticipationFields.style.display = 'none';
+            yesParticipationFields.style.display = 'none';
+        }
+    });
+</script> 
