@@ -348,7 +348,10 @@ header {
     background-attachment: scroll;
     background-image: url('{{ site.baseurl }}/img/backgrounds/header.png');
     background-position: center center;
-    background-repeat: no-repeat;
+    /*background-position: top center;*/
+    background-repeat: none;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
     background-size: cover;
     height: 100vh;
     padding-top: 200px;
