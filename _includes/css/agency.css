@@ -598,14 +598,15 @@ section h3.section-subheading {
     z-index: 100;
     position: absolute;
     left: 0;
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     margin-left: 0;
-    border: 7px solid #f1f1f1;
+    border: 7px solid #f8d56f;
     border-radius: 100%;
     text-align: center;
     color: #fff;
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: #6f6f6f;
+    overflow: hidden;
 }
 
 .timeline>li .timeline-image h4 {
