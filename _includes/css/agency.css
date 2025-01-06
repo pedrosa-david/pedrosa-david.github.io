@@ -378,15 +378,16 @@ header .intro-text .intro-lead-in {
     font-size: 40px;
     /*font-style: italic;*/
     line-height: 60px;
+    text-shadow: 2px 2px 4px #000000;
 }
 
 header .intro-text .intro-heading {
     margin-bottom: 25px;
     font-family: 'maxleonregular', Arial, sans-serif;
     text-shadow: 2px 2px 4px #000000;
-    font-size: 75px;
-    /*font-weight: 700;*/
-    line-height: 75px;
+    font-size: 100px;
+    font-weight: 575;
+    line-height: 100px;
     padding-bottom: 15px;
 }
 
