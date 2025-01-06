@@ -1008,6 +1008,31 @@ body {
     height: 46px;
 }
 
+/* Form Controls Colors */
+#rsvp .form-control {
+    color: #333;
+    background-color: #fff;
+}
+
+#rsvp .form-control::placeholder {
+    color: #666;
+}
+
+#rsvp select.form-control {
+    color: #333;
+}
+
+#rsvp select.form-control option {
+    color: #333;
+    background-color: #fff;
+}
+
+#rsvp .phone-group select,
+#rsvp .phone-group input {
+    color: #333;
+    background-color: #fff;
+}
+
 /* Guest Details Styles */
 .guest-details {
     margin-bottom: 20px;
@@ -1028,3 +1053,21 @@ body {
 
 .dietary-group {
     margin-top: 10px;
+}
+
+/* Emoji fallback */
+#rsvp .prefix-select option[value="+34"]:before {
+    content: "🇪🇸";
+}
+
+#rsvp .prefix-select option[value="+34"]:not(:empty):before {
+    content: "";
+}
+
+#rsvp .prefix-select option[value="+39"]:before {
+    content: "🇮🇹";
+}
+
+#rsvp .prefix-select option[value="+39"]:not(:empty):before {
+    content: "";
+}

@@ -1,4 +1,4 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbyEoETS0m0d1gCl0y3Vxha5oNKWPj8mjozek0aQseCClF0xTBRVaaL28fZXe0-Dn3fIqw/exec'
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzU0b4HCzo0FdkhMqjwY29Xt-QynrSehkzKKvO_pIhv28zCCVVfg6IkzCkDmOR0AvXsbA/exec'
 const dietaryOptions = [
     { value: 'none', label: 'Sin restricciones' },
     { value: 'vegetarian', label: 'Vegetariano' },
@@ -97,15 +97,30 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('participation').addEventListener('change', function() {
         const noParticipationFields = document.getElementById('noParticipationFields')
         const yesParticipationFields = document.getElementById('yesParticipationFields')
+        
+        // Get all required fields in the yes participation section
+        const requiredFields = yesParticipationFields.querySelectorAll('[required]')
+        
         if (this.value === 'yes') {
             yesParticipationFields.style.display = 'block'
             noParticipationFields.style.display = 'none'
+            // Make fields required
+            requiredFields.forEach(field => field.required = true)
+            // Make the no participation name field not required
+            document.getElementById('fullName').required = false
         } else if (this.value === 'no') {
             noParticipationFields.style.display = 'block'
             yesParticipationFields.style.display = 'none'
+            // Make fields not required
+            requiredFields.forEach(field => field.required = false)
+            // Make the no participation name field required
+            document.getElementById('fullName').required = true
         } else {
             noParticipationFields.style.display = 'none'
             yesParticipationFields.style.display = 'none'
+            // Make all fields not required
+            requiredFields.forEach(field => field.required = false)
+            document.getElementById('fullName').required = false
         }
     })
 
@@ -117,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form submission
     form.addEventListener('submit', e => {
         e.preventDefault()
+        console.log('Form submitted')
         
         const formData = new FormData(form)
         const email = formData.get('email')
@@ -124,10 +140,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const participates = formData.get('participation')
         const busService = formData.get('busService') || 'no'
         
+        console.log('Form data collected:', {
+            email,
+            phone,
+            participates,
+            busService
+        })
+        
         let guests = []
         
         if (participates === 'no') {
-            // Single non-participating guest
+            console.log('Processing non-participating guest')
             guests.push({
                 name: formData.get('fullName'),
                 email: email,
@@ -137,66 +160,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 menuType: '',
                 menuDiet: ''
             })
-        } else {
-            // Process adult guests
-            const adultCount = parseInt(formData.get('numAdults')) || 0
-            for (let i = 0; i < adultCount; i++) {
-                const dietary = formData.get(`adult_${i}_dietary`)
-                guests.push({
-                    name: formData.get(`adult_${i}_name`),
-                    email: email,
-                    phone: phone,
-                    participates: 'yes',
-                    bus: busService,
-                    menuType: 'adult',
-                    menuDiet: dietary === 'other' 
-                        ? formData.get(`adult_${i}_dietary_notes`)
-                        : dietaryOptions.find(opt => opt.value === dietary)?.label || ''
-                })
-            }
-            
-            // Process children with menu
-            const childCount = parseInt(formData.get('numChildren')) || 0
-            for (let i = 0; i < childCount; i++) {
-                const dietary = formData.get(`child_${i}_dietary`)
-                guests.push({
-                    name: formData.get(`child_${i}_name`),
-                    email: email,
-                    phone: phone,
-                    participates: 'yes',
-                    bus: busService,
-                    menuType: 'child',
-                    menuDiet: dietary === 'other' 
-                        ? formData.get(`child_${i}_dietary_notes`)
-                        : dietaryOptions.find(opt => opt.value === dietary)?.label || ''
-                })
-            }
-            
-            // Process children without menu
-            const noMenuCount = parseInt(formData.get('numChildrenNoMenu')) || 0
-            for (let i = 0; i < noMenuCount; i++) {
-                guests.push({
-                    name: formData.get(`nomenu_${i}_name`),
-                    email: email,
-                    phone: phone,
-                    participates: 'yes',
-                    bus: busService,
-                    menuType: 'none',
-                    menuDiet: ''
-                })
-            }
         }
+        
+        console.log('Guests data:', guests)
         
         // Send to Google Apps Script
         fetch(scriptURL, {
             method: 'POST',
-            body: JSON.stringify({ guests }),
+            mode: 'cors',
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ guests })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Response received:', response)
+            return response.json()
+        })
         .then(data => {
+            console.log('Parsed response:', data)
             if (data.result === 'success') {
                 form.style.display = 'none'
                 document.getElementById('successMessage').style.display = 'block'
@@ -206,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
-            console.error('Error:', error)
+            console.error('Error details:', error)
             document.getElementById('errorMessage').style.display = 'block'
             document.getElementById('successMessage').style.display = 'none'
         })

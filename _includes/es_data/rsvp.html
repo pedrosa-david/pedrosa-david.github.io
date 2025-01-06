@@ -35,9 +35,18 @@
                         </div>
                     </div>
                     <div id="yesParticipationFields" style="display: none;">
+                        <!-- Bus service -->
+                        <div class="form-group">
+                            <h3 class="section-subheading text-muted">Habrá servicio de autobús de ida y vuelta desde Burgos.</h3>
+                            <select class="form-control" id="busService" name="busService">
+                                <option value="">¿Necesitas servicio de autobús?</option>
+                                <option value="yes">Sí</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
                         <!-- Guest counts -->
                         <div class="form-group">
-                            <select class="form-control" id="numAdults" name="numAdults" required>
+                            <select class="form-control" id="numAdults" name="numAdults">
                                 <option value="">Número de adultos</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -49,12 +58,8 @@
                                 <option value="8">8</option>
                             </select>
                         </div>
-                        <div id="adultGuests" class="guest-details">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
-
                         <div class="form-group">
-                            <select class="form-control" id="numChildren" name="numChildren" required>
+                            <select class="form-control" id="numChildren" name="numChildren">
                                 <option value="0">Número de niños (con menú)</option>
                                 <option value="0">0</option>
                                 <option value="1">1</option>
@@ -63,10 +68,6 @@
                                 <option value="4">4</option>
                             </select>
                         </div>
-                        <div id="childGuests" class="guest-details">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
-
                         <div class="form-group">
                             <select class="form-control" id="numChildrenNoMenu" name="numChildrenNoMenu" required>
                                 <option value="0">Número de niños (sin menú)</option>
@@ -77,18 +78,14 @@
                                 <option value="4">4</option>
                             </select>
                         </div>
-                        <div id="nomenuGuests" class="guest-details">
-                            <!-- Will be populated by JavaScript -->
+                        <div id="adultGuests" class="guest-details">
+                        <!-- Will be populated by JavaScript -->
                         </div>
-
-                        <!-- Bus service -->
-                        <div class="form-group">
-                            <h3 class="section-subheading text-muted">Habrá servicio de autobús de ida y vuelta desde Burgos.</h3>
-                            <select class="form-control" id="busService" name="busService" required>
-                                <option value="">¿Necesitas servicio de autobús?</option>
-                                <option value="yes">Sí</option>
-                                <option value="no">No</option>
-                            </select>
+                        <div id="childGuests" class="guest-details">
+                        <!-- Will be populated by JavaScript -->
+                        </div>
+                        <div id="nomenuGuests" class="guest-details">
+                        <!-- Will be populated by JavaScript -->
                         </div>
                     </div>
 
@@ -106,5 +103,3 @@
         </div>
     </div>
 </section>
-
-<script src="js/rsvp_es.js"></script>
