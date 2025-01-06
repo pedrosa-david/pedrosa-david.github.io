@@ -1,6 +1,3 @@
-const scriptURL = document.currentScript.getAttribute('data-script-url');
-const passkey = document.currentScript.getAttribute('data-passkey');
-
 const dietaryOptions = [
     { value: 'none', label: 'Sin restricciones' },
     { value: 'vegetarian', label: 'Vegetariano' },
@@ -135,6 +132,16 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', e => {
         e.preventDefault();
         
+        // Get script configuration when submitting
+        const scriptElement = document.querySelector('script[data-script-url]');
+        const scriptURL = scriptElement.getAttribute('data-script-url');
+        const passkey = scriptElement.getAttribute('data-passkey');
+        
+        if (!scriptURL || !passkey) {
+            console.error('Missing configuration');
+            return;
+        }
+
         // Scroll to RSVP section first
         document.getElementById('rsvp').scrollIntoView({ 
             behavior: 'smooth',
