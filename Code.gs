@@ -1,8 +1,13 @@
 function doPost(e) {
   try {
-    // Get specific spreadsheet and sheet
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sheet = ss.getSheetByName("rsvp_db"); // Use exact sheet name
+    // Get specific spreadsheet by ID
+    const SPREADSHEET_ID = "1ocpul7PDFJgtDJxN3gZnEW1Pxut5Xuq1VzMhr93vvnk";
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName("rsvp_db");
+
+    if (!sheet) {
+      throw new Error("Sheet 'rsvp_db' not found");
+    }
 
     const data = e.parameter;
 
@@ -10,7 +15,7 @@ function doPost(e) {
     const now = new Date();
     const timestamp = Utilities.formatDate(now, "GMT", "MM-dd_HH:mm");
     const backupName = `RSVP_Backup_${timestamp}`;
-    createBackup(backupName);
+    createBackup(SPREADSHEET_ID, backupName);
 
     // Array to store all guest entries
     let guests = [];
@@ -76,16 +81,9 @@ function doPost(e) {
   }
 }
 
-function createBackup(backupName) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getActiveSheet();
+function createBackup(spreadsheetId, backupName) {
+  const ss = SpreadsheetApp.openById(spreadsheetId);
   const backup = ss.copy(backupName);
-
-  // Optional: Move backup to a specific folder
-  // const folder = DriveApp.getFolderById('your_folder_id');
-  // const file = DriveApp.getFileById(backup.getId());
-  // folder.addFile(file);
-  // DriveApp.getRootFolder().removeFile(file);
 }
 
 function sendNotificationEmail(summary) {
