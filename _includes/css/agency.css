@@ -386,6 +386,7 @@ header .intro-text .intro-heading {
     font-family: 'maxleonregular', Arial, sans-serif;
     text-shadow: 2px 2px 4px #000000;
     font-size: 75px;
+    /*font-weight: 700;*/
     line-height: 75px;
     padding-bottom: 15px;
 }
@@ -1028,23 +1029,3 @@ body {
 
 .dietary-group {
     margin-top: 10px;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
-@media(min-width:768px) {
-    .navbar-default .navbar-collapse {
-        width: auto;
-        flex-grow: 1;
-    }
-    
-    .navbar-default .container {
-        width: 100%;
-        max-width: 1400px;
-        padding: 0 30px;
-    }
-}
