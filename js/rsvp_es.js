@@ -1,4 +1,4 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbxVX4lpxm4vVBYxFvliQfQRqKweiuynss2Dlme-0CuJRzrZun-cDSmwX_Fq-86NK0veUw/exec'
+const scriptURL = 'https://script.google.com/macros/s/AKfycbxe9hRxXLZaWdn6fAFq_kkHBrHfww5zOJ35vxXGNeaEjRHrStNjIxfv7LZoZ-mXm3O56w/exec';
 const dietaryOptions = [
     { value: 'none', label: 'Sin restricciones' },
     { value: 'vegetarian', label: 'Vegetariano' },
