@@ -1,10 +1,10 @@
 <!-- RSVP Section -->
-<section id="rsvp" class="bg-light-gray">
+<section id="rsvp">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Conferma la tua partecipazione</h2>
-                <h3 class="section-subheading text-muted">Per favore, conferma la tua partecipazione possibilmente entro il 1° Febbraio</h3>
+                <h3 class="section-subheading text-muted">Per favore, conferma la tua partecipazione possibilmente entro il 1° febbraio</h3>
             </div>
         </div>
         <div class="row">
@@ -39,7 +39,7 @@
                         <!-- Guest counts -->
                         <div class="form-group">
                             <select class="form-control" id="numAdults" name="numAdults" required>
-                                <option value="">Numero di adulti (menù adulti)</option>
+                                <option value="">Numero di adulti (menù adulto)</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="form-group">
                             <select class="form-control" id="numChildren" name="numChildren" required>
-                                <option value="0">Numero di bambini (menù bambini)</option>
+                                <option value="0">Numero di bambini (menù bambino)</option>
                                 <option value="0">0</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -67,9 +67,26 @@
                             <!-- Will be populated by JavaScript -->
                         </div>
 
+                        <!-- New field for children without menu -->
+                        <div class="form-group">
+                            <h3 class="section-subheading text-muted">Se porterete neonati o bambini piccoli che non richiedono un menù specifico ma devono essere contati per la disposizione
+                            dei tavoli, indicate il loro numero qui.</h3>
+                            <select class="form-control" id="numChildrenNoMenu" name="numChildrenNoMenu" required>
+                                <option value="0">Numero di bambini (senza menù)</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div id="nomenuGuests" class="guest-details">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+
                         <!-- Bus service -->
                         <div class="form-group">
-                            <h3 class="section-subheading text-muted">Sarà disponibile un servizio di autobus andata e ritorno da Burgos. Orari da confermare. Vi preghiamo di indicare se avete bisogno del servizio per poterlo organizzare con sufficiente anticipo. L'autobus di ritorno tornerà a Burgos alla fine dell'evento (intorno a mezzanotte).</h3>
+                            <h3 class="section-subheading text-muted">Sarà disponibile un servizio di autobus di andata e ritorno da Burgos. Vi preghiamo di indicare se avete bisogno del servizio per poterlo organizzare con sufficiente anticipo. L'autobus di ritorno arriverà a Burgos intorno a mezzanotte.</h3>
                             <select class="form-control" id="busService" name="busService" required>
                                 <option value="">Hai bisogno del servizio autobus?</option>
                                 <option value="yes">Sì</option>

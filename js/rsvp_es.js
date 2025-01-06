@@ -87,8 +87,59 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.getElementById('numAdults').addEventListener('change', updateGuestFields)
-    document.getElementById('numChildren').addEventListener('change', updateGuestFields)
+    // Handle adult guests
+    document.getElementById('numAdults').addEventListener('change', function() {
+        const container = document.getElementById('adultGuests');
+        container.innerHTML = '';
+        const count = parseInt(this.value);
+        
+        for(let i = 0; i < count; i++) {
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <input type="text" class="form-control" 
+                       placeholder="Nombre del adulto ${i + 1}" 
+                       name="adultName${i + 1}" required>
+            `;
+            container.appendChild(div);
+        }
+    });
+
+    // Handle children with menu
+    document.getElementById('numChildren').addEventListener('change', function() {
+        const container = document.getElementById('childGuests');
+        container.innerHTML = '';
+        const count = parseInt(this.value);
+        
+        for(let i = 0; i < count; i++) {
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <input type="text" class="form-control" 
+                       placeholder="Nombre del niño ${i + 1} (con menú)" 
+                       name="childName${i + 1}" required>
+            `;
+            container.appendChild(div);
+        }
+    });
+
+    // Handle children without menu
+    document.getElementById('numChildrenNoMenu').addEventListener('change', function() {
+        const container = document.getElementById('nomenuGuests');
+        container.innerHTML = '';
+        const count = parseInt(this.value);
+        
+        for(let i = 0; i < count; i++) {
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <input type="text" class="form-control" 
+                       placeholder="Nombre del niño ${i + 1} (sin menú)" 
+                       name="childNoMenuName${i + 1}" required>
+            `;
+            container.appendChild(div);
+        }
+    });
     
     document.querySelector('.rsvp-form').addEventListener('submit', e => {
         e.preventDefault()
