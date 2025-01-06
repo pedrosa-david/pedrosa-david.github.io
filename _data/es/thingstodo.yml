@@ -1,0 +1,39 @@
+- modal-id: 1
+  title: "Historia y Cultura"
+  subtitle: "Catedral y Centro Histórico"
+  img: cathedral.jpg
+  thumbnail: cathedral-thumbnail.jpg
+  alt: Catedral de Burgos
+  description: "Admira la magnífica Catedral de Burgos, una obra maestra del gótico declarada Patrimonio de la Humanidad por la UNESCO. Descubre los secretos de la Abadía de Las Huelgas y visita el Castillo de Burgos para una vista panorámica de la ciudad."
+  drive: "30 minutos"
+  link: "https://maps.app.goo.gl/BZS6EHN4jaiTrAEMA"
+
+- modal-id: 2
+  title: "Naturaleza y Aventura"
+  subtitle: "Sierra de Atapuerca"
+  img: atapuerca.jpg
+  thumbnail: atapuerca-thumbnail.jpg
+  alt: Sierra de Atapuerca
+  description: "Explora los senderos de la Sierra de Atapuerca, visita el Museo de la Evolución Humana y descubre los extraordinarios hallazgos arqueológicos de la zona. Perfecto para senderismo y aventuras al aire libre."
+  drive: "45 minutos"
+  link: "https://maps.app.goo.gl/atapuerca"
+
+- modal-id: 3
+  title: "Enoturismo"
+  subtitle: "Ribera del Duero"
+  img: wine.jpg
+  thumbnail: wine-thumbnail.jpg
+  alt: Bodegas Ribera del Duero
+  description: "Degusta los famosos vinos de la Ribera del Duero en una de sus bodegas reconocidas. Participa en tours enogastronómicos y descubre las tradiciones vinícolas locales."
+  drive: "20 minutos"
+  link: "https://maps.app.goo.gl/bodegas"
+
+- modal-id: 4
+  title: "Relax y Paseos"
+  subtitle: "Centro ciudad"
+  img: paseo.jpg
+  thumbnail: paseo-thumbnail.jpg
+  alt: Paseo del Espolón
+  description: "Pasea por el Paseo del Espolón, rodeado de jardines cuidados y esculturas. Disfruta del relax en uno de los muchos bares o restaurantes con vista al río Arlanzón."
+  drive: "35 minutos"
+  link: "https://maps.app.goo.gl/paseo"

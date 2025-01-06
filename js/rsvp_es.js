@@ -4,7 +4,7 @@ const dietaryOptions = [
     { value: 'vegan', label: 'Vegano' },
     { value: 'gluten-free', label: 'Sin gluten' },
     { value: 'lactose-free', label: 'Sin lactosa' },
-    { value: 'other', label: 'Otras (especificar)' }
+    { value: 'other', label: 'Otro (especificar)' }
 ]
 
 function createGuestFields(index, type) {
@@ -61,8 +61,8 @@ function updateGuestFields() {
     for(let i = 0; i < childCount; i++) {
         childContainer.appendChild(createGuestFields(i, 'child'))
     }
-
-    // Add no-menu children (simpler fields, no dietary options)
+    
+    // Add no-menu child fields
     for(let i = 0; i < noMenuCount; i++) {
         const div = document.createElement('div')
         div.className = 'guest-section'
@@ -103,21 +103,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (this.value === 'yes') {
             yesParticipationFields.style.display = 'block'
             noParticipationFields.style.display = 'none'
-            // Make fields required
             requiredFields.forEach(field => field.required = true)
-            // Make the no participation name field not required
             document.getElementById('fullName').required = false
         } else if (this.value === 'no') {
             noParticipationFields.style.display = 'block'
             yesParticipationFields.style.display = 'none'
-            // Make fields not required
             requiredFields.forEach(field => field.required = false)
-            // Make the no participation name field required
             document.getElementById('fullName').required = true
         } else {
             noParticipationFields.style.display = 'none'
             yesParticipationFields.style.display = 'none'
-            // Make all fields not required
             requiredFields.forEach(field => field.required = false)
             document.getElementById('fullName').required = false
         }

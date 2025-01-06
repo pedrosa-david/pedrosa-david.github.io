@@ -3,27 +3,46 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Dans Les Environs</h2>
-                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque feugiat sapien sem, id dignissim est pellentesque eu. Etiam eget ligula fermentum, convallis odio vel, sodales metus. Proin odio arcu, tincidunt.</h3>
+                <h2 class="section-heading">Qué Hacer</h2>
+                <h3 class="section-subheading text-muted">Descubre las maravillas de esta ciudad histórica y sus alrededores</h3>
             </div>
         </div>
         <div class="row">
-        {% for post in site.data.fr.thingstodo %}
-            <div class="col-md-4 col-sm-6 portfolio-item">
-                <a href="#portfolioModal{{ post.modal-id }}" class="portfolio-link" data-toggle="modal">
-                    <div class="portfolio-hover">
-                        <div class="portfolio-hover-content">
-                            <i class="fa fa-plus fa-3x"></i>
-                        </div>
-                    </div>
-                    <img src="{{ site.baseurl }}/img/portfolio/{{ post.thumbnail }}" class="img-responsive img-centered" alt="">
-                </a>
-                <div class="portfolio-caption">
-                    <h4>{{ post.title }}</h4>
-                    <p class="text-muted">{{ post.subtitle }}</p>
-                </div>
+            <div class="col-md-6">
+                <h4>Para los amantes de la historia</h4>
+                <p class="text-muted">
+                    Admira la magnífica Catedral de Burgos, una obra maestra del gótico declarada Patrimonio de la Humanidad por la UNESCO. 
+                    Descubre los secretos de la Abadía de Las Huelgas, una joya medieval llena de historia.
+                    Visita el Castillo de Burgos, situado en una colina que domina la ciudad, ofrece una espléndida vista panorámica y una historia que se remonta a la época medieval.
+                    Explora el Monasterio de San Pedro de Cardeña, un lugar icónico ligado al Cid Campeador, figura legendaria de la historia española.
+                </p>
             </div>
-        {% endfor %}
+            <div class="col-md-6">
+                <h4>Para los amantes de la naturaleza</h4>
+                <p class="text-muted">
+                    Explora los senderos de la Sierra de Atapuerca, un lugar perfecto para senderismo y aventuras al aire libre. 
+                    No te pierdas el Museo de la Evolución Humana, que cuenta los extraordinarios descubrimientos arqueológicos de la zona. 
+                    Visita el Cañón del Río Lobos, a unos 90 km de Burgos, una reserva natural con espectaculares formaciones rocosas y senderos perfectos para excursiones.
+                    Descubre la Laguna Negra y los Picos de Urbión, una excursión ideal para los que aman paisajes únicos, entre bosques, lagos y montañas.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Para los enoturistas</h4>
+                <p class="text-muted">
+                    Degusta los famosos vinos de la Ribera del Duero en una de sus bodegas reconocidas. 
+                    Participa en tours enogastronómicos y descubre las tradiciones vinícolas locales.
+                    Visita Gumiel de Izán, un pequeño pueblo que alberga algunas de las bodegas más antiguas de la región.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h4>Para los que buscan relax</h4>
+                <p class="text-muted">
+                    Pasea por el Paseo del Espolón, rodeado de jardines cuidados y esculturas. 
+                    Disfruta del relax en uno de los muchos bares o restaurantes con vista al río Arlanzón.
+                </p>
+            </div>
         </div>
     </div>
 </section>

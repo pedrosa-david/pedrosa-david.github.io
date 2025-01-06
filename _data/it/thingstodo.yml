@@ -1,0 +1,41 @@
+# Need to create this file with Italian content
+
+- modal-id: 1
+  title: "Storia e Cultura"
+  subtitle: "Cattedrale e Centro Storico"
+  img: cathedral.jpg
+  thumbnail: cathedral-thumbnail.jpg
+  alt: Cattedrale di Burgos
+  description: "Ammira la magnifica Cattedrale di Burgos, uno dei capolavori del gotico, dichiarata Patrimonio dell'Umanità dall'UNESCO. Scopri i segreti dell'Abbazia di Las Huelgas e visita il Castello di Burgos per una vista panoramica della città."
+  drive: "30 minuti"
+  link: "https://maps.app.goo.gl/BZS6EHN4jaiTrAEMA"
+
+- modal-id: 2
+  title: "Natura e Avventura"
+  subtitle: "Sierra de Atapuerca"
+  img: atapuerca.jpg
+  thumbnail: atapuerca-thumbnail.jpg
+  alt: Sierra de Atapuerca
+  description: "Esplora i sentieri della Sierra de Atapuerca, visita il Museo dell'Evoluzione Umana e scopri le straordinarie scoperte archeologiche della zona. Perfetto per trekking e avventure all'aria aperta."
+  drive: "45 minuti"
+  link: "https://maps.app.goo.gl/atapuerca"
+
+- modal-id: 3
+  title: "Enogastronomia"
+  subtitle: "Ribera del Duero"
+  img: wine.jpg
+  thumbnail: wine-thumbnail.jpg
+  alt: Cantine Ribera del Duero
+  description: "Degusta i famosi vini della Ribera del Duero in una delle sue cantine rinomate. Partecipa a tour enogastronomici e scopri le tradizioni vinicole locali."
+  drive: "20 minuti"
+  link: "https://maps.app.goo.gl/bodegas"
+
+- modal-id: 4
+  title: "Relax e Passeggiate"
+  subtitle: "Centro città"
+  img: paseo.jpg
+  thumbnail: paseo-thumbnail.jpg
+  alt: Paseo del Espolón
+  description: "Passeggia lungo il Paseo del Espolón, circondato da giardini curati e sculture. Goditi il relax in uno dei tanti bar o ristoranti con vista sul fiume Arlanzón."
+  drive: "35 minuti"
+  link: "https://maps.app.goo.gl/paseo"

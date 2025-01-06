@@ -11,10 +11,10 @@
             data: $(this).serialize(),
             success: function(response){
                 if(response.status == "success"){
-                    alert('Thank you. Your message has been sent.');
-                    window.location.href = '{{ site.url }}{{ site.baseurl }}/en/#contact';
+                    alert('Grazie. Il tuo messaggio è stato inviato.');
+                    window.location.href = '{{ site.url }}{{ site.baseurl }}/it/#contact';
                 }else{
-                    alert("An error occured: " + response.message);
+                    alert("Si è verificato un errore: " + response.message);
                 }
             }
         });
@@ -25,8 +25,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Contact Us</h2>
-                <h3 class="section-subheading text-muted">Or send us an email at <a href="mailto:amira.e.david@gmail.com">amira.e.david@gmail.com</a>.</h3>
+                <h2 class="section-heading">Contattaci</h2>
+                <h3 class="section-subheading text-muted">O inviaci una email a <a href="mailto:amira.e.david@gmail.com">amira.e.david@gmail.com</a>.</h3>
             </div>
         </div>
         <div class="row">
@@ -36,24 +36,24 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="control-group form-group">
-                                <input type="text" class="form-control" placeholder="Your Name" id="name" name="name" required data-validation-required-message="Please enter your name.">
+                                <input type="text" class="form-control" placeholder="Il tuo nome" id="name" name="name" required data-validation-required-message="Inserisci il tuo nome.">
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="control-group form-group">
-                                <input type="email" class="form-control" placeholder="Your Email" id="email" name="email" required data-validation-required-message="Please enter your email address.">
+                                <input type="email" class="form-control" placeholder="La tua email" id="email" name="email" required data-validation-required-message="Inserisci la tua email.">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="control-group form-group">
-                                <textarea class="form-control" placeholder="Your Message" id="message" name="message" required data-validation-required-message="Please enter a message."></textarea>
+                                <textarea class="form-control" placeholder="Il tuo messaggio" id="message" name="message" required data-validation-required-message="Inserisci un messaggio."></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-lg-12 text-center">
                             <div id="success"></div>
-                            <button type="submit" class="btn btn-xl">Send Message</button>
+                            <button type="submit" class="btn btn-xl">Invia Messaggio</button>
                         </div>
                     </div>
                 </form>

@@ -1,4 +1,3 @@
-const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL'
 const dietaryOptions = [
     { value: 'none', label: 'Nessuna restrizione' },
     { value: 'vegetarian', label: 'Vegetariano' },
@@ -42,13 +41,16 @@ function createGuestFields(index, type) {
 function updateGuestFields() {
     const adultCount = parseInt(document.getElementById('numAdults').value) || 0
     const childCount = parseInt(document.getElementById('numChildren').value) || 0
+    const noMenuCount = parseInt(document.getElementById('numChildrenNoMenu').value) || 0
     
     const adultContainer = document.getElementById('adultGuests')
     const childContainer = document.getElementById('childGuests')
+    const noMenuContainer = document.getElementById('nomenuGuests')
     
     // Clear existing fields
     adultContainer.innerHTML = ''
     childContainer.innerHTML = ''
+    noMenuContainer.innerHTML = ''
     
     // Add adult fields
     for(let i = 0; i < adultCount; i++) {
@@ -58,6 +60,23 @@ function updateGuestFields() {
     // Add child fields
     for(let i = 0; i < childCount; i++) {
         childContainer.appendChild(createGuestFields(i, 'child'))
+    }
+    
+    // Add no-menu child fields
+    for(let i = 0; i < noMenuCount; i++) {
+        const div = document.createElement('div')
+        div.className = 'guest-section'
+        div.innerHTML = `
+            <h4>Bambino senza menù ${i + 1}</h4>
+            <div class="form-group">
+                <input type="text" 
+                       class="form-control" 
+                       name="nomenu_${i}_name" 
+                       placeholder="Nome e cognome"
+                       required>
+            </div>
+        `
+        noMenuContainer.appendChild(div)
     }
     
     // Add dietary notes listeners
@@ -71,84 +90,90 @@ function updateGuestFields() {
 
 // Add event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle adult guests
-    document.getElementById('numAdults').addEventListener('change', function() {
-        const container = document.getElementById('adultGuests');
-        container.innerHTML = '';
-        const count = parseInt(this.value);
-        
-        for(let i = 0; i < count; i++) {
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <input type="text" class="form-control" 
-                       placeholder="Nome dell'adulto ${i + 1}" 
-                       name="adultName${i + 1}" required>
-            `;
-            container.appendChild(div);
-        }
-    });
-
-    // Handle children with menu
-    document.getElementById('numChildren').addEventListener('change', function() {
-        const container = document.getElementById('childGuests');
-        container.innerHTML = '';
-        const count = parseInt(this.value);
-        
-        for(let i = 0; i < count; i++) {
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <input type="text" class="form-control" 
-                       placeholder="Nome del bambino ${i + 1} (con menu)" 
-                       name="childName${i + 1}" required>
-            `;
-            container.appendChild(div);
-        }
-    });
-
-    // Handle children without menu
-    document.getElementById('numChildrenNoMenu').addEventListener('change', function() {
-        const container = document.getElementById('nomenuGuests');
-        container.innerHTML = '';
-        const count = parseInt(this.value);
-        
-        for(let i = 0; i < count; i++) {
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <input type="text" class="form-control" 
-                       placeholder="Nome del bambino ${i + 1} (senza menu)" 
-                       name="childNoMenuName${i + 1}" required>
-            `;
-            container.appendChild(div);
-        }
-    });
+    const form = document.querySelector('.rsvp-form')
     
-    document.querySelector('.rsvp-form').addEventListener('submit', e => {
-        e.preventDefault()
+    // Participation toggle
+    document.getElementById('participation').addEventListener('change', function() {
+        const noParticipationFields = document.getElementById('noParticipationFields')
+        const yesParticipationFields = document.getElementById('yesParticipationFields')
         
-        const form = e.target
-        const formData = new FormData(form)
+        // Get all required fields in the yes participation section
+        const requiredFields = yesParticipationFields.querySelectorAll('[required]')
         
-        // Combine phone prefix and number
-        const prefix = formData.get('phonePrefix')
-        const phone = formData.get('phone')
-        formData.set('phone', `${prefix} ${phone}`)
-        
-        fetch(scriptURL, { method: 'POST', body: formData })
-            .then(response => {
-                if (response.ok) {
-                    alert('Grazie per la tua conferma!')
-                    form.reset()
-                    updateGuestFields() // Reset guest fields
-                } else {
-                    throw new Error('Network response was not ok')
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error)
-                alert('Si è verificato un errore durante l\'invio del modulo. Per favore, riprova.')
-            })
+        if (this.value === 'yes') {
+            yesParticipationFields.style.display = 'block'
+            noParticipationFields.style.display = 'none'
+            requiredFields.forEach(field => field.required = true)
+            document.getElementById('fullName').required = false
+        } else if (this.value === 'no') {
+            noParticipationFields.style.display = 'block'
+            yesParticipationFields.style.display = 'none'
+            requiredFields.forEach(field => field.required = false)
+            document.getElementById('fullName').required = true
+        } else {
+            noParticipationFields.style.display = 'none'
+            yesParticipationFields.style.display = 'none'
+            requiredFields.forEach(field => field.required = false)
+            document.getElementById('fullName').required = false
+        }
     })
+
+    // Guest count changes
+    document.getElementById('numAdults').addEventListener('change', updateGuestFields)
+    document.getElementById('numChildren').addEventListener('change', updateGuestFields)
+    document.getElementById('numChildrenNoMenu').addEventListener('change', updateGuestFields)
+    
+    // Form submission
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        
+        // Get script configuration when submitting
+        const scriptElement = document.querySelector('script[data-script-url]');
+        const scriptURL = scriptElement.getAttribute('data-script-url');
+        const passkey = scriptElement.getAttribute('data-passkey');
+        
+        if (!scriptURL || !passkey) {
+            console.error('Missing configuration');
+            return;
+        }
+
+        // Scroll to RSVP section first
+        document.getElementById('rsvp').scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+        
+        // Show loading message
+        form.style.display = 'none';
+        document.getElementById('loadingMessage').style.display = 'block';
+        document.getElementById('successMessage').style.display = 'none';
+        document.getElementById('errorMessage').style.display = 'none';
+        
+        const formData = new FormData(form);
+        formData.set('phone', formData.get('phonePrefix') + formData.get('phone'));
+        formData.set('passkey', passkey);
+        
+        // Send to Google Apps Script
+        fetch(scriptURL, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Hide loading, show success
+                document.getElementById('loadingMessage').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            } else {
+                throw new Error('Network response was not ok');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Show form again on error
+            form.style.display = 'block';
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+        });
+    });
 }) 
