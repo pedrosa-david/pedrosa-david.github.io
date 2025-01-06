@@ -1,24 +1,24 @@
 function doPost(e) {
-  return handleRequest(e, () => {
+  try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    const data = JSON.parse(e.postData.contents);
+    const data = e.parameter; // Get form data directly
 
-    data.guests.forEach((guest) => {
-      const row = [
-        new Date(),
-        guest.name,
-        guest.email,
-        guest.phone,
-        guest.participates,
-        guest.bus,
-        guest.menuType,
-        guest.menuDiet,
-      ];
-      sheet.appendRow(row);
-    });
+    const row = [
+      new Date(), // Timestamp
+      data.fullName || "", // Name
+      data.email, // Email
+      data.phone, // Phone
+      data.busService || "no", // Bus
+      data.participation, // Participates
+      data.menuType || "", // MenuType
+      data.menuDiet || "", // MenuDiet
+    ];
 
-    return { result: "success", message: "Data saved successfully" };
-  });
+    sheet.appendRow(row);
+    return ContentService.createTextOutput("Success!");
+  } catch (error) {
+    return ContentService.createTextOutput("Error: " + error.toString());
+  }
 }
 
 function doOptions(e) {
