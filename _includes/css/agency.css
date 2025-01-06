@@ -282,7 +282,13 @@ fieldset[disabled] .btn-m.active {
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-    display: none;
+    background-color: #{{ site.data.template.color.primary }};
+    height: 2px;
+    width: 22px;
+}
+
+.navbar-default .navbar-toggle .icon-bar + .icon-bar {
+    margin-top: 4px;
 }
 
 .navbar-default .nav li a {
@@ -1028,4 +1034,17 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 15px;
+}
+
+@media(min-width:768px) {
+    .navbar-default .navbar-collapse {
+        width: auto;
+        flex-grow: 1;
+    }
+    
+    .navbar-default .container {
+        width: 100%;
+        max-width: 1400px;
+        padding: 0 30px;
+    }
 }
