@@ -1,11 +1,11 @@
 const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL'
 const dietaryOptions = [
-    { value: 'none', label: 'Sin restricciones' },
+    { value: 'none', label: 'Nessuna restrizione' },
     { value: 'vegetarian', label: 'Vegetariano' },
     { value: 'vegan', label: 'Vegano' },
-    { value: 'gluten-free', label: 'Sin gluten' },
-    { value: 'lactose-free', label: 'Sin lactosa' },
-    { value: 'other', label: 'Otras (especificar)' }
+    { value: 'gluten-free', label: 'Senza glutine' },
+    { value: 'lactose-free', label: 'Senza lattosio' },
+    { value: 'other', label: 'Altro (specificare)' }
 ]
 
 function createGuestFields(index, type) {
@@ -13,17 +13,17 @@ function createGuestFields(index, type) {
     const section = document.createElement('div')
     section.className = 'guest-section'
     section.innerHTML = `
-        <h4>${isChild ? 'Niño' : 'Adulto'} ${index + 1}</h4>
+        <h4>${isChild ? 'Bambino' : 'Adulto'} ${index + 1}</h4>
         <div class="form-group">
             <input type="text" 
                    class="form-control" 
                    name="${type}_${index}_name" 
-                   placeholder="Nombre y apellidos"
+                   placeholder="Nome e cognome"
                    required>
         </div>
         <div class="form-group dietary-group">
             <select class="form-control" name="${type}_${index}_dietary" required>
-                <option value="">Restricciones alimentarias</option>
+                <option value="">Restrizioni alimentari</option>
                 ${dietaryOptions.map(opt => 
                     `<option value="${opt.value}">${opt.label}</option>`
                 ).join('')}
@@ -33,7 +33,7 @@ function createGuestFields(index, type) {
             <input type="text" 
                    class="form-control" 
                    name="${type}_${index}_dietary_notes" 
-                   placeholder="Especifica las restricciones alimentarias">
+                   placeholder="Specifica le restrizioni alimentari">
         </div>
     `
     return section
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(scriptURL, { method: 'POST', body: formData })
             .then(response => {
                 if (response.ok) {
-                    alert('¡Gracias por tu confirmación!')
+                    alert('Grazie per la tua conferma!')
                     form.reset()
                     updateGuestFields() // Reset guest fields
                 } else {
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error:', error)
-                alert('Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo.')
+                alert('Si è verificato un errore durante l\'invio del modulo. Per favore, riprova.')
             })
     })
 }) 
