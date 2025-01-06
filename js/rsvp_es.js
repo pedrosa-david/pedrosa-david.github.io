@@ -167,8 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Send to Google Apps Script
         fetch(scriptURL, {
             method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
+            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -177,17 +176,9 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => {
             console.log('Response received:', response)
-            return response.json()
-        })
-        .then(data => {
-            console.log('Parsed response:', data)
-            if (data.result === 'success') {
-                form.style.display = 'none'
-                document.getElementById('successMessage').style.display = 'block'
-                document.getElementById('errorMessage').style.display = 'none'
-            } else {
-                throw new Error('Submission failed')
-            }
+            form.style.display = 'none'
+            document.getElementById('successMessage').style.display = 'block'
+            document.getElementById('errorMessage').style.display = 'none'
         })
         .catch(error => {
             console.error('Error details:', error)
