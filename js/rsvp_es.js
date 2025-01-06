@@ -1,4 +1,4 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzU0b4HCzo0FdkhMqjwY29Xt-QynrSehkzKKvO_pIhv28zCCVVfg6IkzCkDmOR0AvXsbA/exec'
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzs4BsI3Z7Rxgf8CwsGiapdb77YcooH_ofPUyJuLTa5g3D7lSua12mUXZ_Q3hgyD1rANQ/exec'
 const dietaryOptions = [
     { value: 'none', label: 'Sin restricciones' },
     { value: 'vegetarian', label: 'Vegetariano' },
@@ -168,6 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(scriptURL, {
             method: 'POST',
             mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
