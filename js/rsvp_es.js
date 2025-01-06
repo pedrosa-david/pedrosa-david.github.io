@@ -167,18 +167,22 @@ document.addEventListener('DOMContentLoaded', function() {
         // Send to Google Apps Script
         fetch(scriptURL, {
             method: 'POST',
-            mode: 'no-cors',
+            mode: 'cors',
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ guests })
         })
-        .then(response => {
-            console.log('Response received:', response)
-            form.style.display = 'none'
-            document.getElementById('successMessage').style.display = 'block'
-            document.getElementById('errorMessage').style.display = 'none'
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response data:', data)
+            if (data.result === 'success') {
+                form.style.display = 'none'
+                document.getElementById('successMessage').style.display = 'block'
+                document.getElementById('errorMessage').style.display = 'none'
+            } else {
+                throw new Error(data.message || 'Submission failed')
+            }
         })
         .catch(error => {
             console.error('Error details:', error)

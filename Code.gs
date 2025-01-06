@@ -1,23 +1,45 @@
 // Handle preflight OPTIONS request
 function doOptions(e) {
+  const origin = e.headers["Origin"] || e.headers["origin"];
+  const allowedOrigins = [
+    "https://www.amira-david.com",
+    "http://127.0.0.1:4001",
+    "http://localhost:4001",
+  ];
+
+  // Check if the origin is allowed
+  const allowedOrigin = allowedOrigins.includes(origin)
+    ? origin
+    : allowedOrigins[0];
+
   return ContentService.createTextOutput("")
     .setMimeType(ContentService.MimeType.TEXT)
     .setHeaders({
-      "Access-Control-Allow-Origin": "https://www.amira-david.com",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Credentials": "true",
-      "Access-Control-Max-Age": "3600",
+      "Access-Control-Allow-Origin": allowedOrigin,
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Max-Age": "86400",
     });
 }
 
 function doPost(e) {
+  const origin = e.headers["Origin"] || e.headers["origin"];
+  const allowedOrigins = [
+    "https://www.amira-david.com",
+    "http://127.0.0.1:4001",
+    "http://localhost:4001",
+  ];
+
+  // Check if the origin is allowed
+  const allowedOrigin = allowedOrigins.includes(origin)
+    ? origin
+    : allowedOrigins[0];
+
   // Set CORS headers for the main request
   const headers = {
-    "Access-Control-Allow-Origin": "https://www.amira-david.com",
+    "Access-Control-Allow-Origin": allowedOrigin,
     "Access-Control-Allow-Methods": "POST",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Allow-Credentials": "true",
+    "Access-Control-Allow-Headers": "Content-Type",
   };
 
   try {
@@ -40,7 +62,6 @@ function doPost(e) {
       sheet.appendRow(row);
     });
 
-    // Return success response with CORS headers
     return ContentService.createTextOutput(
       JSON.stringify({
         result: "success",
@@ -50,7 +71,6 @@ function doPost(e) {
       .setMimeType(ContentService.MimeType.JSON)
       .setHeaders(headers);
   } catch (error) {
-    // Return error response with CORS headers
     return ContentService.createTextOutput(
       JSON.stringify({
         result: "error",
