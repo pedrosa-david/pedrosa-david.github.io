@@ -1,3 +1,6 @@
+const scriptURL = document.currentScript.getAttribute('data-script-url');
+const passkey = document.currentScript.getAttribute('data-passkey');
+
 const dietaryOptions = [
     { value: 'none', label: 'Sin restricciones' },
     { value: 'vegetarian', label: 'Vegetariano' },

@@ -8,11 +8,10 @@
 <script src="{{ "/js/jquery.easing.min.js" | prepend: site.baseurl }}"></script>
 <script src="{{ "/js/classie.js" | prepend: site.baseurl }}"></script>
 <script src="{{ "/js/cbpAnimatedHeader.js" | prepend: site.baseurl }}"></script>
-
-<!-- Other scripts -->
-<script src="js/classie.js"></script>
-<script src="js/agency.js"></script>
+<script src="{{ "/js/agency.js" | prepend: site.baseurl }}"></script>
 
 <!-- RSVP form scripts -->
-<script src="{{ "/js/rsvp_es.js" | prepend: site.baseurl }}"></script>
-<script src="{{ "/js/rsvp_it.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "/js/rsvp_es.js" | prepend: site.baseurl }}"
+    data-script-url="{{ site.rsvp_script_url }}"
+    data-passkey="{{ site.rsvp_passkey }}">
+</script>
