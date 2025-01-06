@@ -9,13 +9,13 @@
 <script src="{{ "/js/classie.js" | prepend: site.baseurl }}"></script>
 <script src="{{ "/js/cbpAnimatedHeader.js" | prepend: site.baseurl }}"></script>
 
+<!-- Other scripts -->
+<script src="js/classie.js"></script>
+<script src="js/agency.js"></script>
+
+<!-- RSVP form scripts -->
 <script>
     const scriptURL = '{{ site.rsvp_script_url }}';
-    const passkey = atob('{{ site.rsvp_passkey | base64_encode }}');
+    const passkey = '{{ site.rsvp_passkey }}';
 </script>
-
-<!-- Custom Theme JavaScript -->
-<script src="{{ "/js/agency.js" | prepend: site.baseurl }}"></script>
-
-<!-- Add RSVP script -->
-<script src="{{ "/js/rsvp_es.js" | prepend: site.baseurl }}"></script>
+<script src="js/rsvp_es.js"></script>
