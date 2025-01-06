@@ -112,14 +112,27 @@ function doPost(e) {
     guests.forEach((guest) => sheet.appendRow(guest));
     console.log("Guests added successfully");
 
+    // Start async processing
+    processPostSubmitTasks(data, guests);
+
+    // Return success immediately after sheet update
+    return ContentService.createTextOutput("Success!");
+  } catch (error) {
+    console.error("Error in doPost:", error);
+    return ContentService.createTextOutput("Error: " + error.toString());
+  }
+}
+
+function processPostSubmitTasks(data, guests) {
+  try {
     // Create backup
+    const now = new Date();
     const timestamp = Utilities.formatDate(now, "Europe/Madrid", "MM-dd_HH:mm");
     const backupName = `RSVP_Backup_${timestamp}`;
     console.log("Creating backup:", backupName);
     createBackup(backupName);
     console.log("Backup created successfully");
 
-    // After successfully adding guests to sheet
     // Send notification to admin
     sendNotificationEmail(data, guests);
 
@@ -127,11 +140,9 @@ function doPost(e) {
     if (data.email) {
       sendEventDetails(data.email);
     }
-
-    return ContentService.createTextOutput("Success!");
   } catch (error) {
-    console.error("Error in doPost:", error);
-    return ContentService.createTextOutput("Error: " + error.toString());
+    console.error("Error in post-submit processing:", error);
+    // Errors here won't affect the user experience since response was already sent
   }
 }
 
