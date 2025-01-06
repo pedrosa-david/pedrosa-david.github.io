@@ -1,4 +1,4 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzs4BsI3Z7Rxgf8CwsGiapdb77YcooH_ofPUyJuLTa5g3D7lSua12mUXZ_Q3hgyD1rANQ/exec'
+const scriptURL = 'https://script.google.com/macros/s/AKfycby_r22dpIAdu9nDBYZX_XMKAvhJLbPO0cn3xof55MIyN9WyMlKVPuVa8ZQVcR0UBz836w/exec';
 const dietaryOptions = [
     { value: 'none', label: 'Sin restricciones' },
     { value: 'vegetarian', label: 'Vegetariano' },
@@ -169,25 +169,30 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             mode: 'cors',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({ guests })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            console.log('Response data:', data)
-            if (data.result === 'success') {
-                form.style.display = 'none'
-                document.getElementById('successMessage').style.display = 'block'
-                document.getElementById('errorMessage').style.display = 'none'
+            if (data.result === "success") {
+                form.style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
             } else {
-                throw new Error(data.message || 'Submission failed')
+                throw new Error(data.message || 'Unknown error occurred');
             }
         })
         .catch(error => {
-            console.error('Error details:', error)
-            document.getElementById('errorMessage').style.display = 'block'
-            document.getElementById('successMessage').style.display = 'none'
-        })
+            console.error('Error details:', error);
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+        });
     })
 }) 
