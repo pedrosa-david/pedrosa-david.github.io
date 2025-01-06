@@ -26,3 +26,7 @@ permalink: pretty
 include: ["_it_pages", "_es_pages"]
 
 port: 4001
+
+# RSVP Form settings
+rsvp_script_url: https://script.google.com/macros/s/AKfycbyJ7yiQOTP_sYj6q1oUBqtFTo33W65XyHtietaf3r9pa9ERc81SJ6JtAEohirZf-U4JNg/exec
+rsvp_passkey: 8X4nP9$mK2#jL5vQ # This is just an example, use your own secure key

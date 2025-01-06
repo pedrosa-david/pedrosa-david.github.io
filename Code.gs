@@ -1,6 +1,14 @@
 function doPost(e) {
   try {
     console.log("Starting doPost execution");
+
+    // Verify passkey
+    const VALID_PASSKEY = "8X4nP9$mK2#jL5vQ"; // Must match the one in _config.yml
+    if (e.parameter.passkey !== VALID_PASSKEY) {
+      console.error("Invalid passkey received");
+      throw new Error("Unauthorized access");
+    }
+
     console.log("Request parameters:", e.parameter);
 
     const sheet = SpreadsheetApp.openById(
@@ -182,11 +190,14 @@ function createBackup(backupName) {
 }
 
 function testDoPost() {
+  const PASSKEY = "8X4nP9$mK2#jL5vQ"; // Must match _config.yml
+
   // Simulate a "no" participation submission
   const noParticipationTest = {
     parameter: {
-      email: "test@example.com",
-      phone: "34650123456",
+      passkey: PASSKEY,
+      email: "pedrosa.c.david@gmail.com",
+      phone: "34650180152",
       participation: "no",
       fullName: "Test User",
     },
@@ -195,9 +206,10 @@ function testDoPost() {
   // Simulate a "yes" participation submission with multiple guests
   const yesParticipationTest = {
     parameter: {
-      email: "test@example.com",
+      passkey: PASSKEY,
+      email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
-      phone: "650123456",
+      phone: "650180152",
       participation: "yes",
       busService: "yes",
       numAdults: "2",
@@ -388,6 +400,7 @@ function testCase1_SingleAdultNoDiet() {
   console.log("Test Case 1: Single Adult, No Dietary Requirements");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",
@@ -407,6 +420,7 @@ function testCase2_CoupleWithDiet() {
   console.log("Test Case 2: Couple with Dietary Requirements");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",
@@ -428,6 +442,7 @@ function testCase3_FamilyWithChildren() {
   console.log("Test Case 3: Family with Different Types of Children");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",
@@ -454,6 +469,7 @@ function testCase4_LargeGroupWithBus() {
   console.log("Test Case 4: Large Group Using Bus Service");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",
@@ -483,6 +499,7 @@ function testCase5_NotAttending() {
   console.log("Test Case 5: Not Attending");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",
@@ -497,6 +514,7 @@ function testCase6_OnlyChildrenNoMenu() {
   console.log("Test Case 6: Parents with Only No-Menu Children");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",
@@ -521,6 +539,7 @@ function testCase7_MixedChildrenTypes() {
   console.log("Test Case 7: Mixed Children Types with Dietary Requirements");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",
@@ -549,6 +568,7 @@ function testCase8_ComplexDietaryNeeds() {
   console.log("Test Case 8: Group with Complex Dietary Requirements");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",
@@ -578,6 +598,7 @@ function testCase9_MaximumGuests() {
   console.log("Test Case 9: Maximum Number of Guests");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",
@@ -623,6 +644,7 @@ function testCase10_SingleAdultWithBus() {
   console.log("Test Case 10: Single Adult Using Bus Service");
   const test = {
     parameter: {
+      passkey: "8X4nP9$mK2#jL5vQ",
       email: "pedrosa.c.david@gmail.com",
       phonePrefix: "+34",
       phone: "650180152",

@@ -10,9 +10,9 @@
 <script src="{{ "/js/cbpAnimatedHeader.js" | prepend: site.baseurl }}"></script>
 
 <script>
-const scriptURL = 'https://script.google.com/macros/s/AKfycbyHH4duPwPglUCTaWht1GiDw-WyNoIfeEZ8-gnHFD1q0eTCI8YGir2Fjw0qhHZEbMJ0pw/exec';
+    const scriptURL = '{{ site.rsvp_script_url }}';
+    const passkey = atob('{{ site.rsvp_passkey | base64_encode }}');
 </script>
-
 
 <!-- Custom Theme JavaScript -->
 <script src="{{ "/js/agency.js" | prepend: site.baseurl }}"></script>

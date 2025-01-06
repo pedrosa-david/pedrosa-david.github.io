@@ -146,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const formData = new FormData(form);
         formData.set('phone', formData.get('phonePrefix') + formData.get('phone'));
+        formData.set('passkey', passkey);
         
         // Send to Google Apps Script
         fetch(scriptURL, {
