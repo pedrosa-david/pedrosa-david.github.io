@@ -1,20 +1,85 @@
 function doPost(e) {
   try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    const data = e.parameter; // Get form data directly
+    const data = e.parameter;
 
-    const row = [
-      new Date(), // Timestamp
-      data.fullName || "", // Name
-      data.email, // Email
-      data.phone, // Phone
-      data.busService || "no", // Bus
-      data.participation, // Participates
-      data.menuType || "", // MenuType
-      data.menuDiet || "", // MenuDiet
-    ];
+    // Array to store all guest entries
+    let guests = [];
 
-    sheet.appendRow(row);
+    if (data.participation === "no") {
+      // Single non-participating guest
+      guests.push([
+        new Date(), // Timestamp
+        data.fullName || "", // Name
+        data.email, // Email
+        data.phone, // Phone
+        "no", // Bus
+        "no", // Participates
+        "", // MenuType
+        "", // MenuDiet
+      ]);
+    } else {
+      // Process adult guests
+      const adultCount = parseInt(data.numAdults) || 0;
+      for (let i = 0; i < adultCount; i++) {
+        const guestName = data[`adult_${i}_name`];
+        const dietary = data[`adult_${i}_dietary`];
+        const dietaryNotes =
+          dietary === "other" ? data[`adult_${i}_dietary_notes`] : "";
+
+        guests.push([
+          new Date(),
+          guestName,
+          data.email,
+          data.phone,
+          data.busService || "no",
+          "yes",
+          "adult",
+          dietary === "other" ? dietaryNotes : dietary,
+        ]);
+      }
+
+      // Process children with menu
+      const childCount = parseInt(data.numChildren) || 0;
+      for (let i = 0; i < childCount; i++) {
+        const guestName = data[`child_${i}_name`];
+        const dietary = data[`child_${i}_dietary`];
+        const dietaryNotes =
+          dietary === "other" ? data[`child_${i}_dietary_notes`] : "";
+
+        guests.push([
+          new Date(),
+          guestName,
+          data.email,
+          data.phone,
+          data.busService || "no",
+          "yes",
+          "child",
+          dietary === "other" ? dietaryNotes : dietary,
+        ]);
+      }
+
+      // Process children without menu
+      const noMenuCount = parseInt(data.numChildrenNoMenu) || 0;
+      for (let i = 0; i < noMenuCount; i++) {
+        const guestName = data[`nomenu_${i}_name`];
+
+        guests.push([
+          new Date(),
+          guestName,
+          data.email,
+          data.phone,
+          data.busService || "no",
+          "yes",
+          "no-menu",
+          "",
+        ]);
+      }
+    }
+
+    // Add all guests to the sheet
+    guests.forEach((guest) => sheet.appendRow(guest));
+
     return ContentService.createTextOutput("Success!");
   } catch (error) {
     return ContentService.createTextOutput("Error: " + error.toString());

@@ -1,4 +1,4 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbziRPjeFcIjjQTon0Y_mhm0nG7tRmemypWD9uTxw-QjAt_5OdAQb6p6-WoL7WZvMVuu1g/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycby_mgFEq2dArHXj9JS6QRpsMWGuTanhqEaiHRBQHXMzESzPta96FIiqatgjIzb-N5kZew/exec';
 const dietaryOptions = [
     { value: 'none', label: 'Sin restricciones' },
     { value: 'vegetarian', label: 'Vegetariano' },
@@ -133,9 +133,19 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', e => {
         e.preventDefault();
         
-        const formData = new FormData(form);
+        // Scroll to RSVP section first
+        document.getElementById('rsvp').scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
         
-        // Add combined phone number
+        // Show loading message
+        form.style.display = 'none';
+        document.getElementById('loadingMessage').style.display = 'block';
+        document.getElementById('successMessage').style.display = 'none';
+        document.getElementById('errorMessage').style.display = 'none';
+        
+        const formData = new FormData(form);
         formData.set('phone', formData.get('phonePrefix') + formData.get('phone'));
         
         // Send to Google Apps Script
@@ -145,15 +155,18 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => {
             if (response.ok) {
-                form.style.display = 'none';
+                // Hide loading, show success
+                document.getElementById('loadingMessage').style.display = 'none';
                 document.getElementById('successMessage').style.display = 'block';
-                document.getElementById('errorMessage').style.display = 'none';
             } else {
                 throw new Error('Network response was not ok');
             }
         })
         .catch(error => {
             console.error('Error:', error);
+            // Show form again on error
+            form.style.display = 'block';
+            document.getElementById('loadingMessage').style.display = 'none';
             document.getElementById('errorMessage').style.display = 'block';
             document.getElementById('successMessage').style.display = 'none';
         });
