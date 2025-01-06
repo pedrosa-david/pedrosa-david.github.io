@@ -1,4 +1,4 @@
-const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL'
+const scriptURL = 'https://script.google.com/macros/s/AKfycbyEoETS0m0d1gCl0y3Vxha5oNKWPj8mjozek0aQseCClF0xTBRVaaL28fZXe0-Dn3fIqw/exec'
 const dietaryOptions = [
     { value: 'none', label: 'Sin restricciones' },
     { value: 'vegetarian', label: 'Vegetariano' },
@@ -42,13 +42,16 @@ function createGuestFields(index, type) {
 function updateGuestFields() {
     const adultCount = parseInt(document.getElementById('numAdults').value) || 0
     const childCount = parseInt(document.getElementById('numChildren').value) || 0
+    const noMenuCount = parseInt(document.getElementById('numChildrenNoMenu').value) || 0
     
     const adultContainer = document.getElementById('adultGuests')
     const childContainer = document.getElementById('childGuests')
+    const noMenuContainer = document.getElementById('nomenuGuests')
     
     // Clear existing fields
     adultContainer.innerHTML = ''
     childContainer.innerHTML = ''
+    noMenuContainer.innerHTML = ''
     
     // Add adult fields
     for(let i = 0; i < adultCount; i++) {
@@ -58,6 +61,23 @@ function updateGuestFields() {
     // Add child fields
     for(let i = 0; i < childCount; i++) {
         childContainer.appendChild(createGuestFields(i, 'child'))
+    }
+
+    // Add no-menu children (simpler fields, no dietary options)
+    for(let i = 0; i < noMenuCount; i++) {
+        const div = document.createElement('div')
+        div.className = 'guest-section'
+        div.innerHTML = `
+            <h4>Niño sin menú ${i + 1}</h4>
+            <div class="form-group">
+                <input type="text" 
+                       class="form-control" 
+                       name="nomenu_${i}_name" 
+                       placeholder="Nombre y apellidos"
+                       required>
+            </div>
+        `
+        noMenuContainer.appendChild(div)
     }
     
     // Add dietary notes listeners
@@ -71,100 +91,124 @@ function updateGuestFields() {
 
 // Add event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Add the participation toggle functionality
-    document.getElementById('participation').addEventListener('change', function() {
-        var noParticipationFields = document.getElementById('noParticipationFields');
-        var yesParticipationFields = document.getElementById('yesParticipationFields');
-        if (this.value === 'yes') {
-            yesParticipationFields.style.display = 'block';
-            noParticipationFields.style.display = 'none';
-        } else if (this.value === 'no') {
-            noParticipationFields.style.display = 'block';
-            yesParticipationFields.style.display = 'none';
-        } else {
-            noParticipationFields.style.display = 'none';
-            yesParticipationFields.style.display = 'none';
-        }
-    });
-
-    // Handle adult guests
-    document.getElementById('numAdults').addEventListener('change', function() {
-        const container = document.getElementById('adultGuests');
-        container.innerHTML = '';
-        const count = parseInt(this.value);
-        
-        for(let i = 0; i < count; i++) {
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <input type="text" class="form-control" 
-                       placeholder="Nombre del adulto ${i + 1}" 
-                       name="adultName${i + 1}" required>
-            `;
-            container.appendChild(div);
-        }
-    });
-
-    // Handle children with menu
-    document.getElementById('numChildren').addEventListener('change', function() {
-        const container = document.getElementById('childGuests');
-        container.innerHTML = '';
-        const count = parseInt(this.value);
-        
-        for(let i = 0; i < count; i++) {
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <input type="text" class="form-control" 
-                       placeholder="Nombre del niño ${i + 1} (con menú)" 
-                       name="childName${i + 1}" required>
-            `;
-            container.appendChild(div);
-        }
-    });
-
-    // Handle children without menu
-    document.getElementById('numChildrenNoMenu').addEventListener('change', function() {
-        const container = document.getElementById('nomenuGuests');
-        container.innerHTML = '';
-        const count = parseInt(this.value);
-        
-        for(let i = 0; i < count; i++) {
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <input type="text" class="form-control" 
-                       placeholder="Nombre del niño ${i + 1} (sin menú)" 
-                       name="childNoMenuName${i + 1}" required>
-            `;
-            container.appendChild(div);
-        }
-    });
+    const form = document.querySelector('.rsvp-form')
     
-    document.querySelector('.rsvp-form').addEventListener('submit', e => {
+    // Participation toggle
+    document.getElementById('participation').addEventListener('change', function() {
+        const noParticipationFields = document.getElementById('noParticipationFields')
+        const yesParticipationFields = document.getElementById('yesParticipationFields')
+        if (this.value === 'yes') {
+            yesParticipationFields.style.display = 'block'
+            noParticipationFields.style.display = 'none'
+        } else if (this.value === 'no') {
+            noParticipationFields.style.display = 'block'
+            yesParticipationFields.style.display = 'none'
+        } else {
+            noParticipationFields.style.display = 'none'
+            yesParticipationFields.style.display = 'none'
+        }
+    })
+
+    // Guest count changes
+    document.getElementById('numAdults').addEventListener('change', updateGuestFields)
+    document.getElementById('numChildren').addEventListener('change', updateGuestFields)
+    document.getElementById('numChildrenNoMenu').addEventListener('change', updateGuestFields)
+    
+    // Form submission
+    form.addEventListener('submit', e => {
         e.preventDefault()
         
-        const form = e.target
         const formData = new FormData(form)
+        const email = formData.get('email')
+        const phone = formData.get('phonePrefix') + formData.get('phone')
+        const participates = formData.get('participation')
+        const busService = formData.get('busService') || 'no'
         
-        // Combine phone prefix and number
-        const prefix = formData.get('phonePrefix')
-        const phone = formData.get('phone')
-        formData.set('phone', `${prefix} ${phone}`)
+        let guests = []
         
-        fetch(scriptURL, { method: 'POST', body: formData })
-            .then(response => {
-                if (response.ok) {
-                    alert('¡Gracias por tu confirmación!')
-                    form.reset()
-                    updateGuestFields() // Reset guest fields
-                } else {
-                    throw new Error('Network response was not ok')
-                }
+        if (participates === 'no') {
+            // Single non-participating guest
+            guests.push({
+                name: formData.get('fullName'),
+                email: email,
+                phone: phone,
+                participates: 'no',
+                bus: 'no',
+                menuType: '',
+                menuDiet: ''
             })
-            .catch(error => {
-                console.error('Error:', error)
-                alert('Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo.')
-            })
+        } else {
+            // Process adult guests
+            const adultCount = parseInt(formData.get('numAdults')) || 0
+            for (let i = 0; i < adultCount; i++) {
+                const dietary = formData.get(`adult_${i}_dietary`)
+                guests.push({
+                    name: formData.get(`adult_${i}_name`),
+                    email: email,
+                    phone: phone,
+                    participates: 'yes',
+                    bus: busService,
+                    menuType: 'adult',
+                    menuDiet: dietary === 'other' 
+                        ? formData.get(`adult_${i}_dietary_notes`)
+                        : dietaryOptions.find(opt => opt.value === dietary)?.label || ''
+                })
+            }
+            
+            // Process children with menu
+            const childCount = parseInt(formData.get('numChildren')) || 0
+            for (let i = 0; i < childCount; i++) {
+                const dietary = formData.get(`child_${i}_dietary`)
+                guests.push({
+                    name: formData.get(`child_${i}_name`),
+                    email: email,
+                    phone: phone,
+                    participates: 'yes',
+                    bus: busService,
+                    menuType: 'child',
+                    menuDiet: dietary === 'other' 
+                        ? formData.get(`child_${i}_dietary_notes`)
+                        : dietaryOptions.find(opt => opt.value === dietary)?.label || ''
+                })
+            }
+            
+            // Process children without menu
+            const noMenuCount = parseInt(formData.get('numChildrenNoMenu')) || 0
+            for (let i = 0; i < noMenuCount; i++) {
+                guests.push({
+                    name: formData.get(`nomenu_${i}_name`),
+                    email: email,
+                    phone: phone,
+                    participates: 'yes',
+                    bus: busService,
+                    menuType: 'none',
+                    menuDiet: ''
+                })
+            }
+        }
+        
+        // Send to Google Apps Script
+        fetch(scriptURL, {
+            method: 'POST',
+            body: JSON.stringify({ guests }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === 'success') {
+                form.style.display = 'none'
+                document.getElementById('successMessage').style.display = 'block'
+                document.getElementById('errorMessage').style.display = 'none'
+            } else {
+                throw new Error('Submission failed')
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error)
+            document.getElementById('errorMessage').style.display = 'block'
+            document.getElementById('successMessage').style.display = 'none'
+        })
     })
 }) 
