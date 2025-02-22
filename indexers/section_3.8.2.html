@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog to Digital Converter (ADCHS) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.8.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.8.html">PIC32CX BZ2 WBZ45 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Analog to Digital Converter (ADCHS)</li>
+    </ol>
+</nav>
+
+<h1>Analog to Digital Converter (ADCHS)</h1>
+<h1>3.8.2</h1>
+<p>Analog to Digital Converter (ADCHS)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-311E4038-A46B-4DA3-A2CB-8E75FC33E882.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-311E4038-A46B-4DA3-A2CB-8E75FC33E882.html</a></p>
+<h1>3.8.2 Analog to Digital Converter (ADCHS)</h1>
+<p>12-bit Analog to Digital Converter</p>
+<p>18 Msps with up to six ADC circuits (five dedicated and one shared)</p>
+<p>Up to 45 analog input</p>
+<p>Can operate during Sleep and Idle modes</p>
+<p>Multiple trigger sources</p>
+<p>Six Digital Comparators and six Digital Filters</p>
+<ul>
+<li>12-bit Analog to Digital Converter</li>
+<li>18 Msps with up to six ADC circuits (five dedicated and one shared)</li>
+<li>Up to 45 analog input</li>
+<li>Can operate during Sleep and Idle modes</li>
+<li>Multiple trigger sources</li>
+<li>Six Digital Comparators and six Digital Filters</li>
+</ul>
+<h2>Using The Library</h2>
+<p>Interrupt mode:</p>
+<p>Polling mode:</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<h1>define ADC_VREF                (3.3f)</h1>
+<h1>define ADC_MAX_COUNT           (4095)</h1>
+<p>uint16_t adc_count;
+float input_voltage;
+volatile bool result_ready = false;</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>void ADC_ResultHandler(ADCHS_CHANNEL_NUM channel, uintptr_t context)
+{
+    /<em> Read the ADC result </em>/
+    adc_count = ADCHS_ChannelResultGet(ADCHS_CH3);  <br/>
+    result_ready = true;
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">printf("\n\r---------------------------------------------------------");
+printf("\n\r                    ADC Interrupt Mode Demo                 ");
+printf("\n\r---------------------------------------------------------\n\r");
+
+ADCHS_CallbackRegister(ADCHS_CH3, ADC_ResultHandler, (uintptr_t)NULL);
+TMR3_Start();
+
+while ( true )
+{
+    /* Maintain state machines of all polled MPLAB Harmony modules. */
+    SYS_Tasks ( );
+
+    /* Wait till ADC conversion result is available */
+    if (result_ready == true)
+    {
+        result_ready = false;
+        input_voltage = (float)adc_count * ADC_VREF / ADC_MAX_COUNT;
+
+        printf("ADC Count = 0x%03x, ADC Input Voltage = %d.%02d V \r", adc_count, (int)input_voltage, (int)((input_voltage - (int)input_voltage)*100.0));        
+    }
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<h1>define ADC_VREF                (3.3f)</h1>
+<h1>define ADC_MAX_COUNT           (4095)</h1>
+<p>uint16_t adc_count;
+float input_voltage;</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">printf("\n\r---------------------------------------------------------");
+printf("\n\r                    ADC Polled Mode Demo                 ");
+printf("\n\r---------------------------------------------------------\n\r");
+
+TMR3_Start();
+
+while ( true )
+{
+    /* Maintain state machines of all polled MPLAB Harmony modules. */
+    SYS_Tasks ( );
+
+    /* Wait till ADC conversion result is available */
+    while(!ADCHS_ChannelResultIsReady(ADCHS_CH3))
+    {
+
+    };
+
+    /* Read the ADC result */
+    adc_count = ADCHS_ChannelResultGet(ADCHS_CH3);
+    input_voltage = (float)adc_count * ADC_VREF / ADC_MAX_COUNT;
+
+    printf("ADC Count = 0x%03x, ADC Input Voltage = %d.%02d V \r", adc_count, (int)input_voltage, (int)((input_voltage - (int)input_voltage)*100.0));        
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>12-bit Analog to Digital Converter peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADCHS_Initialize</td>
+<td>Initializes given instance of ADCHS peripheral</td>
+</tr>
+<tr>
+<td>ADCHS_ModulesEnable</td>
+<td>Enables the ADC modules</td>
+</tr>
+<tr>
+<td>ADCHS_ModulesDisable</td>
+<td>Disables the ADC modules</td>
+</tr>
+<tr>
+<td>ADCHS_ChannelResultInterruptEnable</td>
+<td>Enables the ADC channel result data interrupt</td>
+</tr>
+<tr>
+<td>ADCHS_ChannelResultInterruptDisable</td>
+<td>Disables the ADC channel result data interrupt</td>
+</tr>
+<tr>
+<td>ADCHS_ChannelEarlyInterruptEnable</td>
+<td>Enables the ADC channel early result data interrupt</td>
+</tr>
+<tr>
+<td>ADCHS_ChannelEarlyInterruptDisable</td>
+<td>Disables the ADC channel early result data interrupt</td>
+</tr>
+<tr>
+<td>ADCHS_ChannelConversionStart</td>
+<td>Starts the ADC conversion of an analog channel</td>
+</tr>
+<tr>
+<td>ADCHS_GlobalEdgeConversionStart</td>
+<td>Starts the ADC conversion of analog channels configured for global software edge trigger</td>
+</tr>
+<tr>
+<td>ADCHS_GlobalLevelConversionStart</td>
+<td>Starts the ADC conversion of analog channels configured for global software level trigger</td>
+</tr>
+<tr>
+<td>ADCHS_GlobalLevelConversionStop</td>
+<td>Stops the global software level trigger</td>
+</tr>
+<tr>
+<td>ADCHS_ChannelResultIsReady</td>
+<td>Returns the status of the channel conversion</td>
+</tr>
+<tr>
+<td>ADCHS_EOSStatusGet</td>
+<td>Returns the status of the end of scan interrupt flag</td>
+</tr>
+<tr>
+<td>ADCHS_ChannelResultGet</td>
+<td>Reads the conversion result of the channel</td>
+</tr>
+<tr>
+<td>ADCHS_CallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>ADCHS_EOSCallbackRegister</td>
+<td>Registers the function to be called from end of scan interrupt</td>
+</tr>
+<tr>
+<td>ADCHS_DMASampleCountBaseAddrSet</td>
+<td>Registers the user-defined RAM address at which the DMA engine will start saving the current count of output samples</td>
+</tr>
+<tr>
+<td>ADCHS_DMAResultBaseAddrSet</td>
+<td>Registers the user-defined RAM address at which the DMA engine will start saving the converted data</td>
+</tr>
+<tr>
+<td>ADCHS_DMACallbackRegister</td>
+<td>Registers the application event handler which is called when the DMA transfer is complete</td>
+</tr>
+<tr>
+<td>ADCHS_DMAStatusGet</td>
+<td>Returns the DMA transfer status</td>
+</tr>
+<tr>
+<td>ADCHS_ComparatorxEnable</td>
+<td>Enables comparator</td>
+</tr>
+<tr>
+<td>ADCHS_ComparatorxDisable</td>
+<td>Disables comparator</td>
+</tr>
+<tr>
+<td>ADCHS_ComparatorxLimitSet</td>
+<td>Sets lower and higher threshold for comparator</td>
+</tr>
+<tr>
+<td>ADCHS_ComparatorxEventModeSet</td>
+<td>Sets the condition under which the comparator output becomes true</td>
+</tr>
+<tr>
+<td>ADCHS_ComparatorxAnalogInputIDGet</td>
+<td>Identifies the analog input for which the comparator event is generated</td>
+</tr>
+<tr>
+<td>ADCHS_ComparatorxCallbackRegister</td>
+<td>Registers the function to be called from the ADC comparator interrupt</td>
+</tr>
+<tr>
+<td>ADCHS_ComparatorxStatusGet</td>
+<td>Returns the Comparator status</td>
+</tr>
+<tr>
+<td>ADCHS_FilterxIsReady</td>
+<td>Returns the status of ADC filter</td>
+</tr>
+<tr>
+<td>ADCHS_FilterxDataGet</td>
+<td>Returns the ADC filter data</td>
+</tr>
+<tr>
+<td>ADCHS_FilterxCallbackRegister</td>
+<td>Registers the function to be called from the ADC filter ready interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADCHS_MODULE_MASK</td>
+<td>Enum</td>
+<td>Identifies dedicated and shared ADC module mask</td>
+</tr>
+<tr>
+<td>ADCHS_CHANNEL_NUM</td>
+<td>Enum</td>
+<td>Identifies ADCHS inputs as analog channel number</td>
+</tr>
+<tr>
+<td>ADCHS_CMP_EVENT_MODE</td>
+<td>Enum</td>
+<td>Identifies ADCHS comparator event modes</td>
+</tr>
+<tr>
+<td>ADCHS_DMA_STATUS</td>
+<td>Enum</td>
+<td>Identifies ADCHS DMA status</td>
+</tr>
+<tr>
+<td>ADCHS_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the adchs peripheral callback function</td>
+</tr>
+<tr>
+<td>ADCHS_DC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the adchs digital comparator interrupt callback function</td>
+</tr>
+<tr>
+<td>ADCHS_DF_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the adchs digital filter interrupt callback function</td>
+</tr>
+<tr>
+<td>ADCHS_DMA_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the adchs DMA interrupt callback function</td>
+</tr>
+<tr>
+<td>ADCHS_EOS_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the adchs end of scan interrupt callback function</td>
+</tr>
+<tr>
+<td>ADCHS_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>ADCHS Callback structure</td>
+</tr>
+<tr>
+<td>ADCHS_EOS_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>ADCHS Callback structure for End of Scan (EOS) interrupt</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

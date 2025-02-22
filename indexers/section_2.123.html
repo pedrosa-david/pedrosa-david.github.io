@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Asynchronous Receiver Transmitter (UART) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Universal Asynchronous Receiver Transmitter (UART)</li>
+    </ol>
+</nav>
+
+<h1>Universal Asynchronous Receiver Transmitter (UART)</h1>
+<h1>2.123</h1>
+<p>Universal Asynchronous Receiver Transmitter (UART)</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C63DE22E-7B42-444E-8E5B-4810D5B5C564.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C63DE22E-7B42-444E-8E5B-4810D5B5C564.html</a></p>
+<h1><span id="2-123-universal-asynchronous-receiver-transmitter-uart"></span>2.123 Universal Asynchronous Receiver Transmitter (UART)</h1>
+<p>This Plib implements software abstraction for UART Peripheral.</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>UART peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Blocking mode</th>
+<th>Non-blocking mode</th>
+<th>Ring buffer mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UARTx_Initialize</td>
+<td>Initializes given instance of the UART peripheral</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_SerialSetup</td>
+<td>Sets up serial configurations for UART peripheral</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_Write</td>
+<td>Writes data to the given UART peripheral instance</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_Read</td>
+<td>Reads data from the given UART peripheral instance</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_WriteIsBusy</td>
+<td>Returns the write request status associated with the given UART</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>peripheral instance</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_ReadIsBusy</td>
+<td>Returns the read request status associated with the given UART</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>peripheral instance</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_WriteCountGet</td>
+<td>Gets the byte count of processed bytes for a given UART read</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>operation in non-blocking mode. Returns the number of bytes pending to be</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transmitted out in the transmit buffer in ring buffer mode.</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_ReadCountGet</td>
+<td>Gets the byte count of processed bytes for a given UART read</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>operation in non-blocking mode. Returns the number of bytes available in the</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>internal receive buffer of the PLIB in ring buffer mode.</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_TransmitterIsReady</td>
+<td>Returns the hardware status of the UART Transmitter</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>UARTx_ReceiverIsReady</td>
+<td>Returns the hardware status of the UART Receiver</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>UARTx_ErrorGet</td>
+<td>Gets the error of the given UART peripheral instance</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_WriteCallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be called</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>when the given UART's write events occur</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_ReadCallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be called</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>when the given UART's read events occur</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_ReadByte</td>
+<td>Submits request to read a byte of data to the given UART</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>peripheral</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_WriteByte</td>
+<td>Submits a byte of data to the given UART peripheral to</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transfer</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_ReadAbort</td>
+<td>Aborts the ongoing read request</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>UARTx_WriteFreeBufferCountGet</td>
+<td>Returns the number of bytes of free space available in the</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>internal transmit buffer</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_WriteBufferSizeGet</td>
+<td>Returns the size of the internal transmit ring buffer</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_WriteNotificationEnable</td>
+<td>This API lets the application turn the transmit notifications</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>on/off</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_WriteThresholdSet</td>
+<td>This API allows the application to set a threshold level on the</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>number of free space available in the transmit buffer</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_ReadFreeBufferCountGet</td>
+<td>Returns the number of bytes of free space available in the</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>internal receive buffer</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_ReadBufferSizeGet</td>
+<td>Returns the size of the receive ring buffer</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_ReadNotificationEnable</td>
+<td>This API lets the application turn the receive notifications</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>on/off</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_ReadThresholdSet</td>
+<td>This API allows the application to set a threshold level on the</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>number of bytes of data available in the receive buffer</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>UARTx_AutoBaudQuery</td>
+<td>Returns the status of auto-baud operation</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_AutoBaudQuery</td>
+<td>Returns the status of auto-baud operation</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_AutoBaudSet</td>
+<td>Enables the auto-baud detection</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UARTx_AutoBaudSet</td>
+<td>Enables the auto-baud detection</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Blocking mode</th>
+<th>Non-blocking mode</th>
+<th>Ring buffer mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UART_ERROR</td>
+<td>Macros and Typedef</td>
+<td>Defines the macros and typedefs associated with the UART</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>peripheral errors</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>UART_DATA</td>
+<td>Enum</td>
+<td>Defines the data width types for the UART peripheral</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UART_PARITY</td>
+<td>Enum</td>
+<td>Defines the parity types for the UART peripheral</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UART_STOP</td>
+<td>Enum</td>
+<td>Defines the data type for the UART peripheral stop bits</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UART_SERIAL_SETUP</td>
+<td>Struct</td>
+<td>Defines the data structure which is used to configure UART serial</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>parameters at run time</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>UART_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature of the UART</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>peripheral library callback function</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>UART_EVENT</td>
+<td>Enum</td>
+<td>Defines the enums associated with the UART events in the ring</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>buffer mode</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>UART_RING_BUFFER_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the UART</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>peripheral callback function in the ring buffer mode</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

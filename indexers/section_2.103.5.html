@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERCOMx USART WriteIsBusy Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.103.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.103.html">Serial Communication Interface (SERCOM)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">SERCOMx USART WriteIsBusy Function</li>
+    </ol>
+</nav>
+
+<h1>SERCOMx USART WriteIsBusy Function</h1>
+<h1>2.103.5</h1>
+<p>SERCOMx_USART_WriteIsBusy Function</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C8863195-B4DB-4A56-BD08-E5ED5D17279D.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C8863195-B4DB-4A56-BD08-E5ED5D17279D.html</a></p>
+<h1><span id="2-103-5-sercomx-usart-writeisbusy-function"></span>2.103.5 SERCOMx_USART_WriteIsBusy Function</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> x = SERCOM instance number </em>/</p>
+<p>/<em> Non-blocking mode </em>/</p>
+<p>bool SERCOMx_USART_WriteIsBusy( void )
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Returns the write request status associated with the given USART peripheral instance</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function returns the write request status associated with the given USART peripheral instance. It can be used to check the completion status of the SERCOMx_USART_Write() function when the library is configured for non-blocking (interrupt) mode. In that, the function can be used as an alternative to using a callback function to check for completion.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>SERCOMx_USART_Initialize must have been called for the associated USART instance.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>None.</p>
+<h2><span id="returns"></span>Returns</h2>
+<p>true - USART is busy in processing the previous write request.</p>
+<p>false - USART is free and ready to accept a new write request.</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">if(SERCOM0_USART_WriteIsBusy() == true)
+{
+    //USART is currently processing the previous write request.
+    //Wait to submit new request.
+}</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

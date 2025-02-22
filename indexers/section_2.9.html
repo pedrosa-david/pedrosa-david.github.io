@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurable Custom Logic (CCL) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Configurable Custom Logic (CCL)</li>
+    </ol>
+</nav>
+
+<h1>Configurable Custom Logic (CCL)</h1>
+<h1>2.9</h1>
+<p>Configurable Custom Logic (CCL)</p>
+<p><em>Generated on: 2025-02-20 07:44:05</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-AB16E757-4B0C-47ED-A784-24B33D787FD6.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-AB16E757-4B0C-47ED-A784-24B33D787FD6.html</a></p>
+<h1><span id="2-9-configurable-custom-logic-ccl"></span>2.9 Configurable Custom Logic (CCL)</h1>
+<p>The Configurable Custom Logic (CCL) is a programmable logic peripheral which can be connected to the device pins, to events, or to other internal peripherals. This allows the user to eliminate logic gates for simple glue logic functions on the PCB.
+Each LookUp Table (LUT) consists of three inputs, a truth table, an optional synchronizer/filter, and an optional edge detector. Each LUT can generate an output as a user programmable logic expression with three inputs. Inputs can be individually masked.
+The output can be combinatorially generated from the inputs, and can be filtered to remove spikes. Optional sequential logic can be used. The inputs of the sequential module are individually controlled by two independent, adjacent LUT (LUT0/LUT1, LUT2/LUT3 etc.) outputs, enabling complex waveform generation.</p>
+<p>The module has following features:</p>
+<p>Glue logic for general purpose PCB design</p>
+<p>Up to 4 programmable LookUp Tables (LUTs)</p>
+<p>Combinatorial logic functions: AND, NAND, OR, NOR, XOR, XNOR, NOT</p>
+<p>Sequential logic functions: Gated D Flip-Flop, JK Flip-Flop, gated D Latch, RS Latch</p>
+<p>Flexible LUT inputs selection: I/Os, Events, Internal peripherals, Subsequent LUT output</p>
+<p>Output can be connected to the I/O pins or the Event System</p>
+<p>Optional synchronizer, filter, or edge detector available on each LUT output</p>
+<ul>
+<li>Glue logic for general purpose PCB design</li>
+<li>Up to 4 programmable LookUp Tables (LUTs)</li>
+<li>Combinatorial logic functions: AND, NAND, OR, NOR, XOR, XNOR, NOT</li>
+<li>Sequential logic functions: Gated D Flip-Flop, JK Flip-Flop, gated D Latch, RS Latch</li>
+<li>Flexible LUT inputs selection: I/Os, Events, Internal peripherals, Subsequent LUT output</li>
+<li>Output can be connected to the I/O pins or the Event System</li>
+<li>Optional synchronizer, filter, or edge detector available on each LUT output</li>
+</ul>
+<h2><span id="using-the-library"></span>Using The Library</h2>
+<p>User needs to configure the module in MCC and generate code. Initialize API call automatically happens as part of SYS_Initialize()</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Configurable Custom Logic peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CCL_Initialize</td>
+<td>Initializes CCL peripheral</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

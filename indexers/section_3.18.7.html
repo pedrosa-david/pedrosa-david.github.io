@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIPS Core Timer (CORETIMER) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.18.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.18.html">PIC32MM GPM Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">MIPS Core Timer (CORETIMER)</li>
+    </ol>
+</nav>
+
+<h1>MIPS Core Timer (CORETIMER)</h1>
+<h1>3.18.7</h1>
+<p>MIPS Core Timer (CORETIMER)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2CC46B7D-BED7-44A6-ADC4-C2361E5290E6_6.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2CC46B7D-BED7-44A6-ADC4-C2361E5290E6_6.html</a></p>
+<h1>3.18.7 MIPS Core Timer (CORETIMER)</h1>
+<p>The core timer is built into the MIPS CPU and it is a free running 32-bit timer that increments at half the system clock frequency (SYSCLK). This timer is implemented in the form of two co-processor registers called Count register and Compare register. When the Count register matches the Compare register, an interrupt is signaled. Core timer is not a periodic timer as the Count register does not reset on a compare match. The incrementing of Count can be optionally suspended during Debug mode.</p>
+<h2>Using The Library</h2>
+<p>The core timer peripheral library can be used to generate periodic callback in interrupt mode or create blocking delay function.</p>
+<p>Periodic Callback in Interrupt mode</p>
+<p>This example demonstrates how to use Core Timer to generate periodic callback. The time period is configured using MCC or the period set API.</p>
+<p>```C
+/<em> This function is called at specified periodic interval </em>/
+void CORETIMER_EventHandler(uintptr_t context)
+{
+    /<em> Toggle LED </em>/
+    LED_Toggle();
+}</p>
+<p>int main(void)
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Register Callback */
+CORETIMER_CallbackSet(CORETIMER_EventHandler, (uintptr_t) NULL);
+
+/* Start the Timer */
+CORETIMER_Start();
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>MIPS Core Timer peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CORETIMER_Initialize</td>
+<td>Initializes given instance of CORETIMER</td>
+</tr>
+<tr>
+<td>CORETIMER_Start</td>
+<td>Starts the Core Timer</td>
+</tr>
+<tr>
+<td>CORETIMER_Stop</td>
+<td>Stops the Core Timer counter</td>
+</tr>
+<tr>
+<td>CORETIMER_PeriodSet</td>
+<td>Sets the period value of a Core timer</td>
+</tr>
+<tr>
+<td>CORETIMER_CompareSet</td>
+<td>Sets the compare value of a Core timer</td>
+</tr>
+<tr>
+<td>CORETIMER_CounterGet</td>
+<td>Reads the Core timer counter value</td>
+</tr>
+<tr>
+<td>CORETIMER_FrequencyGet</td>
+<td>Provides the given Core timer's counter-increment frequency</td>
+</tr>
+<tr>
+<td>CORETIMER_CallbackSet</td>
+<td>Sets the callback_fn function for an match</td>
+</tr>
+<tr>
+<td>CORETIMER_DelayMs</td>
+<td>Generates blocking delay in milliseconds</td>
+</tr>
+<tr>
+<td>CORETIMER_DelayUs</td>
+<td>Generates blocking delay in microseconds</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CORETIMER_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the CORETIMER callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

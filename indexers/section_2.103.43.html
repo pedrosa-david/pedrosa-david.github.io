@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USART SERIAL SETUP Struct | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.103.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.103.html">Serial Communication Interface (SERCOM)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">USART SERIAL SETUP Struct</li>
+    </ol>
+</nav>
+
+<h1>USART SERIAL SETUP Struct</h1>
+<h1>2.103.43</h1>
+<p>USART_SERIAL_SETUP Struct</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-1AC78652-8625-4845-9B2B-F605E14D6F08.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-1AC78652-8625-4845-9B2B-F605E14D6F08.html</a></p>
+<h1><span id="2-103-43-usart-serial-setup-struct"></span>2.103.43 USART_SERIAL_SETUP Struct</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> Blocking, non-blocking and ring buffer mode </em>/</p>
+<p>typedef struct
+{
+    /<em> Baud Rate in bits per second </em>/
+    uint32_t baudRate;</p>
+<pre class="code-block"><code class="language-c">/* Data width in bits */
+USART_DATA dataWidth;
+
+/* data parity for error checking */
+USART_PARITY parity;
+
+/* Number of stop bits */
+USART_STOP stopBits;
+</code></pre>
+<p>} USART_SERIAL_SETUP;
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Defines the data structure which is used to configure USART serial parameters at run time</p>
+<h2><span id="description"></span>Description</h2>
+<p>This may be used to set the serial configurations for USART. An object of this structure is passed as a parameter to the SERCOMx_USART_SerialSetup API.</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harden Embedded Flash Controller (HEFC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Harden Embedded Flash Controller (HEFC)</li>
+    </ol>
+</nav>
+
+<h1>Harden Embedded Flash Controller (HEFC)</h1>
+<h1>2.50</h1>
+<p>Harden Embedded Flash Controller (HEFC)</p>
+<p><em>Generated on: 2025-02-20 07:44:03</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2806827A-A808-4B9B-BCD5-A5C51F456349.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2806827A-A808-4B9B-BCD5-A5C51F456349.html</a></p>
+<h1><span id="2-50-harden-embedded-flash-controller-hefc"></span>2.50 Harden Embedded Flash Controller (HEFC)</h1>
+<p>The Hardened Embedded Flash Controller (HEFC) manages the programming, erasing, locking and unlocking sequences of the Flash using a full set of commands.</p>
+<h2><span id="using-the-library"></span>Using The Library</h2>
+<p>The main Flash memory can not be read while it is being erased or written, the CPU is
+        stalled during the entire operation. All functions that modify the main Flash can be run
+        from RAM memory to avoid CPU stall while main Flash is being erased or written.</p>
+<p>The FLASH memory is divided into a number of physical rows, each containing four identically sized flash pages. Pages may be read or written to
+individually, however pages must be erased before being reprogrammed and the smallest granularity available for erasure is one single row.</p>
+<p>HEFC APIs are implemented to be non-blocking, the API will return immediately if not stalled by Flash operation. The user application can
+either poll the status or get callback once the flash operation is completed.</p>
+<p>With polling, the application will need to continuously check if the flash operation is completed</p>
+<p>With callback, the registered callback function will be called once the flash operation
+            is completed. This means the application do not have to poll continuously. The interrupt
+            must be enabled in MCC for callback method</p>
+<p>Here is an example code to erase a row and program a page of memory using polling method</p>
+<p>```C
+// Define a constant array in Flash.
+// It must be aligned to sector boundary and size has to be in multiple of sectors
+const uint8_t hefc_user_start_address[HEFC_SECTORSIZE] <strong>attribute</strong>((aligned(HEFC_SECTORSIZE),keep,externally_visible,space(prog)))= {0};</p>
+<p>void populate_buffer(uint8_t* data)
+{
+    int i = 0;</p>
+<pre class="code-block"><code class="language-c">for (i = 0; i &lt; (HEFC_PAGESIZE); i++)
+{
+    *(data + i) = i;
+}
+</code></pre>
+<p>}</p>
+<p>int main (void)
+{
+    uint8_t pageBuffer[HEFC_PAGESIZE] = {0};</p>
+<pre class="code-block"><code class="language-c">/*Populate pageBuffer to programmed*/
+populate_buffer(pageBuffer);
+
+while(HEFC_IsBusy());
+
+/*Erase the sector*/
+HEFC_SectorErase(hefc_user_start_address);
+
+/* Wait for erase operation to complete */
+while(HEFC_IsBusy());
+
+/*Program a page*/
+HEFC_PageWrite(pageBuffer, hefc_user_start_address);
+
+/* Wait for page program to complete
+while(HEFC_IsBusy());
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>With polling, the application will need to continuously check if the flash operation is completed</li>
+<li>With callback, the registered callback function will be called once the flash operation
+            is completed. This means the application do not have to poll continuously. The interrupt
+            must be enabled in MCC for callback method</li>
+</ul>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Harden Embedded Flash Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEFC_Initialize</td>
+<td>Initializes given instance of the HEFC peripheral</td>
+</tr>
+<tr>
+<td>HEFC_Read</td>
+<td>Reads length number of bytes from a given address in FLASH</td>
+</tr>
+<tr>
+<td>memory</td>
+<td></td>
+</tr>
+<tr>
+<td>HEFC_PageWrite</td>
+<td>Writes data of size equivalent to page size to a given FLASH</td>
+</tr>
+<tr>
+<td>address</td>
+<td></td>
+</tr>
+<tr>
+<td>HEFC_SectorErase</td>
+<td>Erases a Sector in the FLASH</td>
+</tr>
+<tr>
+<td>HEFC_ErrorGet</td>
+<td>Returns the error encountered by HEFC controller</td>
+</tr>
+<tr>
+<td>HEFC_IsBusy</td>
+<td>Returns the current status of HEFC controller</td>
+</tr>
+<tr>
+<td>HEFC_RegionLock</td>
+<td>Locks a Flash region</td>
+</tr>
+<tr>
+<td>HEFC_RegionUnlock</td>
+<td>Unlocks a Flash region</td>
+</tr>
+<tr>
+<td>HEFC_CallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be called</td>
+</tr>
+<tr>
+<td>when the operation is complete</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEFC_ERROR</td>
+<td>Enum</td>
+<td>Defines the data type for the HEFC Error</td>
+</tr>
+<tr>
+<td>HEFC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the HEFC</td>
+</tr>
+<tr>
+<td>peripheral callback function</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

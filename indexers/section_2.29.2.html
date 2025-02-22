@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMA ChannelCallbackRegister Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.29.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.29.html">Direct Memory Access Controller (DMA)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DMA ChannelCallbackRegister Function</li>
+    </ol>
+</nav>
+
+<h1>DMA ChannelCallbackRegister Function</h1>
+<h1>2.29.2</h1>
+<p>DMA_ChannelCallbackRegister Function</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-A4AC0FC3-D248-4152-A21C-C241ABA666EE.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-A4AC0FC3-D248-4152-A21C-C241ABA666EE.html</a></p>
+<h1><span id="2-29-2-dma-channelcallbackregister-function"></span>2.29.2 DMA_ChannelCallbackRegister Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void DMA_ChannelCallbackRegister( DMA_CHANNEL channel, const DMA_CHANNEL_CALLBACK callback, const uintptr_t context )</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>This function allows a DMA PLIB client to set an event handler.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function allows a client to set an event handler. The client may want
+to receive transfer related events in cases when it submits a DMA PLIB
+transfer request. The event handler should be set before the client
+intends to perform operations that could generate events.</p>
+<p>In case of linked transfer descriptors, the callback function will be called
+for every transfer in the transfer descriptor chain. The application must
+implement it's own logic to link the callback to the the transfer descriptor
+being completed.</p>
+<p>This function accepts a context parameter. This parameter could be
+set by the client to contain (or point to) any client specific data object
+that should be associated with this DMA channel.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>DMA should have been initialized by calling DMA_Initialize.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>channel</td>
+<td>A specific DMA channel from which the events are expected.</td>
+</tr>
+<tr>
+<td>callback</td>
+<td>Pointer to the event handler function.</td>
+</tr>
+<tr>
+<td>context</td>
+<td>Value identifying the context of the application/driver/middleware that registered the event handling function.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>channel</td>
+<td>A specific DMA channel from which the events are expected.</td>
+</tr>
+<tr>
+<td>callback</td>
+<td>Pointer to the event handler function.</td>
+</tr>
+<tr>
+<td>context</td>
+<td>Value identifying the context of the application/driver/middleware that registered the event handling function.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+MY_APP_OBJ myAppObj;</p>
+<p>void APP_DMATransferEventHandler(DMA_TRANSFER_EVENT event, uintptr_t contextHandle)
+{
+    switch(event)
+    {
+        case DMA_TRANSFER_EVENT_BLOCK_TRANSFER_COMPLETE:
+        // This means the data was transferred.
+        break;</p>
+<pre class="code-block"><code class="language-c">    case DMA_TRANSFER_EVENT_ERROR:
+    // Error handling here.
+    break;
+
+    default:
+    break;
+}
+</code></pre>
+<p>}</p>
+<p>// User registers an event handler with DMA channel. This is done once.
+DMA_ChannelCallbackRegister(DMA_CHANNEL_1, APP_DMATransferEventHandler, (uintptr_t)&amp;myAppObj);
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CANx MessageReceive Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.8.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.8.html">Controller Area Network (CAN)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">CANx MessageReceive Function</li>
+    </ol>
+</nav>
+
+<h1>CANx MessageReceive Function</h1>
+<h1>2.8.66</h1>
+<p>CANx_MessageReceive Function</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5E08D018-AAE8-45C7-9AAB-29D54884D798.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5E08D018-AAE8-45C7-9AAB-29D54884D798.html</a></p>
+<h1><span id="2-8-66-canx-messagereceive-function"></span>2.8.66 CANx_MessageReceive Function</h1>
+<h2><span id="c"></span>C</h2>
+<p>The prototype of CANx_MessageReceive() varies based on device family. Refer to the generated header file for the actual prototype to be used.</p>
+<p>```C
+bool CANx_MessageReceive(uint32_t <em>id, uint8_t </em>length, uint8_t <em>data, uint16_t </em>timestamp, uint8_t fifoNum, CAN_MSG_RX_ATTRIBUTE *msgAttr) // x - Instance of the CAN peripheral</p>
+<p>bool CANx_MessageReceive(uint32_t <em>id, uint8_t </em>length, uint8_t <em>data, uint32_t </em>timestamp, uint8_t fifoNum, CANFD_MSG_RX_ATTRIBUTE *msgAttr) // x - Instance of the CAN peripheral</p>
+<p>bool CANx_MessageReceive(uint32_t <em>id, uint8_t </em>length, uint8_t <em>data, uint16_t </em>timestamp, CAN_MAILBOX_RX_ATTRIBUTE mailboxAttr, CAN_MSG_RX_ATTRIBUTE *msgAttr) // x - Instance of the CAN peripheral</p>
+<p>bool CANx_MessageReceive(uint8_t bufferNumber, CAN_RX_BUFFER *rxBuffer) // x - Instance of the CAN peripheral
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Receives a message from CAN bus.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This routine receives a message from CAN bus.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>CANx_Initialize must have been called for the associated CAN instance.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Pointer to 11-bit / 29-bit identifier (ID) to be received.</td>
+</tr>
+<tr>
+<td>length</td>
+<td>Pointer to data length in number of bytes to be received.</td>
+</tr>
+<tr>
+<td>data</td>
+<td>Pointer to destination data buffer</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>Pointer to Rx message timestamp, timestamp value is 0 if Timestamp is disabled</td>
+</tr>
+<tr>
+<td>fifoNum</td>
+<td>FIFO number</td>
+</tr>
+<tr>
+<td>mailboxAttr</td>
+<td>Mailbox type either RX Mailbox or RX Mailbox with overwrite</td>
+</tr>
+<tr>
+<td>msgAttr</td>
+<td>Data frame or Remote frame to be received</td>
+</tr>
+<tr>
+<td>bufferNumber</td>
+<td>Rx buffer number</td>
+</tr>
+<tr>
+<td>rxBuffer</td>
+<td>Pointer to Rx buffer</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Pointer to 11-bit / 29-bit identifier (ID) to be received.</td>
+</tr>
+<tr>
+<td>length</td>
+<td>Pointer to data length in number of bytes to be received.</td>
+</tr>
+<tr>
+<td>data</td>
+<td>Pointer to destination data buffer</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>Pointer to Rx message timestamp, timestamp value is 0 if Timestamp is disabled</td>
+</tr>
+<tr>
+<td>fifoNum</td>
+<td>FIFO number</td>
+</tr>
+<tr>
+<td>mailboxAttr</td>
+<td>Mailbox type either RX Mailbox or RX Mailbox with overwrite</td>
+</tr>
+<tr>
+<td>msgAttr</td>
+<td>Data frame or Remote frame to be received</td>
+</tr>
+<tr>
+<td>bufferNumber</td>
+<td>Rx buffer number</td>
+</tr>
+<tr>
+<td>rxBuffer</td>
+<td>Pointer to Rx buffer</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>Request status.
+true - Request was successful.</p>
+<p>false - Request has failed.</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">uint8_t rx_message[8], rx_messageLength;
+uint32_t rx_messageID;
+CAN_MSG_RX_ATTRIBUTE msgAttr;
+CAN1_Initialize();
+CAN1_MessageReceive(&amp;rx_messageID, &amp;rx_messageLength, rx_message, 0, 1, &amp;msgAttr);</code></pre></p>
+<p><pre class="code-block"><code class="language-c">uint8_t rx_message[8], rx_messageLength;
+uint32_t rx_messageID;
+CANFD_MSG_RX_ATTRIBUTE msgAttr;
+CAN1_Initialize();
+CAN1_MessageReceive(&amp;rx_messageID, &amp;rx_messageLength, rx_message, 0, 2, &amp;msgAttr);</code></pre></p>
+<p><pre class="code-block"><code class="language-c">uint8_t buf[8], id, length;
+uint16_t timestamp = 0;
+CAN_MSG_RX_ATTRIBUTE msgAttr;
+CAN0_Initialize();
+CAN0_MessageReceive(&amp;id, &amp;length, buf, &amp;timestamp, CAN_MAILBOX_DATA_FRAME_RX_OVERWRITE, &amp;msgAttr);</code></pre></p>
+<p><pre class="code-block"><code class="language-c">uint8_t rxBuffer[CAN0_RX_BUFFER_SIZE];
+memset(rxBuffer, 0x00, CAN0_RX_BUFFER_ELEMENT_SIZE);
+// Read message from Rx Buffer 0
+CAN0_MessageReceive(0, (CAN_RX_BUFFER *)rxBuffer);</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

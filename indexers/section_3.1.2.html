@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EC Subsystem Registers | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.1.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.1.html">CEC173X Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">EC Subsystem Registers</li>
+    </ol>
+</nav>
+
+<h1>EC Subsystem Registers</h1>
+<h1>3.1.2</h1>
+<p>EC Subsystem Registers</p>
+<p><em>Generated on: 2025-02-19 08:42:43</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F82DFE31-836D-454F-9A8E-8F8403BC122F.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F82DFE31-836D-454F-9A8E-8F8403BC122F.html</a></p>
+<h1>3.1.2 EC Subsystem Registers</h1>
+<p>This PLIB provides APIs to access the bank of registers associated with the EC Subsystem</p>
+<h2>Library Interface</h2>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EC_REG_BANK_Initialize</td>
+<td>Initializes the EC Register Bank peripheral.</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_AHBErrorAddrClr</td>
+<td>Clears the AHB error address register</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_AHBErrorAddrGet</td>
+<td>Returns the AHB error address</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_AHBErrorDisable</td>
+<td>Disable AHB error exception</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_AHBErrorEnable</td>
+<td>Enable AHB error exception</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_AltNVICVectorsEnable</td>
+<td>Enables alternate NVIC Vector IRQs</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRx_CallbackRegister</td>
+<td>Allows application to register a callback for the VTR PAD monitor</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonDebounceCtrl</td>
+<td>Configure debounce counter for VTR1 pad</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonOverrideDis</td>
+<td>Disables PAD monitor override feature</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonOverrideEn</td>
+<td>Enables PAD monitor override feature</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonOverrideInpDis</td>
+<td>When PAD monitor override feature is enabled this API disables the input</td>
+</tr>
+<tr>
+<td>buffer of the pad in the VTRx region</td>
+<td></td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonOverrideInpEn</td>
+<td>When PAD monitor override feature is enabled this API enables normal</td>
+</tr>
+<tr>
+<td>operation of the pad in the VTRx region</td>
+<td></td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonOverrideProtDis</td>
+<td>When PAD monitor override feature is enabled this API enables normal powered</td>
+</tr>
+<tr>
+<td>on operation</td>
+<td></td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonOverrideProtEn</td>
+<td>When PAD monitor override feature is enabled calling this API powers off the</td>
+</tr>
+<tr>
+<td>input and output buffers and a weak pulldown is applied</td>
+<td></td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonPDIntDis</td>
+<td>Disables PAD monitor power down interrupt</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonPDIntEn</td>
+<td>Enables PAD monitor power down interrupt</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonPUIntDis</td>
+<td>Disables PAD monitor power up interrupt</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonPUIntEn</td>
+<td>Enables PAD monitor power up interrupt</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonStatusClr</td>
+<td>Clears the PAD monitor status bits</td>
+</tr>
+<tr>
+<td>EC_REG_BANK_VTRxPadMonStatusGet</td>
+<td>Returns the PAD monitor status</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EC_REG_BANK_CALLBACK</td>
+<td>Enum</td>
+<td>Defines the data type and function signature for the EC Register Bank</td>
+</tr>
+<tr>
+<td>peripheral callback function.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>VTR_PAD_MON_DEB_CTRL</td>
+<td>Enum</td>
+<td>Defines the enumerations associated with PAD Monitor debounce control</td>
+</tr>
+<tr>
+<td>VTR1_PAD_MON_STS</td>
+<td>Enum</td>
+<td>Defines the enumerations associated with PAD Monitor status bits</td>
+</tr>
+<tr>
+<td>VTR2_PAD_MON_STS</td>
+<td>Enum</td>
+<td>Defines the enumerations associated with PAD Monitor status bits</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

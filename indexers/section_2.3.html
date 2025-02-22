@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Digital Converter (ADC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Analog Digital Converter (ADC)</li>
+    </ol>
+</nav>
+
+<h1>Analog Digital Converter (ADC)</h1>
+<h1>2.3</h1>
+<p>Analog Digital Converter (ADC)</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-D59D27D3-2802-432A-ADBC-BDCB4C53D050.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-D59D27D3-2802-432A-ADBC-BDCB4C53D050.html</a></p>
+<h1><span id="2-3-analog-digital-converter-adc"></span>2.3 Analog Digital Converter (ADC)</h1>
+<p>This Plib implements software abstraction for ADC Peripheral.</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Analog Digital Converter peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADCx_Initialize</td>
+<td>Initializes ADC peripheral</td>
+</tr>
+<tr>
+<td>ADCx_Enable</td>
+<td>Enable (turn ON) ADC module</td>
+</tr>
+<tr>
+<td>ADCx_Disable</td>
+<td>Disable ADC module</td>
+</tr>
+<tr>
+<td>ADC_SamplingStart</td>
+<td>Starts the sampling</td>
+</tr>
+<tr>
+<td>ADCx_ChannelSelect</td>
+<td>Selects ADC input channel</td>
+</tr>
+<tr>
+<td>ADCx_ConversionStart</td>
+<td>Starts the ADC conversion of all the enabled channels with the</td>
+</tr>
+<tr>
+<td>software trigger</td>
+<td></td>
+</tr>
+<tr>
+<td>ADCx_ConversionStatusGet</td>
+<td>Returns the status of the conversion of the channel</td>
+</tr>
+<tr>
+<td>ADCx_ConversionResultGet</td>
+<td>Returns the conversion result of the channel</td>
+</tr>
+<tr>
+<td>ADCx_LastConversionResultGet</td>
+<td>Returns the result for the previous adc conversion of the</td>
+</tr>
+<tr>
+<td>channel</td>
+<td></td>
+</tr>
+<tr>
+<td>ADCx_ConversionSequenceIsFinished</td>
+<td>Returns the status of automatic sequence conversion</td>
+</tr>
+<tr>
+<td>ADCx_ComparisonWindowSet</td>
+<td>Returns the status of automatic sequence conversion</td>
+</tr>
+<tr>
+<td>ADCx_WindowMonitorStatusGet</td>
+<td>Returns the status of the window monitor flag</td>
+</tr>
+<tr>
+<td>ADCx_ComparisonWindowSet</td>
+<td>Returns the status of automatic sequence conversion</td>
+</tr>
+<tr>
+<td>ADCx_WindowModeSet</td>
+<td>This function configures the window comparison mode</td>
+</tr>
+<tr>
+<td>ADCx_InterruptsClear</td>
+<td>This function clears the interrupt flags</td>
+</tr>
+<tr>
+<td>ADCx_InterruptsEnable</td>
+<td>This function enables the interrupts</td>
+</tr>
+<tr>
+<td>ADCx_InterruptsDisable</td>
+<td>This function disables the interrupts</td>
+</tr>
+<tr>
+<td>ADCx_CallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>ADC_InputSelect</td>
+<td>Selects input for ADC</td>
+</tr>
+<tr>
+<td>ADC_InputScanSelect</td>
+<td>Selects input for scanning ADC channels</td>
+</tr>
+<tr>
+<td>ADC_ResultIsReady</td>
+<td>Returns the status of the channel conversion</td>
+</tr>
+<tr>
+<td>ADC_ResultGet</td>
+<td>Provides the ADC conversion result based on the buffer</td>
+</tr>
+<tr>
+<td>index</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_CompareEnable</td>
+<td>Enables digital comparisons for the given channel on the specified</td>
+</tr>
+<tr>
+<td>ADC core</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_CompareDisable</td>
+<td>Disables digital comparisons for the given channel on the</td>
+</tr>
+<tr>
+<td>specified ADC core</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_CompareWinThresholdSet</td>
+<td>Configures the low and high threshold values for the comparator on</td>
+</tr>
+<tr>
+<td>the specified ADC core</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_CompareWinModeSet</td>
+<td>Configures the low and high threshold values for the comparator on</td>
+</tr>
+<tr>
+<td>the specified ADC core</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_GlobalInterruptsStatusGet</td>
+<td>Returns the global interrupt status</td>
+</tr>
+<tr>
+<td>ADC_CoreInterruptsEnable</td>
+<td>Enables the specified ADC core's interrupt</td>
+</tr>
+<tr>
+<td>ADC_CoreInterruptsDisable</td>
+<td>Disable the specified ADC core's interrupts</td>
+</tr>
+<tr>
+<td>ADC_CoreInterruptsStatusGet</td>
+<td>Returns the specified ADC core's interrupt status</td>
+</tr>
+<tr>
+<td>ADC_CoreInterruptsStatusClear</td>
+<td>Clears the specified ADC core's interrupt status</td>
+</tr>
+<tr>
+<td>ADC_GlobalEdgeConversionStart</td>
+<td>Generates global edge trigger and starts conversion on channels</td>
+</tr>
+<tr>
+<td>configured with Global edge as the trigger source</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_GlobalLevelConversionStart</td>
+<td>Starts global level trigger and starts conversion on channels</td>
+</tr>
+<tr>
+<td>configured with Global level as the trigger source</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_GlobalLevelConversionStop</td>
+<td>Stops global level trigger and stops conversion on channels</td>
+</tr>
+<tr>
+<td>configured with Global level as the trigger source</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_SyncTriggerEnable</td>
+<td>Enables sync trigger defined by CTRLC.CNT value</td>
+</tr>
+<tr>
+<td>ADC_SyncTriggerDisable</td>
+<td>Disables sync trigger</td>
+</tr>
+<tr>
+<td>ADC_SyncTriggerCounterSet</td>
+<td>Configures the value of CTRLC.CNT register</td>
+</tr>
+<tr>
+<td>ADC_SoftwareControlledConversionEnable</td>
+<td>Enables software controlled conversion on the specified ADC core's</td>
+</tr>
+<tr>
+<td>channel</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_ChannelsEnable</td>
+<td>Enables the ADC channels</td>
+</tr>
+<tr>
+<td>ADC_ChannelsDisable</td>
+<td>Disables the ADC channels</td>
+</tr>
+<tr>
+<td>ADC_ChannelsInterruptEnable</td>
+<td>Enables the ADC interrupt sources</td>
+</tr>
+<tr>
+<td>ADC_ChannelsInterruptDisable</td>
+<td>Disables the ADC interrupt sources</td>
+</tr>
+<tr>
+<td>ADC_InterruptEnable</td>
+<td>This function enables the interrupts</td>
+</tr>
+<tr>
+<td>ADC_InterruptDisable</td>
+<td>This function disables the interrupts</td>
+</tr>
+<tr>
+<td>ADC_InterruptStatusGet</td>
+<td>Returns the status of ADC interrupt</td>
+</tr>
+<tr>
+<td>ADC_ChannelSamplingStart</td>
+<td>Enables the Analog Mux Input and starts sampling on the ADC core</td>
+</tr>
+<tr>
+<td>and channel that was specified using the ADC_SoftwareControlledConversionEnable()</td>
+<td></td>
+</tr>
+<tr>
+<td>API</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_ChannelSamplingStop</td>
+<td>Stops sampling on the ADC core and channel that was specified</td>
+</tr>
+<tr>
+<td>using the ADC_SoftwareControlledConversionEnable() API</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_ChannelConversionStart</td>
+<td>Starts conversion on the ADC core and channel that was specified</td>
+</tr>
+<tr>
+<td>using the ADC_SoftwareControlledConversionEnable() API</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_ChannelResultIsReady</td>
+<td>Returns the status of the channel conversion</td>
+</tr>
+<tr>
+<td>ADC_ChannelResultGet</td>
+<td>Reads the conversion result of the channel</td>
+</tr>
+<tr>
+<td>ADC_EOSStatusGet</td>
+<td>Indicates whether End of scan interrupt flag is set on the</td>
+</tr>
+<tr>
+<td>specified ADC core</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_ResultGet</td>
+<td>Returns the ADC conversion value for the specified ADC core</td>
+</tr>
+<tr>
+<td>channel</td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_FIFORead</td>
+<td>Returns a single ADC conversion value from the ADC FIFO</td>
+</tr>
+<tr>
+<td>ADC_FIFOBufferRead</td>
+<td>Returns multiple ADC conversion values from the ADC FIFO</td>
+</tr>
+<tr>
+<td>ADC_GlobalCallbackRegister</td>
+<td>Registers the global callback function</td>
+</tr>
+<tr>
+<td>ADC_COREnCallbackRegister</td>
+<td>Registers the ADC core specific callback function</td>
+</tr>
+<tr>
+<td>ADC_ConversionSequenceSet</td>
+<td>Sets the user sequence of the channel conversion</td>
+</tr>
+<tr>
+<td>ADCx_ComparisonWindowSet</td>
+<td>Sets Low threshold and High threshold in comparison window</td>
+</tr>
+<tr>
+<td>ADC_ComparisonEventResultIsReady</td>
+<td>Returns the status of the Comparison event</td>
+</tr>
+<tr>
+<td>ADC_ComparisonRestart</td>
+<td>Restart the comparison function</td>
+</tr>
+<tr>
+<td>ADC_SleepModeEnable</td>
+<td>This function enables ADC sleep mode</td>
+</tr>
+<tr>
+<td>ADC_SleepModeDisable</td>
+<td>This function disables ADC sleep mode</td>
+</tr>
+<tr>
+<td>ADC_FastWakeupEnable</td>
+<td>This function enables ADC Fast Wakeup</td>
+</tr>
+<tr>
+<td>ADC_FastWakeupDisable</td>
+<td>This function disables ADC Fast Wakeup</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADC_MUX</td>
+<td>Enum</td>
+<td>Identifies which ADC Mux is to be configured</td>
+</tr>
+<tr>
+<td>ADC_RESULT_BUFFER</td>
+<td>Enum</td>
+<td>Identifies which ADC buffer has to be read</td>
+</tr>
+<tr>
+<td>ADC_INPUT_POSITIVE</td>
+<td>Enum</td>
+<td>Identifies possible positive input for ADC</td>
+</tr>
+<tr>
+<td>ADC_INPUT_NEGATIVE</td>
+<td>Enum</td>
+<td>Identifies possible negative input for ADC</td>
+</tr>
+<tr>
+<td>ADC_INPUTS_SCAN</td>
+<td>Enum</td>
+<td>Identifies possible ADC inputs which can be scanned</td>
+</tr>
+<tr>
+<td>ADC_STATUS</td>
+<td>Enum</td>
+<td>Identifies ADC interrupt flag status</td>
+</tr>
+<tr>
+<td>ADC_POSINPUT</td>
+<td>Enum</td>
+<td>Identifies ADC positive input pin to select</td>
+</tr>
+<tr>
+<td>ADC_NEGINPUT</td>
+<td>Enum</td>
+<td>Identifies ADC negative input pin to select</td>
+</tr>
+<tr>
+<td>ADC_WINMODE</td>
+<td>Enum</td>
+<td>Identifies ADC window comparison modes</td>
+</tr>
+<tr>
+<td>ADC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the ADC</td>
+</tr>
+<tr>
+<td>peripheral callback function</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>ADC Callback structure</td>
+</tr>
+<tr>
+<td>ADC_CORE_INT_CMPHIT</td>
+<td>Macro</td>
+<td>Identifies ADC core interrupt status</td>
+</tr>
+<tr>
+<td>ADC_FIFO_CORID_GET</td>
+<td>Macro</td>
+<td>Returns the ADC core id in the ADC FIFO data</td>
+</tr>
+<tr>
+<td>ADC_FIFO_DATA_GET</td>
+<td>Macro</td>
+<td>Returns the ADC conversion resunt from the ADC FIFO data</td>
+</tr>
+<tr>
+<td>ADC_FIFO_CHNID_GET</td>
+<td>Macro</td>
+<td>Returns the ADC channel id in the ADC FIFO data</td>
+</tr>
+<tr>
+<td>ADC_FIFO_CNT_GET</td>
+<td>Macro</td>
+<td>Returns the current number of entries present in the ADC</td>
+</tr>
+<tr>
+<td>FIFO</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_GLOBAL_INT_CRRDY1</td>
+<td>Macro</td>
+<td>Identifies ADC global interrupt status</td>
+</tr>
+<tr>
+<td>ADC_CHANNEL_MASK</td>
+<td>Enum</td>
+<td>Identifies ADC channel mask</td>
+</tr>
+<tr>
+<td>ADC_CHANNEL_NUM</td>
+<td>Enum</td>
+<td>Identifies ADC channel number</td>
+</tr>
+<tr>
+<td>ADC_INTERRUPT_EOC_MASK</td>
+<td>Enum</td>
+<td>Identifies EOC interrupt sources number</td>
+</tr>
+<tr>
+<td>ADC_INTERRUPT_MASK</td>
+<td>Enum</td>
+<td>Identifies interrupt sources number</td>
+</tr>
+<tr>
+<td>ADC_CORE_NUM</td>
+<td>Enum</td>
+<td>Identifies ADC core</td>
+</tr>
+<tr>
+<td>ADC_CORE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for</td>
+</tr>
+<tr>
+<td>the adc peripheral core callback function</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_GLOBAL_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for</td>
+</tr>
+<tr>
+<td>the adc peripheral global callback function</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ADC_CORE_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>ADC Core events Callback structure</td>
+</tr>
+<tr>
+<td>ADC_GLOBAL_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>ADC Global Callback structure</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

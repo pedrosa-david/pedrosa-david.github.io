@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Clock and Calendar(RTCC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.21.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.21.html">PIC32MX 1XX 2XX 5XX Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Real-Time Clock and Calendar(RTCC)</li>
+    </ol>
+</nav>
+
+<h1>Real-Time Clock and Calendar(RTCC)</h1>
+<h1>3.21.17</h1>
+<p>Real-Time Clock and Calendar(RTCC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-8A2A4A49-5C1E-4264-8E67-880A0755FCDC_2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-8A2A4A49-5C1E-4264-8E67-880A0755FCDC_2.html</a></p>
+<h1>3.21.17 Real-Time Clock and Calendar(RTCC)</h1>
+<p>The RTCC peripheral is useful in applications which requires clock and calendar features.</p>
+<h2>Using The Library</h2>
+<p>RTCC Peripheral library provides API's that can be used to perform below functionalities on the RTCC peripheral.</p>
+<p>Initialize the RTCC</p>
+<p>Read and write the time and date registers.</p>
+<p>Set alarm time and date.</p>
+<p>Enable/Disable the RTCC interrupt.</p>
+<p>Register a callback.</p>
+<ul>
+<li>Initialize the RTCC</li>
+<li>Read and write the time and date registers.</li>
+<li>Set alarm time and date.</li>
+<li>Enable/Disable the RTCC interrupt.</li>
+<li>Register a callback.</li>
+</ul>
+<h2>Library Interface</h2>
+<p>RTCC peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTCC_Initialize</td>
+<td>Initialize the RTCC peripheral</td>
+</tr>
+<tr>
+<td>RTCC_TimeSet</td>
+<td>Sets time and date in the RTCC peripheral</td>
+</tr>
+<tr>
+<td>RTCC_TimeGet</td>
+<td>Gets time and date from the RTCC peripheral</td>
+</tr>
+<tr>
+<td>RTCC_AlarmSet</td>
+<td>Sets the alarm time and date in the RTCC peripheral</td>
+</tr>
+<tr>
+<td>RTCC_CallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>RTCC_InterruptEnable</td>
+<td>Enables RTCC peripheral interrupt</td>
+</tr>
+<tr>
+<td>RTCC_InterruptDisable</td>
+<td>Disables RTCC peripheral interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTC_ALARM_MASK</td>
+<td>Enum</td>
+<td>Possible options for recurrence of RTCC alarm</td>
+</tr>
+<tr>
+<td>RTC_INT_MASK</td>
+<td>Enum</td>
+<td>Mask for enabling and disabling the RTCC interrupt</td>
+</tr>
+<tr>
+<td>RTC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature of the Real Time Clock Calendar callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

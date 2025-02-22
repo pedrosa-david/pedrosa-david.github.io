@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCW Read Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.44.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.44.html">Flash Write Control (FCW)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">FCW Read Function</li>
+    </ol>
+</nav>
+
+<h1>FCW Read Function</h1>
+<h1>2.44.2</h1>
+<p>FCW_Read Function</p>
+<p><em>Generated on: 2025-02-20 07:44:03</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3D55BC8A-A54F-4EE1-8BDE-B655A089EF80.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3D55BC8A-A54F-4EE1-8BDE-B655A089EF80.html</a></p>
+<h1><span id="2-44-2-fcw-read-function"></span>2.44.2 FCW_Read Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">bool FCW_Read( uint32_t *data, uint32_t length, uint32_t address )</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Reads length number of bytes from a given address in FLASH memory.</p>
+<h2><span id="description"></span>Description</h2>
+<p>Reads length number of bytes from a given address in FLASH memory into the user buffer.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>None</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>pointer to user data buffer</td>
+</tr>
+<tr>
+<td>length</td>
+<td>Number of bytes to read</td>
+</tr>
+<tr>
+<td>address</td>
+<td>FLASH address to be read from</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>pointer to user data buffer</td>
+</tr>
+<tr>
+<td>length</td>
+<td>Number of bytes to read</td>
+</tr>
+<tr>
+<td>address</td>
+<td>FLASH address to be read from</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>Always return true.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+uint8_t buffer[256];</p>
+<p>FCW_Read( (uint32_t *) buffer, 256, 0xC088608U);
+```</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

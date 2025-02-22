@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periodic Interval Timer (PIT) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Periodic Interval Timer (PIT)</li>
+    </ol>
+</nav>
+
+<h1>Periodic Interval Timer (PIT)</h1>
+<h1>2.78</h1>
+<p>Periodic Interval Timer (PIT)</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-408D4ECD-51BC-4E83-B020-8A998D53E12F.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-408D4ECD-51BC-4E83-B020-8A998D53E12F.html</a></p>
+<h1><span id="2-78-periodic-interval-timer-pit"></span>2.78 Periodic Interval Timer (PIT)</h1>
+<p>The Periodic Interval Timer (PIT) provides the operating system’s scheduler interrupt. It is designed to offer maximum accuracy and efficient management, even for systems with long response time.</p>
+<p>20-bit Programmable Counter plus 12-bit Interval Counter</p>
+<p>Reset-on-read Feature</p>
+<p>Both Counters Work on Master Clock/16</p>
+<ul>
+<li>20-bit Programmable Counter plus 12-bit Interval Counter</li>
+<li>Reset-on-read Feature</li>
+<li>Both Counters Work on Master Clock/16</li>
+</ul>
+<h2><span id="using-the-library"></span>Using The Library</h2>
+<p>PIT peripheral library can be used to poll for a periodic timeout, generate periodic interrupts or generate timed waits. The following examples shows different modes of its usage.</p>
+<p>Polling method</p>
+<p>Interrupt Method</p>
+<p>Delay routines</p>
+<p>```C
+int main ( void )
+{
+    int i;
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">while ( true )
+{
+    for (i=0; i&lt;10; i++) {
+        while(!PIT_TimerPeriodHasExpired());
+        PIT_TimerRestart();
+    }
+    LED_BLUE_Toggle();
+    /* Maintain state machines of all polled MPLAB Harmony modules. */
+    SYS_Tasks ( );
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C
+static void pit_callback(uintptr_t context)
+{
+    (void)context;
+    LED_BLUE_Toggle();
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">PIT_TimerCallbackSet(pit_callback, NULL);
+
+PIT_TimerStart();
+
+while ( true )
+{
+    /* Maintain state machines of all polled MPLAB Harmony modules. */
+    SYS_Tasks ( );
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C
+int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">PIT_TimerCallbackSet(pit_callback, NULL);
+
+PIT_TimerStart();
+
+while ( true )
+{
+    PIT_DelayMs(1000U);
+    LED_BLUE_Toggle();
+    /* Maintain state machines of all polled MPLAB Harmony modules. */
+    SYS_Tasks ( );
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Periodic Interval Timer peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PIT_TimerInitialize</td>
+<td>Initialize PIT registers per user configuration</td>
+</tr>
+<tr>
+<td>PIT_TimerRestart</td>
+<td>Restart the PIT counter</td>
+</tr>
+<tr>
+<td>PIT_TimerStart</td>
+<td>Start the PIT counter</td>
+</tr>
+<tr>
+<td>PIT_TimerStop</td>
+<td>Stop the PIT counter</td>
+</tr>
+<tr>
+<td>PIT_TimerPeriodSet</td>
+<td>Set the timer period value</td>
+</tr>
+<tr>
+<td>PIT_TimerPeriodGet</td>
+<td>Get the timer period value</td>
+</tr>
+<tr>
+<td>PIT_TimerCounterGet</td>
+<td>Get the timer counter value</td>
+</tr>
+<tr>
+<td>PIT_TimerCompareSet</td>
+<td>Set the timer comparison value</td>
+</tr>
+<tr>
+<td>PIT_TimerFrequencyGet</td>
+<td>Get the timer clock frequency</td>
+</tr>
+<tr>
+<td>PIT_TimerPeriodHasExpired</td>
+<td>Return whether or not the Timer Period has expired</td>
+</tr>
+<tr>
+<td>PIT_DelayMs</td>
+<td>Delays processing for x milliseconds</td>
+</tr>
+<tr>
+<td>PIT_DelayUs</td>
+<td>Delays processing for x microseconds</td>
+</tr>
+<tr>
+<td>PIT_TimerCallbackSet</td>
+<td>Register callback for PIT interrupt</td>
+</tr>
+<tr>
+<td>PIT_ClearInterrupt</td>
+<td>PIT Clear Interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PIT_CALLBACK</td>
+<td>Typedef</td>
+<td>PIT Interrupt Callback Function definition</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

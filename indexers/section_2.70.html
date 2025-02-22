@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Volatile Memory Controller (NVMCTRL) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Non-Volatile Memory Controller (NVMCTRL)</li>
+    </ol>
+</nav>
+
+<h1>Non-Volatile Memory Controller (NVMCTRL)</h1>
+<h1>2.70</h1>
+<p>Non-Volatile Memory Controller (NVMCTRL)</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5E7C12A3-C504-4671-BB78-A5AE874BF3EB.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5E7C12A3-C504-4671-BB78-A5AE874BF3EB.html</a></p>
+<h1><span id="2-70-non-volatile-memory-controller-nvmctrl"></span>2.70 Non-Volatile Memory Controller</h1>
+<pre class="code-block"><code class="language-c">    (NVMCTRL)
+</code></pre>
+<p>This Plib implements software abstraction for NVMCTRL Peripheral.</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Non-Volatile Memory Controller peripheral library provides the following
+                                interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NVMCTRL_Initialize</td>
+<td>Initializes given instance of</td>
+</tr>
+<tr>
+<td>the NVMCTRL peripheral</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_Read</td>
+<td>Reads length number of bytes</td>
+</tr>
+<tr>
+<td>from a given address in FLASH memory</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SetWriteMode</td>
+<td>Sets the write mode for</td>
+</tr>
+<tr>
+<td>Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_PageWrite</td>
+<td>Writes one page of data to</td>
+</tr>
+<tr>
+<td>given NVM address</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_BlockErase</td>
+<td>Erases a Block in the</td>
+</tr>
+<tr>
+<td>NVM</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_RowErase</td>
+<td>Erases a Row in the</td>
+</tr>
+<tr>
+<td>NVM</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_ErrorGet</td>
+<td>Returns the error state of NVM</td>
+</tr>
+<tr>
+<td>controller</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_StatusGet</td>
+<td>Returns status conditions of</td>
+</tr>
+<tr>
+<td>NVM controller</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_IsBusy</td>
+<td>Returns the current status of</td>
+</tr>
+<tr>
+<td>NVM controller</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_RegionLock</td>
+<td>Locks a NVMCTRL region</td>
+</tr>
+<tr>
+<td>NVMCTRL_RegionUnlock</td>
+<td>Unlocks a NVM region</td>
+</tr>
+<tr>
+<td>NVMCTRL_RegionLockStatusGet</td>
+<td>Returns the value of RUNLOCK</td>
+</tr>
+<tr>
+<td>register</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SecureRegionLock</td>
+<td>Locks a NVMCTRL secure</td>
+</tr>
+<tr>
+<td>region</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SecureRegionUnlock</td>
+<td>Unlocks a NVMCTRL secure</td>
+</tr>
+<tr>
+<td>region</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DataScrambleEnable</td>
+<td>Enable or Disable data</td>
+</tr>
+<tr>
+<td>scrambling of the Secure Data Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DataScrambleKeySet</td>
+<td>Sets the key for data</td>
+</tr>
+<tr>
+<td>scrambling of the Secure Data Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_RWWEEPROM_Read</td>
+<td>Reads length number of bytes</td>
+</tr>
+<tr>
+<td>from a given address in Data FLASH memory</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_RWWEEPROM_PageWrite</td>
+<td>Writes one page of data to</td>
+</tr>
+<tr>
+<td>given RWWEEPROM address</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_RWWEEPROM_RowErase</td>
+<td>Erases a Row in the</td>
+</tr>
+<tr>
+<td>RWWEEPROM</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DATA_FLASH_Read</td>
+<td>Reads length number of bytes</td>
+</tr>
+<tr>
+<td>from a given address in Data FLASH memory</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DATA_FLASH_PageWrite</td>
+<td>Writes one page of data to</td>
+</tr>
+<tr>
+<td>given DATA_FLASH address</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DATA_FLASH_RowErase</td>
+<td>Erases a Row in the</td>
+</tr>
+<tr>
+<td>DATA_FLASH</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_BankSwap</td>
+<td>Swaps NVM Banks</td>
+</tr>
+<tr>
+<td>NVMCTRL_MainCallbackRegister</td>
+<td>Sets the pointer to the</td>
+</tr>
+<tr>
+<td>function (and it's context) to be called when an</td>
+<td></td>
+</tr>
+<tr>
+<td>operation on the Flash is complete, provided the</td>
+<td></td>
+</tr>
+<tr>
+<td>corresponding interrupt is enabled</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEEPROM_IsBusy</td>
+<td>Checks whether SmartEEPROM is</td>
+</tr>
+<tr>
+<td>ready to perform next command</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEepromStatusGet</td>
+<td>Returns status conditions of</td>
+</tr>
+<tr>
+<td>SmartEEPROM</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEEPROM_IsActiveSectorFull</td>
+<td>Check whether active sector</td>
+</tr>
+<tr>
+<td>used by the SmartEEPROM is full</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEepromSectorReallocate</td>
+<td>Performs sector reallocation</td>
+</tr>
+<tr>
+<td>for the SmartEEPROM</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEepromFlushPageBuffer</td>
+<td>Flush SmartEEPROM data when in</td>
+</tr>
+<tr>
+<td>buffered mode</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEEPROMCallbackRegister</td>
+<td>Sets the pointer to the</td>
+</tr>
+<tr>
+<td>function (and it's context) to be called when an</td>
+<td></td>
+</tr>
+<tr>
+<td>operation on the SmartEEPROM is complete, provided</td>
+<td></td>
+</tr>
+<tr>
+<td>the corresponding interrupt is enabled</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_EnableMainFlashInterruptSource</td>
+<td>Enables a given interrupt</td>
+</tr>
+<tr>
+<td>source for the Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DisableMainFlashInterruptSource</td>
+<td>Disables a given interrupt</td>
+</tr>
+<tr>
+<td>source for the Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_EnableSmartEepromInterruptSource</td>
+<td>Enables a given interrupt</td>
+</tr>
+<tr>
+<td>source for the SmartEEPROM</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DisableSmartEepromInterruptSource</td>
+<td>Disables a given interrupt</td>
+</tr>
+<tr>
+<td>source for the SmartEEPROM</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_CallbackRegister</td>
+<td>Sets the pointer to the</td>
+</tr>
+<tr>
+<td>function (and it's context) to be called when the</td>
+<td></td>
+</tr>
+<tr>
+<td>operation is complete</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_CacheInvalidate</td>
+<td>Invalidates all cache</td>
+</tr>
+<tr>
+<td>lines</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_PageBufferWrite</td>
+<td>Writes data to the internal</td>
+</tr>
+<tr>
+<td>buffer of NVM known as the page buffer</td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_PageBufferCommit</td>
+<td>Commits the data present in</td>
+</tr>
+<tr>
+<td>NVM internal page buffer to flash memory</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NVMCTRL_FLASH_START_ADDRESS</td>
+<td>Macro</td>
+<td>Defines the start address of</td>
+</tr>
+<tr>
+<td>NVMCTRL Flash</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_FLASH_SIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>Flash</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_FLASH_PAGESIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>a NVMCTRL Page</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_FLASH_BLOCKSIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>a NVMCTRL Block</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_FLASH_ROWSIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>a NVMCTRL Row</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DATA_FLASH_START_ADDRESS</td>
+<td>Macro</td>
+<td>Defines the start address of</td>
+</tr>
+<tr>
+<td>NVMCTRL DATA_FLASH</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DATA_FLASH_SIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>DATA_FLASH</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DATA_FLASH_PAGESIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>a NVMCTRL DATA_FLASH Page</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_DATA_FLASH_ROWSIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>a NVMCTRL DATA_FLASH Row</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_RWWEEPROM_START_ADDRESS</td>
+<td>Macro</td>
+<td>Defines the start address of</td>
+</tr>
+<tr>
+<td>NVMCTRL RWWEEPROM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_RWWEEPROM_SIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>RWWEEPROM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_RWWEEPROM_PAGESIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>a NVMCTRL RWWEEPROM Page</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_RWWEEPROM_ROWSIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of</td>
+</tr>
+<tr>
+<td>a NVMCTRL RWWEEPROM Row</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_ERROR</td>
+<td>Macro</td>
+<td>Defines the NVMCTRL Error</td>
+</tr>
+<tr>
+<td>Type</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_WRITEMODE</td>
+<td>Enum</td>
+<td>Defines the NVMCTRL Write</td>
+</tr>
+<tr>
+<td>Modes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_INTERRUPT0_SOURCE</td>
+<td>Enum</td>
+<td>Defines the Interrupt sources</td>
+</tr>
+<tr>
+<td>for the main flash</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_INTERRUPT1_SOURCE</td>
+<td>Enum</td>
+<td>Defines the Interrupt sources</td>
+</tr>
+<tr>
+<td>for the SmartEEPROM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_MEMORY_REGION</td>
+<td>Enum</td>
+<td>Defines the NVMCTRL Memory</td>
+</tr>
+<tr>
+<td>Region</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_SECURE_MEMORY_REGION</td>
+<td>Enum</td>
+<td>Defines the NVMCTRL Secure</td>
+</tr>
+<tr>
+<td>Memory Region</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVMCTRL_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and</td>
+</tr>
+<tr>
+<td>function signature for the NVMCTRL peripheral</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>callback function</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

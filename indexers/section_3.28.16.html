@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Controller (RSTC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.28.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.28.html">SAM 9X60 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Reset Controller (RSTC)</li>
+    </ol>
+</nav>
+
+<h1>Reset Controller (RSTC)</h1>
+<h1>3.28.16</h1>
+<p>Reset Controller (RSTC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E052C3DC-1644-4C37-AE97-C74FD3A6AAF7.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E052C3DC-1644-4C37-AE97-C74FD3A6AAF7.html</a></p>
+<h1>3.28.16 Reset Controller (RSTC)</h1>
+<p>The Reset Controller (RSTC), driven by power-on reset (POR) cells,
+software, external reset pin and peripheral events, handles all the
+resets of the system without any external components. It reports which
+reset occurred last. The RSTC also drives simultaneously the external
+reset and the peripheral and processor resets.</p>
+<p>Driven by Embedded Poweron Reset, Software, External Reset Pin
+and Peripheral Events</p>
+<p>Management of All System Resets, Including</p>
+<p>External Devices through an I/O Multiplexed Output Reset Pin</p>
+<p>Processor</p>
+<p>Peripheral Set</p>
+<p>Reset Source Status</p>
+<p>Status of the Last Reset</p>
+<p>Either VDDCORE, VDDIN33 and VDDBU POR Reset, Software Reset, User
+Reset, Watchdog Reset, 32.768 kHz Crystal Oscillator Failure Detection
+Reset, CPU Clock Failure Detection</p>
+<p>External Reset Signal Control and Shaping</p>
+<ul>
+<li>Driven by Embedded Poweron Reset, Software, External Reset Pin
+and Peripheral Events</li>
+<li>
+<p>Management of All System Resets, Including</p>
+<pre class="code-block"><code class="language-c">    External Devices through an I/O Multiplexed Output Reset Pin
+
+    Processor
+
+    Peripheral Set
+</code></pre>
+<ul>
+<li>External Devices through an I/O Multiplexed Output Reset Pin</li>
+<li>Processor</li>
+<li>Peripheral Set</li>
+<li>Reset Source Status<pre class="code-block"><code class="language-c">Status of the Last Reset
+
+Either VDDCORE, VDDIN33 and VDDBU POR Reset, Software Reset, User
+</code></pre>
+<p>Reset, Watchdog Reset, 32.768 kHz Crystal Oscillator Failure Detection
+Reset, CPU Clock Failure Detection
+- Status of the Last Reset
+- Either VDDCORE, VDDIN33 and VDDBU POR Reset, Software Reset, User
+Reset, Watchdog Reset, 32.768 kHz Crystal Oscillator Failure Detection
+Reset, CPU Clock Failure Detection
+- External Reset Signal Control and Shaping</p>
+</li>
+</ul>
+</li>
+<li>
+<p>External Devices through an I/O Multiplexed Output Reset Pin</p>
+</li>
+<li>Processor</li>
+<li>
+<p>Peripheral Set</p>
+</li>
+<li>
+<p>Status of the Last Reset</p>
+</li>
+<li>Either VDDCORE, VDDIN33 and VDDBU POR Reset, Software Reset, User
+Reset, Watchdog Reset, 32.768 kHz Crystal Oscillator Failure Detection
+Reset, CPU Clock Failure Detection</li>
+</ul>
+<h2>Using The Library</h2>
+<p>The reset controller (RSTC) peripheral library provides API to find the
+cause of last device reset.</p>
+<p>RSTC for LED Switcher:</p>
+<p>```C
+void rstcCallback( uintptr_t context )</p>
+<p>{</p>
+<p>(void) context;</p>
+<p>msgId = MsgRstcResetInterruptOccurred;</p>
+<p>if( LedBlueSolid == ledColorType )</p>
+<p>{</p>
+<p>ledColorType = LedGreenSolid;</p>
+<p>}</p>
+<p>else</p>
+<p>{</p>
+<p>ledColorType = LedBlueSolid;</p>
+<p>}</p>
+<p>}</p>
+<p>void ledUpdate( void )</p>
+<p>{</p>
+<p>LED_GREEN_Toggle();</p>
+<p>}</p>
+<p>int main( void )</p>
+<p>{</p>
+<p>/<em> Initialize all modules </em>/</p>
+<p>SYS_Initialize( NULL );</p>
+<p>RSTC_CallbackRegister(rstcCallback, (uintptr_t) NULL );</p>
+<p>ledColorType = LedGreenFlash;</p>
+<p>msgId = MsgBannerBreak;</p>
+<p>showMsg();</p>
+<p>msgId = MsgBannerTitle;</p>
+<p>showMsg();</p>
+<p>msgId = MsgBannerBreak;</p>
+<p>showMsg();</p>
+<p>msgId = MsgSw3Prompt;</p>
+<p>showMsg();</p>
+<p>msgId = MsgInputResult;</p>
+<p>showMsg();</p>
+<p>while( 1 )</p>
+<p>{</p>
+<p>ledUpdate();</p>
+<p>showMsg();</p>
+<p>}</p>
+<p>/<em> Execution should not come here during normal operation </em>/</p>
+<p>return( EXIT_FAILURE );</p>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Reset Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSTC_Initialize</td>
+<td>Initializes RSTC module with the user configuration</td>
+</tr>
+<tr>
+<td>RSTC_Reset</td>
+<td>Resets the processor and all the embedded peripherals, if RSTC_RESET type is "RSTC_RESET_PROC ". Asserts the NRST pin, if RSTC_RESET type is "RSTC_RESET_EXT "</td>
+</tr>
+<tr>
+<td>RSTC_NRSTPinRead</td>
+<td>This API used to read the NRST pin level, sampled on each "Master Clock(MCK)" rising edge</td>
+</tr>
+<tr>
+<td>RSTC_ResetCauseGet</td>
+<td>Reports the cause of the last reset</td>
+</tr>
+<tr>
+<td>RSTC_CallbackRegister</td>
+<td>Allows a client to identify a callback function</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSTC_RESET_CAUSE</td>
+<td>Struct</td>
+<td>Identifiers for the cause of reset</td>
+</tr>
+<tr>
+<td>RSTC_RESET_TYPE</td>
+<td>Enum</td>
+<td>Identifiers for the type of reset to perform</td>
+</tr>
+<tr>
+<td>RSTC_CALLBACK</td>
+<td>Typedef</td>
+<td>RSTC Callback Function Pointer</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

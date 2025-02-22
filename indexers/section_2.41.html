@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Vectored Interrupt Controller (EVIC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Enhanced Vectored Interrupt Controller (EVIC)</li>
+    </ol>
+</nav>
+
+<h1>Enhanced Vectored Interrupt Controller (EVIC)</h1>
+<h1>2.41</h1>
+<p>Enhanced Vectored Interrupt Controller (EVIC)</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-258E5A94-346B-47C0-A2B7-48DB96431B1D.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-258E5A94-346B-47C0-A2B7-48DB96431B1D.html</a></p>
+<h1><span id="2-41-enhanced-vectored-interrupt-controller-evic"></span>2.41 Enhanced Vectored Interrupt Controller (EVIC)</h1>
+<p>The PIC32 devices generate interrupt requests in response to interrupt events from peripheral
+      modules. The Interrupt Controller module exists outside of the CPU and prioritizes the
+      interrupt events before presenting them to the CPU.</p>
+<p>The Interrupt Controller module includes the following
+features:</p>
+<p>Up to 213 interrupt sources and vectors with dedicated
+programmable offsets, eliminating the need for redirection</p>
+<p>Single and multi-vector mode operations</p>
+<p>Five external interrupts with edge polarity control</p>
+<p>Interrupt proximity timer</p>
+<p>Seven user-selectable priority levels for each vector</p>
+<p>Four user-selectable sub-priority levels within each
+priority</p>
+<p>Seven shadow register sets that can be used for any
+priority level, eliminating software context switch and
+reducing interrupt latency</p>
+<p>Software can generate any interrupt</p>
+<ul>
+<li>Up to 213 interrupt sources and vectors with dedicated
+programmable offsets, eliminating the need for redirection</li>
+<li>Single and multi-vector mode operations</li>
+<li>Five external interrupts with edge polarity control</li>
+<li>Interrupt proximity timer</li>
+<li>Seven user-selectable priority levels for each vector</li>
+<li>Four user-selectable sub-priority levels within each
+priority</li>
+<li>Seven shadow register sets that can be used for any
+priority level, eliminating software context switch and
+reducing interrupt latency</li>
+<li>Software can generate any interrupt</li>
+</ul>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Enhanced Vectored Interrupt Controller peripheral library provides the following
+        interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EVIC_Initialize</td>
+<td>Configures and initializes the interrupt subsystem</td>
+</tr>
+<tr>
+<td>EVIC_SourceEnable</td>
+<td>Enables the interrupt source</td>
+</tr>
+<tr>
+<td>EVIC_SourceDisable</td>
+<td>Disables the interrupt source</td>
+</tr>
+<tr>
+<td>EVIC_SourceIsEnabled</td>
+<td>Gets the enable state of the interrupt source</td>
+</tr>
+<tr>
+<td>EVIC_SourceStatusGet</td>
+<td>Returns the status of the interrupt flag for the selected</td>
+</tr>
+<tr>
+<td>source</td>
+<td></td>
+</tr>
+<tr>
+<td>EVIC_SourceStatusSet</td>
+<td>Sets the status of the interrupt flag for the selected</td>
+</tr>
+<tr>
+<td>source</td>
+<td></td>
+</tr>
+<tr>
+<td>EVIC_SourceStatusClear</td>
+<td>Clears the status of the interrupt flag for the selected</td>
+</tr>
+<tr>
+<td>source</td>
+<td></td>
+</tr>
+<tr>
+<td>EVIC_ExternalInterruptCallbackRegister</td>
+<td>Allows application to register callback for every external</td>
+</tr>
+<tr>
+<td>interrupt pin</td>
+<td></td>
+</tr>
+<tr>
+<td>EVIC_ExternalInterruptEnable</td>
+<td>Enables external interrupt on selected external interrupt</td>
+</tr>
+<tr>
+<td>pins</td>
+<td></td>
+</tr>
+<tr>
+<td>EVIC_ExternalInterruptDisable</td>
+<td>Disables external interrupt on selected external interrupt</td>
+</tr>
+<tr>
+<td>pins</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INT_SOURCE</td>
+<td>Enum</td>
+<td>Identifies interrupt sources</td>
+</tr>
+<tr>
+<td>EXTERNAL_INT_PIN</td>
+<td>Enum</td>
+<td>Identifies the active external interrupt pins</td>
+</tr>
+<tr>
+<td>EXTERNAL_INT_PIN_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a external Pin-Event handler function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

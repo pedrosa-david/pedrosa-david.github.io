@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAM ECC SingleBitFaultInject Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.88.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.88.html">Random Access Memory (RAM)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">RAM ECC SingleBitFaultInject Function</li>
+    </ol>
+</nav>
+
+<h1>RAM ECC SingleBitFaultInject Function</h1>
+<h1>2.88.5</h1>
+<p>RAM_ECC_SingleBitFaultInject Function</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-564B2DBB-5966-4C83-90BC-1DCF2B8991CA.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-564B2DBB-5966-4C83-90BC-1DCF2B8991CA.html</a></p>
+<h1><span id="2-88-5-ram-ecc-singlebitfaultinject-function"></span>2.88.5 RAM_ECC_SingleBitFaultInject</h1>
+<pre class="code-block"><code class="language-c">Function
+</code></pre>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void RAM_ECC_SingleBitFaultInject(uint32_t fltaddr, uint8_t fltBitPtr)</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Injects a single-bit fault at a specified address and bit position in the RAM for testing
+        error detection.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function takes a fault address and a fault bit pointer as parameters and injects a
+        single-bit fault at the specified address and bit position in the RAM. The fault bit pointer
+        specifies the exact bit within the address where the fault will be injected.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>None</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fltaddr</td>
+<td>The address in the RAM where the single-bit fault will be</td>
+</tr>
+<tr>
+<td>injected.</td>
+<td></td>
+</tr>
+<tr>
+<td>fltBitPtr</td>
+<td>The bit position within the address to inject the fault.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fltaddr</td>
+<td>The address in the RAM where the single-bit fault will be</td>
+</tr>
+<tr>
+<td>injected.</td>
+<td></td>
+</tr>
+<tr>
+<td>fltBitPtr</td>
+<td>The bit position within the address to inject the fault.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>None</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">// Inject a single-bit fault at the specified address and bit position
+RAM_ECC_SingleBitFaultInject(0x1000, 0);</code></pre></p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

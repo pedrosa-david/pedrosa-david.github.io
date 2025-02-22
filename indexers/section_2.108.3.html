@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQIx DMATransfer Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.108.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.108.html">Serial Quad Interface (SQI)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">SQIx DMATransfer Function</li>
+    </ol>
+</nav>
+
+<h1>SQIx DMATransfer Function</h1>
+<h1>2.108.3</h1>
+<p>SQIx_DMATransfer Function</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-8B2044C7-D7D5-4C12-8202-F72256E11AC0.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-8B2044C7-D7D5-4C12-8202-F72256E11AC0.html</a></p>
+<h1><span id="2-108-3-sqix-dmatransfer-function"></span>2.108.3 SQIx_DMATransfer Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void SQIx_DMATransfer( sqi_dma_desc_t *sqiDmaDesc ); // x - Instance of the SQI peripheral</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Starts a DMA transfer to the SQI slave device.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function can be used to trigger a DMA transfer to the SQI slave device. The sqiDmaDesc can be a single descriptor or a chain of descriptors doing multiple operations.</p>
+<p>A callback will be given to the client once the DMA transfer is completed if the SQI_BDCTRL_PKTINTEN or SQI_BDCTRL_BDDONEINTIEN is set in sqiDmaDesc-&gt;bd_ctrl register.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>SQIx_Initialize must have been called for the associated SQI instance. The DMA Descriptor address passed should be from the non-cachable region.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*sqiDmaDesc</td>
+<td>Pointer to SQI DMA descriptor buffer start address.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*sqiDmaDesc</td>
+<td>Pointer to SQI DMA descriptor buffer start address.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>None</p>
+<h2><span id="example"></span>Example</h2>
+<p>The Macros used to populate DMA Descriptors vary based on device family. Refer to the
+        peripheral header file for actual macros to be used.</p>
+<p>```C</p>
+<h1>define PAGE_SIZE                   (256U)</h1>
+<h1>define SECTOR_SIZE                 (4096U)</h1>
+<p>//Erase, Write and Read 80KBytes of memory</p>
+<h1>define SECTORS_TO_EWR              (20U)</h1>
+<h1>define BUFFER_SIZE                 (SECTOR_SIZE * SECTORS_TO_EWR)</h1>
+<h1>define MIN_DMA_BUFFER_LEN          (CACHE_LINE_SIZE)</h1>
+<h1>define CMD_DESC_NUMBER             5</h1>
+<h1>define BUFF_DESC_NUMBER            (BUFFER_SIZE / PAGE_SIZE)</h1>
+<h1>define MEM_START_ADDRESS           (0x0U)</h1>
+<h1>define SST26VF_HS_READ             0x0B</h1>
+<p>volatile bool xfer_done = false;</p>
+<p>uint8_t CACHE_ALIGN readData[BUFFER_SIZE];</p>
+<p>uint8_t CACHE_ALIGN sqi_cmd_hsr[MIN_DMA_BUFFER_LEN];
+uint8_t CACHE_ALIGN sqi_cmd_dummy[MIN_DMA_BUFFER_LEN];</p>
+<p>sqi_dma_desc_t CACHE_ALIGN sqiCmdDesc[CMD_DESC_NUMBER];
+sqi_dma_desc_t CACHE_ALIGN sqiBufDesc[BUFF_DESC_NUMBER];</p>
+<p>static void APP_EventHandler(uintptr_t context)
+{
+    xfer_done = true;
+}
+```</p>
+<p>```C
+void APP_Read( void <em>rx_data, uint32_t rx_data_length, uint32_t address )
+{
+    uint32_t pendingBytes   = rx_data_length;
+    uint8_t </em>readBuffer     = (uint8_t *)rx_data;
+    uint32_t numBytes       = 0;
+    uint32_t i              = 0;</p>
+<pre class="code-block"><code class="language-c">xfer_done = false;
+
+// Construct parameters to issue SST26 high speed read command
+sqi_cmd_hsr[0] = SST26VF_HS_READ;
+sqi_cmd_hsr[1] = (0xff &amp; (address&gt;&gt;16));
+sqi_cmd_hsr[2] = (0xff &amp; (address&gt;&gt;8));
+sqi_cmd_hsr[3] = (0xff &amp; (address&gt;&gt;0));
+sqi_cmd_hsr[4] = 0;
+
+// SQI Read: High Speed Read command (0x0B), 3 byte address, and 1 byte mode 
+// Chip Select remains asserted after the transfer
+
+sqiCmdDesc[0].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(5) | SQI_BDCTRL_MODE_QUAD_LANE |
+                                SQI_BDCTRL_SQICS_CS1 | SQI_BDCTRL_DESCEN);
+
+sqiCmdDesc[0].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&amp;sqi_cmd_hsr);
+sqiCmdDesc[0].bd_stat       = 0;
+sqiCmdDesc[0].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&amp;sqiCmdDesc[1]);
+
+// SQI Read: 2 byte dummy read 
+// Chip Select remains asserted after the transfer
+
+sqiCmdDesc[1].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(2) | SQI_BDCTRL_MODE_QUAD_LANE |
+                                SQI_BDCTRL_SQICS_CS1 | SQI_BDCTRL_DESCEN);
+
+sqiCmdDesc[1].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&amp;sqi_cmd_dummy);
+sqiCmdDesc[1].bd_stat       = 0;
+sqiCmdDesc[1].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&amp;sqiBufDesc[0]);
+
+// SQI Read: Reads the values from the memory 
+// Create Descriptor chain. Enable packet interrupt.
+// Chip Select is de-asserted after the transfer
+
+for (i = 0; (i &lt; BUFF_DESC_NUMBER) &amp;&amp; (pendingBytes &gt; 0); i++)
+{
+    if (pendingBytes &gt; PAGE_SIZE)
+    {
+        numBytes = PAGE_SIZE;
+    }
+    else
+    {
+        numBytes = pendingBytes;
+    }
+
+    sqiBufDesc[i].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(numBytes) | SQI_BDCTRL_PKTINTEN |
+                                    SQI_BDCTRL_MODE_QUAD_LANE | SQI_BDCTRL_DIR_READ |
+                                    SQI_BDCTRL_SQICS_CS1 | SQI_BDCTRL_DESCEN);
+
+    sqiBufDesc[i].bd_bufaddr    = (uint32_t *)KVA_TO_PA(readBuffer);
+    sqiBufDesc[i].bd_stat       = 0;
+    sqiBufDesc[i].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&amp;sqiBufDesc[i+1]);
+
+    pendingBytes    -= numBytes;
+    readBuffer      += numBytes;
+}
+
+// The last descriptor must indicate the end of the descriptor list and last packaet
+sqiBufDesc[i-1].bd_ctrl         |= (SQI_BDCTRL_LASTPKT | SQI_BDCTRL_LASTBD |
+                                    SQI_BDCTRL_DEASSERT);
+
+sqiBufDesc[i-1].bd_nxtptr       = 0x00000000;
+
+// Initialize the root buffer descriptor 
+SQI1_DMA_Transfer((sqi_dma_desc_t *)KVA_TO_PA(&amp;sqiBufDesc[0]));
+
+// Wait for transfer to complete
+while(xferDone == false);
+</code></pre>
+<p>}</p>
+<p>void main()
+{
+    // Other calls ..
+    SQI1_RegisterCallback(APP_EventHandler, (uintptr_t)NULL);</p>
+<pre class="code-block"><code class="language-c">APP_Read((uint32_t *)readBuffer, BUFFER_SIZE, MEM_START_ADDRESS);
+</code></pre>
+<p>}
+```</p>
+<p>```C
+void APP_Read( void <em>rx_data, uint32_t rx_data_length, uint32_t address )
+{
+    uint32_t pendingBytes   = rx_data_length;
+    uint8_t </em>readBuffer     = (uint8_t *)rx_data;
+    uint32_t numBytes       = 0;
+    uint32_t i              = 0;</p>
+<pre class="code-block"><code class="language-c">xfer_done = false;
+
+// Construct parameters to issue SST26 high speed read command
+sqi_cmd_hsr[0] = SST26VF_HS_READ;
+sqi_cmd_hsr[1] = (0xff &amp; (address&gt;&gt;16));
+sqi_cmd_hsr[2] = (0xff &amp; (address&gt;&gt;8));
+sqi_cmd_hsr[3] = (0xff &amp; (address&gt;&gt;0));
+sqi_cmd_hsr[4] = 0;
+
+// SQI Read: High Speed Read command (0x0B), 3 byte address, and 1 byte mode 
+// Chip Select remains asserted after the transfer
+
+sqiCmdDesc[0].bd_ctrl       = ( SQI_BDCTRL_BD_BUFLEN(5) | SQI_BDCTRL_MODE(QUAD_MODE) |
+                                SQI_BDCTRL_SPI_DEV_SEL10(0x00) | SQI_BDCTRL_DESC_EN_Msk);
+
+sqiCmdDesc[0].bd_bufaddr    = (uint32_t *)&amp;sqi_cmd_hsr;
+sqiCmdDesc[0].bd_stat       = 0;
+sqiCmdDesc[0].bd_nxtptr     = (sqi_dma_desc_t *)&amp;sqiCmdDesc[1];
+
+DCACHE_CLEAN_BY_ADDR((uint32_t *)&amp;sqiCmdDesc[0], sizeof(sqiCmdDesc[0]));
+
+// SQI Read: 2 byte dummy read 
+// Chip Select remains asserted after the transfer
+
+sqiCmdDesc[1].bd_ctrl       = ( SQI_BDCTRL_BD_BUFLEN(2) | SQI_BDCTRL_MODE(QUAD_MODE) |
+                                SQI_BDCTRL_SPI_DEV_SEL10(0x00) | SQI_BDCTRL_DESC_EN_Msk);
+
+sqiCmdDesc[1].bd_bufaddr    = (uint32_t *)&amp;sqi_cmd_dummy;
+sqiCmdDesc[1].bd_stat       = 0;
+sqiCmdDesc[1].bd_nxtptr     = (sqi_dma_desc_t *)&amp;sqiBufDesc[0];
+
+DCACHE_CLEAN_BY_ADDR((uint32_t *)sqi_cmd_hsr, sizeof(sqi_cmd_hsr));
+DCACHE_CLEAN_BY_ADDR((uint32_t *)&amp;sqiCmdDesc[0], 2 * sizeof(sqi_dma_desc_t));
+
+// SQI Read: Reads the values from the memory 
+// Create Descriptor chain. Enable packet interrupt.
+// Chip Select is de-asserted after the transfer
+
+for (i = 0; (i &lt; BUFF_DESC_NUMBER) &amp;&amp; (pendingBytes &gt; 0); i++)
+{
+    if (pendingBytes &gt; PAGE_SIZE)
+    {
+        numBytes = PAGE_SIZE;
+    }
+    else
+    {
+        numBytes = pendingBytes;
+    }
+
+    sqiBufDesc[i].bd_ctrl       = ( SQI_BDCTRL_BD_BUFLEN(numBytes) | SQI_BDCTRL_PKT_INT_EN_Msk |
+                                    SQI_BDCTRL_MODE(QUAD_MODE) | SQI_BDCTRL_DIR_Msk |
+                                    SQI_BDCTRL_SPI_DEV_SEL10(0x00) | SQI_BDCTRL_DESC_EN_Msk);
+
+    sqiBufDesc[i].bd_bufaddr    = (uint32_t *)readBuffer;
+    sqiBufDesc[i].bd_stat       = 0;
+    sqiBufDesc[i].bd_nxtptr     = (sqi_dma_desc_t *)&amp;sqiBufDesc[i+1];
+
+    pendingBytes    -= numBytes;
+    readBuffer      += numBytes;
+}
+
+// The last descriptor must indicate the end of the descriptor list
+sqiBufDesc[i-1].bd_ctrl         |= (SQI_BDCTRL_LIFM_Msk | SQI_BDCTRL_LAST_BD_Msk |
+                                    SQI_BDCTRL_CS_ASSERT_Msk);
+
+sqiBufDesc[i-1].bd_nxtptr       = 0x00000000;
+
+DCACHE_CLEAN_BY_ADDR((uint32_t *)&amp;sqiBufDesc[0], (i * sizeof(sqi_dma_desc_t)));
+
+// Initialize the root buffer descriptor
+SQI1_DMATransfer((sqi_dma_desc_t *)&amp;sqiCmdDesc[0]);
+
+// Wait for transfer to complete
+while(xferDone == false);
+</code></pre>
+<p>}</p>
+<p>void main()
+{
+    // Other calls ..
+    SQI1_RegisterCallback(APP_EventHandler, (uintptr_t)NULL);</p>
+<pre class="code-block"><code class="language-c">DCACHE_INVALIDATE_BY_ADDR((uint32_t *)readBuffer, BUFFER_SIZE);
+
+APP_Read((uint32_t *)readData, BUFFER_SIZE, MEM_START_ADDRESS);
+</code></pre>
+<p>}
+```</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

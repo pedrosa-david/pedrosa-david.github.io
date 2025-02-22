@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dead Man Timer (DMT) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.14.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.14.html">PIC32MK GPG MCJ Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Dead Man Timer (DMT)</li>
+    </ol>
+</nav>
+
+<h1>Dead Man Timer (DMT)</h1>
+<h1>3.14.10</h1>
+<p>Dead Man Timer (DMT)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-55FD8B9D-1584-457A-AA10-8236B060D0D8_5.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-55FD8B9D-1584-457A-AA10-8236B060D0D8_5.html</a></p>
+<h1>3.14.10 Dead Man Timer (DMT)</h1>
+<p>The primary function of the Deadman Timer (DMT) is to reset the
+processor in the event of a software mal function. The DMT is a
+free-running instruction fetch timer, which is clocked whenever an
+instruction fetch occurs until a count match occurs. Instructions are
+not fetched when the processor is in Sleep mode.</p>
+<p>The DMT consists of a 32-bit counter with a time-out count match value
+as specified by the DMTCNT&lt;3:0&gt; bits in the DEVCFG1 Configuration
+register.</p>
+<p>A Deadman Timer is typically used in mission critical and safety
+critical applications, where any single failure of the software
+functionality and sequencing must be detected</p>
+<h2>Library Interface</h2>
+<p>Dead Man Timer peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DMT_Enable</td>
+<td>Enables the DMT peripheral</td>
+</tr>
+<tr>
+<td>DMT_Disable</td>
+<td>Disables the DMT peripheral</td>
+</tr>
+<tr>
+<td>DMT_ClearWindowStatusGet</td>
+<td>Returns Window is Open flag from the DMT Status Register</td>
+</tr>
+<tr>
+<td>DMT_CounterGet</td>
+<td>Returns the DMT current counter value</td>
+</tr>
+<tr>
+<td>DMT_TimeOutCountGet</td>
+<td>Returns the DMT time-out count value</td>
+</tr>
+<tr>
+<td>DMT_WindowIntervalGet</td>
+<td>Returns the DMT window interval value</td>
+</tr>
+<tr>
+<td>DMT_Clear</td>
+<td>Restarts the DMT counter</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

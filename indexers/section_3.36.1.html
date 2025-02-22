@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Comparators (AC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.36.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.36.html">SAM DA1 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Analog Comparators (AC)</li>
+    </ol>
+</nav>
+
+<h1>Analog Comparators (AC)</h1>
+<h1>3.36.1</h1>
+<p>Analog Comparators (AC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F0E42070-BD3D-434A-8BD6-157811E2EE9B_4.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F0E42070-BD3D-434A-8BD6-157811E2EE9B_4.html</a></p>
+<h1>3.36.1 Analog Comparators (AC)</h1>
+<p>The Analog Comparator peripheral (AC) supports four individual comparators. Each comparator (COMP) compares the voltage levels on two inputs ('+' and '-' input pins of the comparator), and provides a digital output based on this comparison. Each comparator may be configured to generate interrupt requests and/or peripheral events upon several different combinations of input change.</p>
+<p>The AC peripheral implements one pair of comparators. Each pair can be set in window mode to compare a signal to a voltage range instead of a single voltage level.</p>
+<h2>Using The Library</h2>
+<p>AC Peripheral library provides non-Blocking API's and they can be used to perform below functionalities on the AC peripheral.</p>
+<p>Initialize the AC</p>
+<p>Start comparison on a given comparator</p>
+<p>Swap inputs of a comparator</p>
+<p>Get status of a comparison operation</p>
+<p>Register a callback</p>
+<ul>
+<li>Initialize the AC</li>
+<li>Start comparison on a given comparator</li>
+<li>Swap inputs of a comparator</li>
+<li>Get status of a comparison operation</li>
+<li>Register a callback</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Analog Comparators peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC_Initialize</td>
+<td>Initializes AC module of the device</td>
+</tr>
+<tr>
+<td>AC_Start</td>
+<td>Triggers a comparator to start comparison</td>
+</tr>
+<tr>
+<td>AC_SwapInputs</td>
+<td>Swap inputs of a comparator</td>
+</tr>
+<tr>
+<td>AC_ChannelSelect</td>
+<td>Selects the positive and negative inputs of a channel</td>
+</tr>
+<tr>
+<td>AC_SetVddScalar</td>
+<td>Sets VDDSCALER value of a comparator</td>
+</tr>
+<tr>
+<td>AC_StatusGet</td>
+<td>Returns comparison status of the AC</td>
+</tr>
+<tr>
+<td>AC_CallbackRegister</td>
+<td>Allows application to register callback with PLIB</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC_CHANNEL</td>
+<td>Enum</td>
+<td>Identifies the AC output channel number</td>
+</tr>
+<tr>
+<td>AC_POSINPUT</td>
+<td>Enum</td>
+<td>Identifies the positive inputs of a comparator channel</td>
+</tr>
+<tr>
+<td>AC_NEGINPUT</td>
+<td>Enum</td>
+<td>Identifies negative inputs of a comparator channel</td>
+</tr>
+<tr>
+<td>AC_CALLBACK</td>
+<td>Typedef</td>
+<td>Analog comparator callback function pointer</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

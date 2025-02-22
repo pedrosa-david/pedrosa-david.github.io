@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quad Serial Peripheral Interface (QSPI) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Quad Serial Peripheral Interface (QSPI)</li>
+    </ol>
+</nav>
+
+<h1>Quad Serial Peripheral Interface (QSPI)</h1>
+<h1>2.87</h1>
+<p>Quad Serial Peripheral Interface (QSPI)</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-974F11F7-F69B-430E-8E92-298B98927421.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-974F11F7-F69B-430E-8E92-298B98927421.html</a></p>
+<h1><span id="2-87-quad-serial-peripheral-interface-qspi"></span>2.87 Quad Serial Peripheral Interface</h1>
+<pre class="code-block"><code class="language-c">    (QSPI)
+</code></pre>
+<p>This Plib implements software abstraction for QSPI Peripheral.</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Quad Serial Peripheral Interface peripheral library provides the following
+                interfaces:</p>
+<p>Functions</p>
+<p>QSPI Mode:</p>
+<p>SPI Mode:</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QSPIx_Initialize</td>
+<td>Initializes given instance of the QSPI</td>
+</tr>
+<tr>
+<td>peripheral</td>
+<td></td>
+</tr>
+<tr>
+<td>QSPIx_CommandWrite</td>
+<td>Writes command to QSPI slave device</td>
+</tr>
+<tr>
+<td>QSPIx_RegisterRead</td>
+<td>Reads particular register of QSPI slave</td>
+</tr>
+<tr>
+<td>device</td>
+<td></td>
+</tr>
+<tr>
+<td>QSPIx_RegisterWrite</td>
+<td>Writes to particular register of QSPI slave</td>
+</tr>
+<tr>
+<td>device</td>
+<td></td>
+</tr>
+<tr>
+<td>QSPIx_MemoryRead</td>
+<td>Reads from the specified address of the serial flash</td>
+</tr>
+<tr>
+<td>device</td>
+<td></td>
+</tr>
+<tr>
+<td>QSPIx_MemoryWrite</td>
+<td>Writes to the specified address of the serial flash</td>
+</tr>
+<tr>
+<td>device</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QSPIx_Initialize</td>
+<td>Initializes given instance of the QSPI</td>
+</tr>
+<tr>
+<td>peripheral</td>
+<td></td>
+</tr>
+<tr>
+<td>QSPIx_TransferSetup</td>
+<td>Setup QSPI operational parameters as desired by the</td>
+</tr>
+<tr>
+<td>client.</td>
+<td></td>
+</tr>
+<tr>
+<td>QSPIx_WriteRead</td>
+<td>Write and Read data on QSPI peripheral.</td>
+</tr>
+<tr>
+<td>QSPIx_Write</td>
+<td>Write data on QSPI peripheral.</td>
+</tr>
+<tr>
+<td>QSPIx_Read</td>
+<td>Read data on QSPI peripheral.</td>
+</tr>
+<tr>
+<td>QSPIx_IsBusy</td>
+<td>Returns transfer status of QSPI peripheral.</td>
+</tr>
+<tr>
+<td>QSPIx_CallbackRegister</td>
+<td>Allows application to register callback with</td>
+</tr>
+<tr>
+<td>PLIB.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QSPI_ADDRESS_LENGTH</td>
+<td>Enum</td>
+<td>Defines the data type to specify address</td>
+</tr>
+<tr>
+<td>length</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>QSPI_LANE_WIDTH</td>
+<td>Enum</td>
+<td>Defines the data type to specify lane width</td>
+</tr>
+<tr>
+<td>QSPI_OPTION_LENGTH</td>
+<td>Enum</td>
+<td>Defines the data type to specify option</td>
+</tr>
+<tr>
+<td>length</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>QSPI_PROTOCOL_TYPE</td>
+<td>Enum</td>
+<td>Defines the QSPI Protocol type - STD_SPI, TWIN_QUAD,</td>
+</tr>
+<tr>
+<td>OCTAFLASH and HYPERFLASH</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>QSPI_CLOCK_PHASE</td>
+<td>Enum</td>
+<td>Identifies QSPI Clock Phase Options</td>
+</tr>
+<tr>
+<td>QSPI_CLOCK_POLARITY</td>
+<td>Enum</td>
+<td>Identifies QSPI Clock Polarity Options</td>
+</tr>
+<tr>
+<td>QSPI_DATA_BITS</td>
+<td>Enum</td>
+<td>Identifies SPI bits per transfer</td>
+</tr>
+<tr>
+<td>QSPI_TRANSFER_SETUP</td>
+<td>Struct</td>
+<td>Identifies the setup parameters which can be changed</td>
+</tr>
+<tr>
+<td>dynamically</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>qspi_command_xfer_t</td>
+<td>Struct</td>
+<td>Defines the data type for the QSPI commands</td>
+</tr>
+<tr>
+<td>transfer</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>qspi_register_xfer_t</td>
+<td>Struct</td>
+<td>Defines the data type for the QSPI register data</td>
+</tr>
+<tr>
+<td>transfer</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>qspi_memory_xfer_t</td>
+<td>Struct</td>
+<td>Defines the data type for the QSPI memory</td>
+</tr>
+<tr>
+<td>transfer</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>QSPI_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a Callback function. This is used in SPI</td>
+</tr>
+<tr>
+<td>mode only</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

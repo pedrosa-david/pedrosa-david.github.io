@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTC Timer32Start Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.93.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.93.html">Real-time Clock (RTC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">RTC Timer32Start Function</li>
+    </ol>
+</nav>
+
+<h1>RTC Timer32Start Function</h1>
+<h1>2.93.15</h1>
+<p>RTC_Timer32Start Function</p>
+<p><em>Generated on: 2025-02-20 07:44:05</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2217D63B-65F8-47E6-BEFF-C312F29513BE.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2217D63B-65F8-47E6-BEFF-C312F29513BE.html</a></p>
+<h1><span id="2-93-15-rtc-timer32start-function"></span>2.93.15 RTC_Timer32Start Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void RTC_Timer32Start ( void )</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Starts the 32-bit timer.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function starts the 32-bit timer. The timer will start counting up from the value that was set using the RTC_Timer32CounterSet() function. The timer will count at a rate configured by the input clock and the input prescalar.</p>
+<p>The timer can be configured to count up till a specific non-zero value. This value is specified using the RTC_Timer32CompareSet() function. Setting a non-zero will cause the timer counter to operate as timer. The counter will
+count up to the period value and then reset and start counting again. This causes a period expiry event. Timer type operations are preferred to implement a delay or obtain periodic notification.</p>
+<p>Setting the period to 0 will result in a counter type operation. In this mode, starting the timer will cause the counter to count upto 0xFFFFFFFF and then overflow to 0 and continue counting. This causes an overflow event. A counter can be used to count in timer input clock units. This is useful when needed to perform temporal measurements.</p>
+<p>The counter can be stopped by calling the RTC_Timer32Stop function. Calling the RTC_Timer32Start() will again start the counting from the current counter value.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>RTC_Initialize must have been called for the associated RTC instance. The RTC peripheral should have been configured in 32-bit Timer Counter mode. The RTC_Timer32CompareSet and RTC_Timer32CounterSet function should have been called to set the desired period and starting count.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>None.</p>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+RTC_Initialize();</p>
+<p>// Operate as a timer by setting a non-zero period.
+RTC_Timer32CompareSet(0x3000);
+RTC_Timer32CounterSet(0);
+RTC_Timer32Start();</p>
+<p>// Wait till the period has expired.
+while(RTC_Timer32CompareHasMatched());</p>
+<p>// Refer to the description of the RTC_Timer32CounterHasOverflowed()
+// function for example of counter mode operation.
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallel Input Output (PIO) Controller | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.39.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.39.html">SAM G55 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Parallel Input Output (PIO) Controller</li>
+    </ol>
+</nav>
+
+<h1>Parallel Input Output (PIO) Controller</h1>
+<h1>3.39.11</h1>
+<p>Parallel Input/Output (PIO) Controller</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-20E8975A-32AC-4900-ABBF-D804D41EE674_5.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-20E8975A-32AC-4900-ABBF-D804D41EE674_5.html</a></p>
+<h1>3.39.11 Parallel Input/Output (PIO) Controller</h1>
+<p>The Parallel Input/Output Controller (PIO) manages up to 32 fully programmable input/output lines. Each I/O line may be dedicated as a general-purpose I/O or be assigned to a function of an embedded peripheral. This ensures effective optimization of the pins of the product.</p>
+<h2>Using The Library</h2>
+<p>The PIO peripheral library provides two kinds of functions which can be used to control PIO Pins:</p>
+<p>Pin Functions.</p>
+<p>Port Functions.</p>
+<p>Pin functions take a particular pin as input and operates only on that pin without affecting any other pins. Whereas port functions can operate on multiple pins of the same port together.</p>
+<p>The PIO peripheral library can generate a callback on a pin interrupt if the pin interrupt
+        is enabled in the MCC.</p>
+<ul>
+<li>Pin Functions.</li>
+<li>Port Functions.</li>
+</ul>
+<h2>Library Interface</h2>
+<p>peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PIO_Initialize</td>
+<td>Initialize the PIO library</td>
+</tr>
+<tr>
+<td>PIO_PortRead</td>
+<td>Read all the I/O lines of the selected port port</td>
+</tr>
+<tr>
+<td>PIO_PortWrite</td>
+<td>Write the value on the masked I/O lines of the selected port</td>
+</tr>
+<tr>
+<td>PIO_PortLatchRead</td>
+<td>Read the latched value on all the I/O lines of the selected port</td>
+</tr>
+<tr>
+<td>PIO_PortSet</td>
+<td>Set the selected IO pins of a port</td>
+</tr>
+<tr>
+<td>PIO_PortClear</td>
+<td>Clear the selected IO pins of a port</td>
+</tr>
+<tr>
+<td>PIO_PortToggle</td>
+<td>Toggles the selected IO pins of a port</td>
+</tr>
+<tr>
+<td>PIO_PortInputEnable</td>
+<td>Enables selected IO pins of a port as input</td>
+</tr>
+<tr>
+<td>PIO_PortOutputEnable</td>
+<td>Enables selected IO pins of a port as output(s)</td>
+</tr>
+<tr>
+<td>PIO_PortInterruptEnable</td>
+<td>Enables IO interrupt on selected IO pins of a port</td>
+</tr>
+<tr>
+<td>PIO_PortInterruptDisable</td>
+<td>Disables IO interrupt on selected IO pins of a port</td>
+</tr>
+<tr>
+<td>PIO_PinWrite</td>
+<td>Writes the selected pin</td>
+</tr>
+<tr>
+<td>PIO_PinRead</td>
+<td>Read the selected pin value</td>
+</tr>
+<tr>
+<td>PIO_PinLatchRead</td>
+<td>Read the value driven on the selected pin</td>
+</tr>
+<tr>
+<td>PIO_PinToggle</td>
+<td>Toggles the selected pin</td>
+</tr>
+<tr>
+<td>PIO_PinSet</td>
+<td>Sets the selected pin</td>
+</tr>
+<tr>
+<td>PIO_PinClear</td>
+<td>Clears the selected pin</td>
+</tr>
+<tr>
+<td>PIO_PinInputEnable</td>
+<td>Enables selected IO pin as input</td>
+</tr>
+<tr>
+<td>PIO_PinOutputEnable</td>
+<td>Enables selected IO pin as output</td>
+</tr>
+<tr>
+<td>PIO_PinInterruptEnable</td>
+<td>Enables IO interrupt on selected IO pin</td>
+</tr>
+<tr>
+<td>PIO_PinInterruptDisable</td>
+<td>Disables IO interrupt on selected IO pin</td>
+</tr>
+<tr>
+<td>PIO_PinInterruptCallbackRegister</td>
+<td>Allows application to register callback for every pin</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PIO_PORT</td>
+<td>Enum</td>
+<td>Identifies the available PIO Ports</td>
+</tr>
+<tr>
+<td>PIO_PIN</td>
+<td>Enum</td>
+<td>Identifies the available PIO port pins</td>
+</tr>
+<tr>
+<td>PIO_PIN_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a PIO Pin-Event handler function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

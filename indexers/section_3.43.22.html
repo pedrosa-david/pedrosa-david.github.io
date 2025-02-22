@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System timer (SysTick) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.43.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.43.html">SAM L22 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">System timer (SysTick)</li>
+    </ol>
+</nav>
+
+<h1>System timer (SysTick)</h1>
+<h1>3.43.22</h1>
+<p>System timer (SysTick)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F88344DB-4EAF-4243-9BFD-031F908B08E8_22.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F88344DB-4EAF-4243-9BFD-031F908B08E8_22.html</a></p>
+<h1>3.43.22 System timer (SysTick)</h1>
+<p>The ARM Cortex CPU includes an optional system timer (SysTick) that provides a simple, 24-bit clear-on-write, decrementing, wrap-on-zero counter with a flexible control mechanism.</p>
+<p>When enabled, the 24-bit timer counter counts down from the value in VAL. When the counter reaches zero, it reloads the value in LOAD on the next clock edge. It then decrements on subsequent clocks. This reloading when the counter reaches zero is called wrapping.</p>
+<p>The timer interrupt is activated on the transition from 1 to 0, therefore it activates every n+1 clock ticks. If a period of 100 is required 99 should be written to the SysTick Reload Value register.</p>
+<p>The SysTick can be polled by software or can be configured to generate an interrupt.</p>
+<h2>Using The Library</h2>
+<p>When the timer is enabled, it decrements by one on every rising edge of the input clock, and generates an interrupt when the timer value transitions to zero (Timer expiry). This is used to generate periodic interrupt generation.</p>
+<p>The SysTick can be polled by software or can be configured to generate an interrupt.</p>
+<p>With polling, the application will need to continuously poll to check if the timer has expired.</p>
+<p>With interrupt, the registered callback function will be called when the timer expires. This means the application do not have to poll continuously.</p>
+<p>Callback method</p>
+<p>This example demonstrates how to use SysTick to generate periodic callback.</p>
+<p>```C
+/<em> This function is called after Timer expires </em>/
+void SYSTICK_EventHandler(uintptr_t context)
+{
+    /<em> Toggle LED </em>/
+    LED_Toggle();
+}</p>
+<p>int main(void)
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Register Callback */
+SYSTICK_TimerCallbackSet(SYSTICK_EventHandler, (uintptr_t) NULL);
+
+/* Start the Timer */
+SYSTICK_TimerStart();
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>With polling, the application will need to continuously poll to check if the timer has expired.</li>
+<li>With interrupt, the registered callback function will be called when the timer expires. This means the application do not have to poll continuously.</li>
+</ul>
+<h2>Library Interface</h2>
+<p>System timer peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SYSTICK_TimerInitialize</td>
+<td>Initializes SysTick</td>
+</tr>
+<tr>
+<td>SYSTICK_TimerRestart</td>
+<td>Restarts SysTick</td>
+</tr>
+<tr>
+<td>SYSTICK_TimerStart</td>
+<td>Starts System Timer</td>
+</tr>
+<tr>
+<td>SYSTICK_TimerStop</td>
+<td>Stops System Timer</td>
+</tr>
+<tr>
+<td>SYSTICK_TimerPeriodSet</td>
+<td>Set the SysTick Load Value</td>
+</tr>
+<tr>
+<td>SYSTICK_TimerPeriodGet</td>
+<td>Get the SysTick Load Value</td>
+</tr>
+<tr>
+<td>SYSTICK_TimerCounterGet</td>
+<td>Get the SysTick current Value</td>
+</tr>
+<tr>
+<td>SYSTICK_TimerFrequencyGet</td>
+<td>Get the SysTick frequency Value</td>
+</tr>
+<tr>
+<td>SYSTICK_TimerPeriodHasExpired</td>
+<td>Returns the current status of the systick</td>
+</tr>
+<tr>
+<td>SYSTICK_DelayMs</td>
+<td>Blocking function to generate delay in milliseconds</td>
+</tr>
+<tr>
+<td>SYSTICK_DelayUs</td>
+<td>Blocking function to generate delay in micro seconds</td>
+</tr>
+<tr>
+<td>SYSTICK_TimerCallbackSet</td>
+<td>Sets the pointer to the function (and it's context) to be called when the given systick reaches 0</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SYSTICK_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the SysTick callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

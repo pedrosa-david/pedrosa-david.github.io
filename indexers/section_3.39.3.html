@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cortex-M Cache Controller (CMCC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.39.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.39.html">SAM G55 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cortex-M Cache Controller (CMCC)</li>
+    </ol>
+</nav>
+
+<h1>Cortex-M Cache Controller (CMCC)</h1>
+<h1>3.39.3</h1>
+<p>Cortex-M Cache Controller (CMCC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C870FC18-1A19-495C-87E4-054F43961463_2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C870FC18-1A19-495C-87E4-054F43961463_2.html</a></p>
+<h1>3.39.3 Cortex-M Cache Controller (CMCC)</h1>
+<p>The Cortex-M Cache Controller (CMCC) is a 4-Way set associative unified cache controller. It integrates a controller, a tag directory, data memory, metadata memory and a configuration interface.</p>
+<h2>Using The Library</h2>
+<p>At runtime, I/D Cache can be enabled or disabled using the corresponding APIs (CMCC_Enable(I/D)Cache and CMCC_Disable(I/D)Cache). When the content of the cache becomes stale, it can be invalidated using the CMCC_InvalidateAll function.</p>
+<h2>Library Interface</h2>
+<p>Cortex-M Cache Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMCC_Disable</td>
+<td>Disable the cortex M cache controller</td>
+</tr>
+<tr>
+<td>CMCC_EnableICache</td>
+<td>Enables the Instruction cache</td>
+</tr>
+<tr>
+<td>CMCC_DisableICache</td>
+<td>Disables the Instruction cache</td>
+</tr>
+<tr>
+<td>CMCC_EnableDCache</td>
+<td>Enables the Data cache</td>
+</tr>
+<tr>
+<td>CMCC_DisableDCache</td>
+<td>Disables the Data cache</td>
+</tr>
+<tr>
+<td>CMCC_InvalidateAll</td>
+<td>Invalidates the complete cache</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

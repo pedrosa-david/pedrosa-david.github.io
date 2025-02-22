@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMA ChannelLinkedListTransfer Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.29.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.29.html">Direct Memory Access Controller (DMA)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DMA ChannelLinkedListTransfer Function</li>
+    </ol>
+</nav>
+
+<h1>DMA ChannelLinkedListTransfer Function</h1>
+<h1>2.29.19</h1>
+<p>DMA_ChannelLinkedListTransfer Function</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FD7DA07F-2161-421E-AB83-39F1446E80DF.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FD7DA07F-2161-421E-AB83-39F1446E80DF.html</a></p>
+<h1><span id="2-29-19-dma-channellinkedlisttransfer-function"></span>2.29.19 DMA_ChannelLinkedListTransfer Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">bool DMA_ChannelLinkedListTransfer (DMA_CHANNEL channel, DMA_DESCRIPTOR_REGS* channelDesc)</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>The function submits a list of DMA transfers.</p>
+<h2><span id="description"></span>Description</h2>
+<p>The function will submit a list of DMA transfers. The DMA channel will
+process all transfers in the list. The transfers will be processed in the
+order in which they are added to the list. Each transfer in the list is
+specified by a DMA_DESCRIPTOR_REGS type descriptor. The list is formed by linking
+of the descriptors. While processing each descriptor in the linked list, the
+DMA transfer settings will be updated based on the settings contained in the
+descriptor.</p>
+<p>It is possible to link the last descriptor in the list to the first
+descriptor. This results in transfer sequence without disruption. Such type of
+circular linked descriptor list are useful in audio applications.</p>
+<p>The application must submit the entire list while calling the function.</p>
+<p>When already a transfer is in progress, this API will return false indicating
+that transfer request is not accepted.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>DMA should have been initialized by calling DMA_Initialize. The Transfer Linked Option in
+        MCC should have been enabled.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>channel</td>
+<td>The DMA channel on which the transfer needs to scheduled.</td>
+</tr>
+<tr>
+<td>channelDesc</td>
+<td>A pointer to a linked list of DMA_DESCRIPTOR_REGS type descriptor chain.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>channel</td>
+<td>The DMA channel on which the transfer needs to scheduled.</td>
+</tr>
+<tr>
+<td>channelDesc</td>
+<td>A pointer to a linked list of DMA_DESCRIPTOR_REGS type descriptor chain.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>True - If transfer request is accepted.</p>
+<p>False - If previous transfer is in progress and the request is rejected.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+// Process a transfer list called transferList. Refer to the DMA PLIB demo
+// application example for more details on usage.</p>
+<p>static DMA_DESCRIPTOR_REGS dmaDescRegs[3] = {0};</p>
+<pre class="code-block"><code class="language-c">// Populate the DMA linked list in dmaDescRegs
+DMA_LinkedListDescSetup();
+
+if (DMA_ChannelLinkedListTransfer(DMA_CHANNEL_0, dmaDescRegs) == true)
+{
+    // do something else
+}
+else
+{
+    // try again?
+}
+</code></pre>
+<p>```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

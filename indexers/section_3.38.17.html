@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-wire Interface - TWI | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.38.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.38.html">SAM G51 G53 G54 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Two-wire Interface - TWI</li>
+    </ol>
+</nav>
+
+<h1>Two-wire Interface - TWI</h1>
+<h1>3.38.17</h1>
+<p>Two-wire Interface - TWI</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3BFA26EB-2D09-45E8-BD3C-09FA39BC96AD.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3BFA26EB-2D09-45E8-BD3C-09FA39BC96AD.html</a></p>
+<h1>3.38.17 Two-wire Interface - TWI</h1>
+<p>The TWI PLIB can be configured in TWI master mode.</p>
+<p>TWI master mode
+The TWI peripheral library supports the following transfers:</p>
+<p>Master Write: The master writes a block of data to the slave
+Master Read: The master reads a block of data from the slave
+Master Write/Read: The master writes and then reads back a block of data from slave.</p>
+<p>The block of data is transferred in a non-blocking manner using a peripheral interrupt. Application can either use a callback or IsBusy API to check for completion of data transfer.</p>
+<p>```C
+// Following code demonstrates TWI write operation using polling method</p>
+<h1>define APP_SLAVE_ADDR 0x0057</h1>
+<h1>define NUM_BYTES      10</h1>
+<p>uint8_t myWriteData [NUM_BYTES] = {'1', '0', ' ', 'B', 'Y', 'T', 'E', 'S', '!', '!',};</p>
+<p>int main(void)
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Write data to the TWI Slave */
+TWI1_Write(APP_SLAVE_ADDR, &amp;myWriteData[0], NUM_BYTES);
+
+/* Poll and wait for the transfer to complete */
+while(TWI1_IsBusy());
+
+/* Check if any error occurred */
+if(TWI1_ErrorGet() == TWI_ERROR_NONE)
+{
+    //Transfer is completed successfully
+}
+else
+{
+    //Error occurred during transfer.
+}
+...
+</code></pre>
+<p>}
+```</p>
+<p>```C
+// Following code demonstrates TWI write operation using callback method</p>
+<h1>define APP_SLAVE_ADDR 0x0057</h1>
+<h1>define NUM_BYTES      10</h1>
+<p>uint8_t myWriteData [NUM_BYTES] = {'1', '0', ' ', 'B', 'Y', 'T', 'E', 'S', '!', '!',};</p>
+<p>void TWI1_Callback(uintptr_t context)
+{
+    if(TWI1_ErrorGet() == TWI_ERROR_NONE)
+    {
+        //Transfer is completed successfully
+    }
+    else
+    {
+        //Error occurred during transfer.
+    }
+}</p>
+<p>int main(void)
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Register Callback function */
+TWI1_CallbackRegister(TWI1_Callback, (uintptr_t)NULL);
+
+/* Submit Write Request */
+TWI1_Write(APP_SLAVE_ADDR, &amp;myWriteData[0], NUM_BYTES);
+
+...
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>TWI Mode</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TWIx_Initialize</td>
+<td>Initializes given instance of the TWI peripheral</td>
+</tr>
+<tr>
+<td>TWIx_Read</td>
+<td>Reads data from the TWI slave</td>
+</tr>
+<tr>
+<td>TWIx_Write</td>
+<td>Writes data to the TWI slave</td>
+</tr>
+<tr>
+<td>TWIx_WriteRead</td>
+<td>Write and Read data from TWI Slave</td>
+</tr>
+<tr>
+<td>TWIx_IsBusy</td>
+<td>Returns the TWI Peripheral busy status</td>
+</tr>
+<tr>
+<td>TWIx_ErrorGet</td>
+<td>Returns the TWI error that occurred on the bus</td>
+</tr>
+<tr>
+<td>TWIx_TransferSetup</td>
+<td>Dynamic setup of TWI Peripheral</td>
+</tr>
+<tr>
+<td>TWIx_CallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be called when the given TWI's transfer events occur</td>
+</tr>
+<tr>
+<td>TWIx_BusScan Function</td>
+<td>Scans and reports the target devices found on the bus</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TWI_ERROR</td>
+<td>Enum</td>
+<td>Defines the possible errors that the I2C peripheral can generate in I2C master mode</td>
+</tr>
+<tr>
+<td>TWI_TRANSFER_SETUP</td>
+<td>Struct</td>
+<td>I2C transfer setup data structure</td>
+</tr>
+<tr>
+<td>TWI_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the TWI peripheral callback function in TWI master mode</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

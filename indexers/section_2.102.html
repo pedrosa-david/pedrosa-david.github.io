@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Embedded Flash Controller (SEFC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Secure Embedded Flash Controller (SEFC)</li>
+    </ol>
+</nav>
+
+<h1>Secure Embedded Flash Controller (SEFC)</h1>
+<h1>2.102</h1>
+<p>Secure Embedded Flash Controller (SEFC)</p>
+<p><em>Generated on: 2025-02-20 07:44:00</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-7B6B4113-DD19-43B4-B45D-F88AB37ABDA4.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-7B6B4113-DD19-43B4-B45D-F88AB37ABDA4.html</a></p>
+<h1><span id="2-102-secure-embedded-flash-controller-sefc"></span>2.102 Secure Embedded Flash Controller (SEFC)</h1>
+<p>The Secure Embedded Flash Controller (SEFC) manages the programming, erasing, locking and unlocking sequences of the Flash using a full set
+of commands.</p>
+<p>Security in the SEFC is based on access rights, secure key storage and a Private Key bus. The SEFC manages safety features,
+including Error correction code and a self-check mechanism reported by the Flash block.</p>
+<h2><span id="using-the-library"></span>Using The Library</h2>
+<p>The main Flash memory can not be read while it is being erased or written, the CPU is stalled during the entire operation. All functions
+that modify the main Flash can be run from RAM memory to avoid CPU stall while main main Flash is being erased or written.</p>
+<p>The FLASH memory is divided into a number of physical rows, each containing four identically sized flash pages. Pages may be read or written to
+individually, however pages must be erased before being reprogrammed and the smallest granularity available for erasure is one single row.</p>
+<p>SEFC APIs are implemented to be non-blocking, the API will return immediately if not stalled by Flash operation. The user application can
+either poll the status or get callback once the flash operation is completed.</p>
+<p>With polling, the application will need to continuously check if the flash operation is completed</p>
+<p>With callback, the registered callback function will be called once the flash operation is completed. This means the application do not have to poll continuously. The interrupt must be enabled in MCC for callback method</p>
+<p>Here is an example code to erase a row and program a page of memory using polling method</p>
+<p>```C
+// Define a constant array in Flash.
+// It must be aligned to sector boundary and size has to be in multiple of sectors
+const uint8_t sefc0_user_start_address[SEFC0_SECTORSIZE] <strong>attribute</strong>((aligned(SEFC0_SECTORSIZE),keep,externally_visible,space(prog)))= {0};</p>
+<p>void populate_buffer(uint8_t* data)
+{
+    int i = 0;</p>
+<pre class="code-block"><code class="language-c">for (i = 0; i &lt; (SEFC0_PAGESIZE); i++)
+{
+    *(data + i) = i;
+}
+</code></pre>
+<p>}</p>
+<p>int main (void)
+{
+    uint8_t pageBuffer[SEFC0_PAGESIZE] = {0};</p>
+<pre class="code-block"><code class="language-c">/*Populate pageBuffer to programmed*/
+populate_buffer(pageBuffer);
+
+while(SEFC0_IsBusy());
+
+/*Erase the sector*/
+SEFC0_SectorErase(sefc0_user_start_address);
+
+/* Wait for erase operation to complete */
+while(SEFC0_IsBusy());
+
+/*Program a page*/
+SEFC0_PageWrite(pageBuffer, sefc0_user_start_address);
+
+/* Wait for page program to complete
+while(SEFC0_IsBusy());
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>With polling, the application will need to continuously check if the flash operation is completed</li>
+<li>With callback, the registered callback function will be called once the flash operation is completed. This means the application do not have to poll continuously. The interrupt must be enabled in MCC for callback method</li>
+</ul>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Secure Embedded Flash Controller peripheral library provides the following
+                interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEFCx_Initialize</td>
+<td>Initializes given instance of the SEFCx</td>
+</tr>
+<tr>
+<td>peripheral</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_Read</td>
+<td>Reads length number of bytes from a given address in</td>
+</tr>
+<tr>
+<td>FLASH memory</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_QuadWordWrite</td>
+<td>Writes a 128-bit data to a given address in FLASH</td>
+</tr>
+<tr>
+<td>memory</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_PageWrite</td>
+<td>Writes data of size equivalent to page size to a</td>
+</tr>
+<tr>
+<td>given FLASH address</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_SectorErase</td>
+<td>Erases a Sector in the FLASH</td>
+</tr>
+<tr>
+<td>SEFCx_ErrorGet</td>
+<td>Returns the error encountered by SEFCx</td>
+</tr>
+<tr>
+<td>controller</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_IsBusy</td>
+<td>Returns the current status of SEFCx</td>
+</tr>
+<tr>
+<td>controller</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_RegionLock</td>
+<td>Locks a Flash region</td>
+</tr>
+<tr>
+<td>SEFCx_RegionUnlock</td>
+<td>Unlocks a Flash region</td>
+</tr>
+<tr>
+<td>SEFCx_CallbackRegister</td>
+<td>Sets the pointer to the function (and it's context)</td>
+</tr>
+<tr>
+<td>to be called when the operation is complete</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_PageBufferWrite</td>
+<td>Writes data to the internal buffer of SEFCx known as</td>
+</tr>
+<tr>
+<td>the latch buffer</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_PageBufferCommit</td>
+<td>Commits the data present in SEFCx internal latch</td>
+</tr>
+<tr>
+<td>buffer to flash memory</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_GpnvmBitClear</td>
+<td>Clears the given bit number of the GPNVM</td>
+</tr>
+<tr>
+<td>SEFCx_GpnvmBitRead</td>
+<td>Reads the given bit number of the GPNVM</td>
+</tr>
+<tr>
+<td>SEFCx_GpnvmBitSet</td>
+<td>Sets the given bit number of the GPNVM</td>
+</tr>
+<tr>
+<td>SEFCx_UniqueIdentifierRead</td>
+<td>Reads the unique identifier of length number of</td>
+</tr>
+<tr>
+<td>bytes</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_UserSignatureRead</td>
+<td>Reads the user signature from the given block number</td>
+</tr>
+<tr>
+<td>and page number</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_UserSignatureWrite</td>
+<td>Writes the user signature at the given page number</td>
+</tr>
+<tr>
+<td>and block number</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_UserSignatureErase</td>
+<td>Erases the given user signature block</td>
+</tr>
+<tr>
+<td>SEFCx_UserSignatureRightsGet</td>
+<td>Reads the rights information of the user</td>
+</tr>
+<tr>
+<td>signature</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_UserSignatureRightsSet</td>
+<td>Writes the given rights information of the user</td>
+</tr>
+<tr>
+<td>signature</td>
+<td></td>
+</tr>
+<tr>
+<td>SEFCx_WriteProtectionSet</td>
+<td>Writes the mode of the write protection</td>
+</tr>
+<tr>
+<td>SEFCx_WriteProtectionGet</td>
+<td>Reads the mode of the write protection</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEFC_ERROR</td>
+<td>Enum</td>
+<td>Defines the data type for the SEFCx Error</td>
+</tr>
+<tr>
+<td>SEFC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the</td>
+</tr>
+<tr>
+<td>SEFCx peripheral callback function</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SEFC_USERSIGNATURE_PAGE</td>
+<td>enum</td>
+<td>Defines the data type for the user signature page</td>
+</tr>
+<tr>
+<td>numbers</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SEFC_USERSIGNATURE_BLOCK</td>
+<td>enum</td>
+<td>Defines the data type for the user signature block</td>
+</tr>
+<tr>
+<td>number</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

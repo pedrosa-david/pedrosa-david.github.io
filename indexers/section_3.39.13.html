@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Controller (RSTC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.39.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.39.html">SAM G55 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Reset Controller (RSTC)</li>
+    </ol>
+</nav>
+
+<h1>Reset Controller (RSTC)</h1>
+<h1>3.39.13</h1>
+<p>Reset Controller (RSTC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-03236FEE-340D-439A-B02C-F5D14F3233D3_3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-03236FEE-340D-439A-B02C-F5D14F3233D3_3.html</a></p>
+<h1>3.39.13 Reset Controller (RSTC)</h1>
+<p>The Reset Controller (RSTC) handles all the resets of the system and
+generates following reset signals:</p>
+<p>Processor Reset: Resets processor and also resets the
+Watchdog Timer</p>
+<p>Peripheral Reset: Resets the peripheral</p>
+<p>External Reset: Drives the NRST pin</p>
+<p>The following are the sources of reset:</p>
+<p>General Reset: A general reset occurs when a VDDIO poweron reset is detected, a
+          brownout or a voltage regulation loss is detected by the Supply Controller.</p>
+<p>Backup Reset: A backup reset occurs when the chip exits from
+Backup mode.</p>
+<p>Watchdog Reset: The watchdog reset occurs when it times out</p>
+<p>Software Reset: The RSTC offers commands to assert processor
+reset and external reset</p>
+<p>User Reset: A user reset is generated when a low level is
+detected on the NRST pin</p>
+<ul>
+<li>Processor Reset: Resets processor and also resets the
+Watchdog Timer</li>
+<li>Peripheral Reset: Resets the peripheral</li>
+<li>
+<p>External Reset: Drives the NRST pin</p>
+</li>
+<li>
+<p>General Reset: A general reset occurs when a VDDIO poweron reset is detected, a
+          brownout or a voltage regulation loss is detected by the Supply Controller.</p>
+</li>
+<li>Backup Reset: A backup reset occurs when the chip exits from
+Backup mode.</li>
+<li>Watchdog Reset: The watchdog reset occurs when it times out</li>
+<li>Software Reset: The RSTC offers commands to assert processor
+reset and external reset</li>
+<li>User Reset: A user reset is generated when a low level is
+detected on the NRST pin</li>
+</ul>
+<h2>Using The Library</h2>
+<p>The RSTC Peripheral library provides API's for the following:</p>
+<p>To generate a software reset to reset the processor and all the
+embedded peripherals including the memory.</p>
+<p>To find the cause of last device reset</p>
+<p>Poll the NRST pin status or register interrupt callback when it is
+used as GPIO</p>
+<ul>
+<li>To generate a software reset to reset the processor and all the
+embedded peripherals including the memory.</li>
+<li>To find the cause of last device reset</li>
+<li>Poll the NRST pin status or register interrupt callback when it is
+used as GPIO</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Reset Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSTC_Initialize</td>
+<td>Initializes RSTC module with the user configuration</td>
+</tr>
+<tr>
+<td>RSTC_Reset</td>
+<td>Resets the processor and all the embedded peripherals including the memory system and, in particular, the Remap Command or this function asserts NRST Pin</td>
+</tr>
+<tr>
+<td>RSTC_NRSTPinRead</td>
+<td>Reads the NRST pin level, sampled on each "Master Clock(MCK)" rising edge</td>
+</tr>
+<tr>
+<td>RSTC_ResetCauseGet</td>
+<td>Reports the cause of the last reset</td>
+</tr>
+<tr>
+<td>RSTC_CallbackRegister</td>
+<td>Allows application to register callback with PLIB</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSTC_RESET_CAUSE</td>
+<td>Struct</td>
+<td>Identifies the type of reset</td>
+</tr>
+<tr>
+<td>RSTC_RESET_TYPE</td>
+<td>Enum</td>
+<td>Identifies the type of reset, either Processor reset or External Reset</td>
+</tr>
+<tr>
+<td>RSTC_CALLBACK</td>
+<td>Typedef</td>
+<td>RSTC Callback Function Pointer</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

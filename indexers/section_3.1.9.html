@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUAD MODE SPI HOST CONTROLLER (QMSPI) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.1.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.1.html">CEC173X Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">QUAD MODE SPI HOST CONTROLLER (QMSPI)</li>
+    </ol>
+</nav>
+
+<h1>QUAD MODE SPI HOST CONTROLLER (QMSPI)</h1>
+<h1>3.1.9</h1>
+<p>QUAD MODE SPI HOST CONTROLLER (QMSPI)</p>
+<p><em>Generated on: 2025-02-19 08:42:43</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E413C3A3-9DB8-411B-85C8-57D3779A1185.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E413C3A3-9DB8-411B-85C8-57D3779A1185.html</a></p>
+<h1>3.1.9 QUAD MODE SPI HOST CONTROLLER (QMSPI)</h1>
+<p>The Quad Mode SPI Host Controller (QMSPI) may be used to communicate with various
+            peripheral devices that use a Serial Peripheral Interface, such as EEPROMS, DACs and
+            ADCs. The controller can be configured to support advanced SPI Flash devices with
+            multiphase access protocols. Data can be transferred in Half Duplex, Single Data Rate,
+            Dual Data Rate and Quad Data Rate modes. In all modes and all SPI clock speeds, the
+            controller supports back-to-back reads and writes without clock stretching if internal
+            bandwidth permits.</p>
+<h2>Using The Library</h2>
+<p>The QMSPI Peripheral Library is used to interface with the QMSPI based Serial Flash
+                Memories operating in Single-bit SPI, Dual SPI and Quad SPI. The QMSPI Peripheral
+                library provides blocking API's, which can be used to perform the following
+                functionalists on the QMSPI Slave device.</p>
+<p>Command and Register read/write</p>
+<p>Memory read/write</p>
+<p>QMSPI_DESCRIPTOR_XFER_T data type needs to be filled for the following
+                operations:</p>
+<p>Here is an example code to read data from W25 FLASH memory using QMSPI peripheral</p>
+<p>```C
+QMSPI_DESCRIPTOR_XFER_T qmspiDescXfer;</p>
+<pre class="code-block"><code class="language-c">memset(&amp;qmspiDescXfer, 0x00, sizeof(QMSPI_DESCRIPTOR_XFER_T));
+
+qmspiDescXfer.address = address;
+qmspiDescXfer.qmspi_ifc_mode = QUAD_OUTPUT;
+qmspiDescXfer.ldma_enable = true;
+qmspiDescXfer.ldma_channel_num = QMSPI_LDMA_CHANNEL_0;
+qmspiDescXfer.command = APP_CMD_MEMORY_FAST_READ_QUAD;
+qmspiDescXfer.num_of_dummy_byte = 4;
+
+QMSPI0_DMATransferRead(&amp;qmspiDescXfer, pReadBuffer, nBytes);
+</code></pre>
+<p>```</p>
+<ul>
+<li>
+<p>Send a command to the slave device</p>
+</li>
+<li>
+<p>Read data from a register</p>
+</li>
+<li>
+<p>Write data to a register</p>
+</li>
+<li>
+<p>Read data from the FLASH memory</p>
+</li>
+<li>
+<p>Write data to the FLASH memory</p>
+</li>
+</ul>
+<h2>Library Interface</h2>
+<p>QMSPI peripheral
+                library provides the following interfaces:</p>
+<p>Functions</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QMSPIx_Initialize</td>
+<td>Initializes given instance of the QMSPI peripheral</td>
+</tr>
+<tr>
+<td>QMSPIx_ChipSelectSetup</td>
+<td>Enables the specified hardware chip select</td>
+</tr>
+<tr>
+<td>QMSPIx_TransferSetup</td>
+<td>Configure QMSPI operational parameters at run time</td>
+</tr>
+<tr>
+<td>QMSPIx_TapControlSet</td>
+<td>Set control tap adjustment to QMSPI peripheral</td>
+</tr>
+<tr>
+<td>QMSPIx_Write</td>
+<td>Writes command/register to QMSPI slave device</td>
+</tr>
+<tr>
+<td>QMSPIx_Read</td>
+<td>Reads register from the QMSPI slave device</td>
+</tr>
+<tr>
+<td>QMSPIx_IsTransmitterBusy</td>
+<td>Returns transfer status of QMSPI peripheral</td>
+</tr>
+<tr>
+<td>QMSPIx_DMATransferWrite</td>
+<td>Writes data to the QMSPI slave device</td>
+</tr>
+<tr>
+<td>QMSPIx_DMATransferRead</td>
+<td>Reads data from the QMSPI slave device</td>
+</tr>
+<tr>
+<td>QMSPIx_CallbackRegister</td>
+<td>Allows application to register callback with PLIB</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QMSPI_CHIP_SELECT</td>
+<td>Enum</td>
+<td>Defines the data type to specify chip select number</td>
+</tr>
+<tr>
+<td>QMSPI_INTERFACE_MODE</td>
+<td>Enum</td>
+<td>Defines the data type to specify interface mode</td>
+</tr>
+<tr>
+<td>QMSPI_LDMA_CHANNEL_NUM</td>
+<td>Typedef</td>
+<td>Defines the data type to specify LDMA channel number</td>
+</tr>
+<tr>
+<td>QMSPI_CLOCK_PHASE_MOSI</td>
+<td>Enum</td>
+<td>Identifies QMSPI Clock Phase MOSI Options</td>
+</tr>
+<tr>
+<td>QMSPI_CLOCK_PHASE_MISO</td>
+<td>Enum</td>
+<td>Identifies QMSPI Clock Phase MISO Options</td>
+</tr>
+<tr>
+<td>QMSPI_CLOCK_POLARITY</td>
+<td>Enum</td>
+<td>Identifies QMSPI Clock Polarity Options</td>
+</tr>
+<tr>
+<td>QMSPI_TRANSFER_SETUP</td>
+<td>Struct</td>
+<td>Identifies the setup parameters which can be changed</td>
+</tr>
+<tr>
+<td>dynamically</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>QMSPI_XFER_T</td>
+<td>Struct</td>
+<td>Defines the data type for the QMSPI command/register</td>
+</tr>
+<tr>
+<td>transfer</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>QMSPI_DESCRIPTOR_XFER_T</td>
+<td>Struct</td>
+<td>Defines the data type for the QMSPI memory transfer</td>
+</tr>
+<tr>
+<td>QMSPI_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a Callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

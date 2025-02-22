@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Compare PWM (CCP) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.17.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.17.html">PIC32MM GPL Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Capture Compare PWM (CCP)</li>
+    </ol>
+</nav>
+
+<h1>Capture Compare PWM (CCP)</h1>
+<h1>3.17.2</h1>
+<p>Capture/Compare/PWM (CCP)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-40282E6C-E956-4225-8841-699D04DEC722.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-40282E6C-E956-4225-8841-699D04DEC722.html</a></p>
+<h1>3.17.2 Capture/Compare/PWM (CCP)</h1>
+<p>A CCP module can operate in any one of the below three modes.</p>
+<p>Timer mode - is used for periodic delay.</p>
+<p>Output Compare/PWM mode - is used to generate waveforms</p>
+<p>Input Capture mode - is used to measure delay, pulse width and frequency of the input signal.</p>
+<p>Timer mode</p>
+<p>The CCP channel in timer mode provides following features:</p>
+<p>Periodic CPU interrupts</p>
+<p>Master time base function for synchronizing other CCP modules</p>
+<p>Triggering periodic ADC conversion</p>
+<p>Periodic wake from Sleep (if an appropriate clock source is available)</p>
+<p>Using The Library</p>
+<p>When the timer is enabled, it increments by one on every rising edge of the input clock, and generates an interrupt on a period match. Timer mode is used for periodic interrupt generation.</p>
+<p>This example demonstrates how to use CCP channel in timer mode to generate periodic callback.</p>
+<p>Compare mode</p>
+<p>The CCP channel in compare mode is used for waveform generation. This provides below features:</p>
+<p>Output Compare mode can generate a single output transition or a train of output pulses, and can generate interrupts on match-on-compare events.</p>
+<p>Output Compare mode can function as a PWM generator.</p>
+<p>In MCCP modules, multiple PWM outputs can be used for power or motor control applications.</p>
+<p>Using The Library</p>
+<p>This peripheral supports below output compare modes:</p>
+<p>Single edge and dual edge compare modes</p>
+<p>Center-aligned compare mode</p>
+<p>MCCP (Multiple CCP) modules support below extended PWM features:</p>
+<p>Single Output Steerable mode</p>
+<p>Brush DC Motor (Forward and Reverse) modes</p>
+<p>Half-Bridge with Dead-Time Delay mode</p>
+<p>Push-Pull PWM mode</p>
+<p>Output Scan mode</p>
+<p>Center-Aligned Compare mode</p>
+<p>Variable Frequency Pulse mode</p>
+<p>Auto-Shutdown with Programmable Source and Shutdown State</p>
+<p>Programmable Output Polarity</p>
+<p>This peripheral library allows to set the period and duty cycle of the output waveform. And supports period overflow interrupt and compare match interrupt.</p>
+<p>Capture mode</p>
+<p>This mode is used to capture a timer value from an independent timer base on the occurrence of an event on an input pin.
+This mode is useful in applications requiring frequency (time period) and pulse measurement. Input Capture mode uses the CCPxTMR registers as a dedicated 16/32-bit synchronous, up counting timer used for event capture. This value is written to the FIFO buffer when a capture event occurs. The internal value may also be read with a synchronization delay from the CCPxTMR registers.</p>
+<p>Using The Library</p>
+<p>CCP peripheral when configured in capture mode, captures the time interval of input signal.</p>
+<p>It provides both polling and callback methods to indicate capture event has occurred.
+With polling, the application will need to continuously poll to check if the capture event has occurred.
+With callback, the registered callback function will be called when the capture event occurs. This means the application do not have to poll continuously.</p>
+<p>Callback method
+This example demonstrates how to use CCP in capture mode to measure pulse width.</p>
+<p>```C
+/<em> This function is called after period expires </em>/
+void CCP0_Callback_InterruptHandler(uint32_t status, uintptr_t context)
+{
+    /<em> Toggle LED </em>/
+    LED_Toggle();
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Register callback function for CCP0 period interrupt */
+CCP0_TimerCallbackRegister(CCP0_Callback_InterruptHandler, (uintptr_t)NULL);
+
+/* Start the timer channel 0*/
+CCP0_TimerStart();
+
+while ( true )
+{
+    /* Maintain state machines of all polled MPLAB Harmony modules. */
+    SYS_Tasks ( );
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C
+/<em> This function is called after Capture 0 interrupt </em>/
+void CCP0_CaptureInterruptHandler(uintptr_t context)
+{
+    /<em> Read Captured values </em>/
+    pulse_width = CCP0_Capture16bitBufferRead();
+}</p>
+<p>int main(void)
+{</p>
+<pre class="code-block"><code class="language-c">/* Register callback function for period interrupt */
+CCP0_CaptureCallbackRegister(CCP0_CaptureInterruptHandler, (uintptr_t)NULL);
+
+/* Start the Capture */
+CCP0_CaptureStart();
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>Timer mode - is used for periodic delay.</li>
+<li>Output Compare/PWM mode - is used to generate waveforms</li>
+<li>
+<p>Input Capture mode - is used to measure delay, pulse width and frequency of the input signal.</p>
+</li>
+<li>
+<p>Periodic CPU interrupts</p>
+</li>
+<li>Master time base function for synchronizing other CCP modules</li>
+<li>Triggering periodic ADC conversion</li>
+<li>
+<p>Periodic wake from Sleep (if an appropriate clock source is available)</p>
+</li>
+<li>
+<p>Output Compare mode can generate a single output transition or a train of output pulses, and can generate interrupts on match-on-compare events.</p>
+</li>
+<li>Output Compare mode can function as a PWM generator.</li>
+<li>
+<p>In MCCP modules, multiple PWM outputs can be used for power or motor control applications.</p>
+</li>
+<li>
+<p>Single edge and dual edge compare modes</p>
+</li>
+<li>
+<p>Center-aligned compare mode</p>
+</li>
+<li>
+<p>Single Output Steerable mode</p>
+</li>
+<li>Brush DC Motor (Forward and Reverse) modes</li>
+<li>Half-Bridge with Dead-Time Delay mode</li>
+<li>Push-Pull PWM mode</li>
+<li>Output Scan mode</li>
+<li>Center-Aligned Compare mode</li>
+<li>Variable Frequency Pulse mode</li>
+<li>Auto-Shutdown with Programmable Source and Shutdown State</li>
+<li>Programmable Output Polarity</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CCPx_TimerInitialize</td>
+<td>Initializes given instance of CCP</td>
+</tr>
+<tr>
+<td>CCPx_TimerStart</td>
+<td>Starts the timer for given CCP instance</td>
+</tr>
+<tr>
+<td>CCPx_TimerStop</td>
+<td>Stops the timer for given CCP instance</td>
+</tr>
+<tr>
+<td>CCPx_Timer16bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>CCPx_Timer16bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>CCPx_Timer16bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>CCPx_Timer32bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>CCPx_Timer32bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>CCPx_Timer32bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>CCPx_TimerFrequencyGet</td>
+<td>Provides the given timer's counter-increment frequency</td>
+</tr>
+<tr>
+<td>CCPx_TimerCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>CCPx_TimerInterruptEnable</td>
+<td>Enables timer interrupt</td>
+</tr>
+<tr>
+<td>CCPx_TimerInterruptDisable</td>
+<td>Disables timer interrupt</td>
+</tr>
+<tr>
+<td>CCPx_CaptureInitialize</td>
+<td>Initializes given instance of CCP</td>
+</tr>
+<tr>
+<td>CCPx_CaptureStart</td>
+<td>Starts the timer for given CCP instance</td>
+</tr>
+<tr>
+<td>CCPx_CaptureStop</td>
+<td>Stops the timer for given CCP instance</td>
+</tr>
+<tr>
+<td>CCPx_Capture16bitBufferRead</td>
+<td>Reads 16 bit capture value</td>
+</tr>
+<tr>
+<td>CCPx_Capture32bitBufferRead</td>
+<td>Reads 32 bit capture value</td>
+</tr>
+<tr>
+<td>CCPx_CaptureStatusGet</td>
+<td>Reads status capture operation</td>
+</tr>
+<tr>
+<td>CCPx_CaptureCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>CCPx_CompareInitialize</td>
+<td>Initializes given instance of CCP</td>
+</tr>
+<tr>
+<td>CCPx_CompareStart</td>
+<td>Starts the timer for given CCP instance</td>
+</tr>
+<tr>
+<td>CCPx_CompareStop</td>
+<td>Stops the timer for given CCP instance</td>
+</tr>
+<tr>
+<td>CCPx_CompareAutoShutdownClear</td>
+<td>Clears auto shutdown event status</td>
+</tr>
+<tr>
+<td>CCPx_CompareAutoShutdownSet</td>
+<td>Enable auto shutdown</td>
+</tr>
+<tr>
+<td>CCPx_Compare16bitPeriodValueSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>CCPx_Compare16bitPeriodValueGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>CCPx_Compare16bitValueGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>CCPx_Compare16bitValueSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>CCPx_Compare16bitRAValueSet</td>
+<td>Writes compare value of the given compare channel 0</td>
+</tr>
+<tr>
+<td>CCPx_Compare16bitRAValueGet</td>
+<td>Gets lower 16 bits of compare value</td>
+</tr>
+<tr>
+<td>CCPx_Compare16bitRBValueSet</td>
+<td>Writes higher 16bits of compare value</td>
+</tr>
+<tr>
+<td>CCPx_Compare16bitRBValueGet</td>
+<td>Gets higher 16 bits of compare value</td>
+</tr>
+<tr>
+<td>CCPx_Compare32bitPeriodValueSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>CCPx_Compare32bitPeriodValueGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>CCPx_Compare32bitValueGet</td>
+<td>Reads the 32bit compare value</td>
+</tr>
+<tr>
+<td>CCPx_Compare32bitValueSet</td>
+<td>Sets 32bit compare value</td>
+</tr>
+<tr>
+<td>CCPx_CompareCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CCP_TIMER_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the ccp channel callback function</td>
+</tr>
+<tr>
+<td>CCP_COMPARE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the ccp channel callback function</td>
+</tr>
+<tr>
+<td>CCP_CAPTURE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the ccp channel callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

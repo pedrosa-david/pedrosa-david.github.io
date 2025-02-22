@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMAC LinkedListDescriptorSetup Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.30.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.30.html">Direct Memory Access Controller (DMAC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DMAC LinkedListDescriptorSetup Function</li>
+    </ol>
+</nav>
+
+<h1>DMAC LinkedListDescriptorSetup Function</h1>
+<h1>2.30.12</h1>
+<p>DMAC_LinkedListDescriptorSetup Function</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-450C41F4-07A2-4AF1-844F-5713BED74E30.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-450C41F4-07A2-4AF1-844F-5713BED74E30.html</a></p>
+<h1><span id="2-30-12-dmac-linkedlistdescriptorsetup-function"></span>2.30.12 DMAC_LinkedListDescriptorSetup Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void DMAC_LinkedListDescriptorSetup (dmac_descriptor_registers_t* currentDescriptor,
+DMAC_CHANNEL_CONFIG setting,
+const void *srcAddr,
+const void *destAddr,
+size_t blockSize,
+dmac_descriptor_registers_t* nextDescriptor);</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Sets up linked list descriptor</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function sets up DMA linked list descriptor. Once the descriptor is
+setup, DMAC_ChannelLinkedListTransfer API can be used to initiate the linked
+list mode of DMA transfer.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>DMAC should have been initialized by calling the DMAC_Initialize.</p>
+<p>The Linked List option should have been enabled in MCC DMA manager</p>
+<ul>
+<li>DMAC should have been initialized by calling the DMAC_Initialize.</li>
+<li>The Linked List option should have been enabled in MCC DMA manager</li>
+</ul>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>currentDescriptor</td>
+<td>Address of current descriptor</td>
+</tr>
+<tr>
+<td>setting</td>
+<td>Block transfer setting of current descriptor</td>
+</tr>
+<tr>
+<td>srcAddr</td>
+<td>Source address of the DMAC transfer</td>
+</tr>
+<tr>
+<td>destAddr</td>
+<td>Destination address of the DMAC transfer. If the CRC engine is enabled and configured in Memory mode then store the seed to be used by CRC engine in the destination address.</td>
+</tr>
+<tr>
+<td>blockSize</td>
+<td>Size of the transfer block in bytes.</td>
+</tr>
+<tr>
+<td>nextDescriptor</td>
+<td>Address of next descriptor. if user wants to stop the transfer, this argument should be NULL.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>currentDescriptor</td>
+<td>Address of current descriptor</td>
+</tr>
+<tr>
+<td>setting</td>
+<td>Block transfer setting of current descriptor</td>
+</tr>
+<tr>
+<td>srcAddr</td>
+<td>Source address of the DMAC transfer</td>
+</tr>
+<tr>
+<td>destAddr</td>
+<td>Destination address of the DMAC transfer. If the CRC engine is enabled and configured in Memory mode then store the seed to be used by CRC engine in the destination address.</td>
+</tr>
+<tr>
+<td>blockSize</td>
+<td>Size of the transfer block in bytes.</td>
+</tr>
+<tr>
+<td>nextDescriptor</td>
+<td>Address of next descriptor. if user wants to stop the transfer, this argument should be NULL.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+uint8_t txPingBuffer[] = "INITIAL_DMA_DATA_FROM_PING_BUFFER";
+uint8_t txPongBuffer[] = "initial_dma_data_from_pong_buffer";</p>
+<p><strong>attribute</strong>((<strong>aligned</strong>(16))) static dmac_descriptor_registers_t pTxLinkedListDesc[2];</p>
+<p>#define BUFEER0_TX_BTCTRL (DMAC_BTCTRL_STEPSIZE_X1 | DMAC_BTCTRL_SRCINC_Msk | \
+DMAC_BTCTRL_BEATSIZE_BYTE | DMAC_BTCTRL_BLOCKACT_INT | DMAC_BTCTRL_VALID_Msk)</p>
+<p>// Setup DMA linked list
+DMAC_LinkedListDescriptorSetup (&amp;pTxLinkedListDesc[0],
+BUFEER0_TX_BTCTRL,
+(void <em>)&amp;txPingBuffer[0],
+(void </em>)&amp;SERCOM1_REGS-&gt;SPIM.SERCOM_DATA,
+sizeof(txPingBuffer),
+&amp;pTxLinkedListDesc[1]);
+DMAC_LinkedListDescriptorSetup (&amp;pTxLinkedListDesc[1],
+BUFEER0_TX_BTCTRL,
+(void <em>)&amp;txPongBuffer[0],
+(void </em>)&amp;SERCOM1_REGS-&gt;SPIM.SERCOM_DATA,
+sizeof(txPongBuffer),
+// this setting will enable continuous transfer, to stop the transfer this argument should be NULL.
+&amp;pTxLinkedListDesc[0]);</p>
+<p>// Start the DMA in linked list mode
+DMAC_ChannelLinkedListTransfer(DMAC_CHANNEL_1, &amp;pTxLinkedListDesc[0]);
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

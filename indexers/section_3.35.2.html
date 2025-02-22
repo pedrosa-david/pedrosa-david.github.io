@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Digital Converter (ADC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.35.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.35.html">SAM D51 E51 E53 E54 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Analog Digital Converter (ADC)</li>
+    </ol>
+</nav>
+
+<h1>Analog Digital Converter (ADC)</h1>
+<h1>3.35.2</h1>
+<p>Analog Digital Converter (ADC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-9AB183B1-C5FF-4056-AE83-653CD780C7A9.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-9AB183B1-C5FF-4056-AE83-653CD780C7A9.html</a></p>
+<h1>3.35.2 Analog Digital Converter (ADC)</h1>
+<p>8-bit, 10-bit or 12-bit resolution</p>
+<p>Up to 1,000,000 samples per second (1MSPS)</p>
+<p>Differential and single-ended inputs</p>
+<p>Five Internal inputs</p>
+<p>Single, continuous, and sequencing options</p>
+<p>Windowing monitor with selectable channel</p>
+<p>Conversion range: Vref = [1.0V to VDDANA]</p>
+<p>Built-in internal reference and external reference options</p>
+<p>Event-triggered conversion for accurate timing (one event input)</p>
+<p>Optional DMA transfer of conversion settings or result</p>
+<p>Hardware gain and offset compensation</p>
+<p>Averaging and oversampling with decimation to support up to 16-bit result</p>
+<p>Selectable sampling time</p>
+<p>Flexible Power or Throughput rate management</p>
+<ul>
+<li>8-bit, 10-bit or 12-bit resolution</li>
+<li>Up to 1,000,000 samples per second (1MSPS)</li>
+<li>Differential and single-ended inputs</li>
+<li>Five Internal inputs</li>
+<li>Single, continuous, and sequencing options</li>
+<li>Windowing monitor with selectable channel</li>
+<li>Conversion range: Vref = [1.0V to VDDANA]</li>
+<li>Built-in internal reference and external reference options</li>
+<li>Event-triggered conversion for accurate timing (one event input)</li>
+<li>Optional DMA transfer of conversion settings or result</li>
+<li>Hardware gain and offset compensation</li>
+<li>Averaging and oversampling with decimation to support up to 16-bit result</li>
+<li>Selectable sampling time</li>
+<li>Flexible Power or Throughput rate management</li>
+</ul>
+<h2>Using The Library</h2>
+<p>ADC Sample:</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include <stdio.h></stdio.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<h1>define ADC_VREF                (3.3f)</h1>
+<h1>define DAC_COUNT_INCREMENT     (170U)  // Equivalent to 0.1V with the given DAC reference</h1>
+<h1>define DAC_COUNT_MAX           (4095U)</h1>
+<p>uint16_t adc_count;
+float input_voltage;
+/<em> Initial value of dac count which is midpoint = 1.2 V</em>/
+uint16_t dac_count = 2048;   </p>
+<p>void switch_handler(uintptr_t context )
+{
+    /<em> Write next data sample </em>/
+    dac_count = dac_count + DAC_COUNT_INCREMENT;</p>
+<pre class="code-block"><code class="language-c">if (dac_count &gt; DAC_COUNT_MAX)
+        dac_count = 2048;
+
+DAC_DataWrite(DAC_CHANNEL_0, dac_count);
+</code></pre>
+<p>}</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">printf("\n\r---------------------------------------------------------");
+printf("\n\r                    ADC Sample Demo                 ");
+printf("\n\r---------------------------------------------------------\n\r");
+
+ADC0_Enable();
+SYSTICK_TimerStart();
+EIC_CallbackRegister(EIC_PIN_15, switch_handler, (uintptr_t) NULL);
+DAC_DataWrite(DAC_CHANNEL_0, dac_count);
+while (1)
+{
+    /* Start ADC conversion */
+    ADC0_ConversionStart();
+
+    /* Wait till ADC conversion result is available */
+    while(!ADC0_ConversionStatusGet())
+    {
+
+    };
+
+    /* Read the ADC result */
+    adc_count = ADC0_ConversionResultGet();
+    input_voltage = (float)adc_count * ADC_VREF / 4095U;
+
+    printf("ADC Count = 0x%03x, ADC Input Voltage = %d.%02d V \r", adc_count, (int)input_voltage, (int)((input_voltage - (int)input_voltage)*100.0));
+
+    SYSTICK_DelayMs(500);
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Analog Digital Converter peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADCx_Initialize</td>
+<td>Initializes given instance of ADC peripheral</td>
+</tr>
+<tr>
+<td>ADCx_Enable</td>
+<td>Enables given instance of ADC peripheral</td>
+</tr>
+<tr>
+<td>ADCx_Disable</td>
+<td>Disables given instance of ADC peripheral</td>
+</tr>
+<tr>
+<td>ADCx_ChannelSelect</td>
+<td>Selects ADC input channel</td>
+</tr>
+<tr>
+<td>ADCx_ConversionStart</td>
+<td>Starts the ADC conversion with the software trigger</td>
+</tr>
+<tr>
+<td>ADCx_ConversionStatusGet</td>
+<td>Returns the status of the conversion of the channel</td>
+</tr>
+<tr>
+<td>ADCx_ConversionResultGet</td>
+<td>Returns the conversion result of the channel</td>
+</tr>
+<tr>
+<td>ADCx_LastConversionResultGet</td>
+<td>Returns the result for the previous adc conversion of the channel</td>
+</tr>
+<tr>
+<td>ADCx_WindowMonitorStatusGet</td>
+<td>Returns the status of the window monitor flag</td>
+</tr>
+<tr>
+<td>ADCx_ComparisonWindowSet</td>
+<td>This function sets the window upper threshold and lower threshold values</td>
+</tr>
+<tr>
+<td>ADCx_WindowModeSet</td>
+<td>This function configures the window comparison mode</td>
+</tr>
+<tr>
+<td>ADCx_CallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>ADCx_InterruptsClear</td>
+<td>This function clears the interrupt flags</td>
+</tr>
+<tr>
+<td>ADCx_InterruptsEnable</td>
+<td>This function enables the interrupts</td>
+</tr>
+<tr>
+<td>ADCx_InterruptsDisable</td>
+<td>This function disables the interrupts</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADC_STATUS</td>
+<td>Enum</td>
+<td>Identifies ADC interrupt flag status</td>
+</tr>
+<tr>
+<td>ADC_POSINPUT</td>
+<td>Enum</td>
+<td>Identifies ADC positive input pin to select</td>
+</tr>
+<tr>
+<td>ADC_NEGINPUT</td>
+<td>Enum</td>
+<td>Identifies ADC negative input pin to select</td>
+</tr>
+<tr>
+<td>ADC_WINMODE</td>
+<td>Enum</td>
+<td>Identifies ADC window comparison modes</td>
+</tr>
+<tr>
+<td>ADC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the ADC peripheral callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

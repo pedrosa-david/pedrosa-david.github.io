@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Memory Access Controller (DMAC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Direct Memory Access Controller (DMAC)</li>
+    </ol>
+</nav>
+
+<h1>Direct Memory Access Controller (DMAC)</h1>
+<h1>2.30</h1>
+<p>Direct Memory Access Controller (DMAC)</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C5171ECB-C606-422A-B943-84CFF0EDA15C.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C5171ECB-C606-422A-B943-84CFF0EDA15C.html</a></p>
+<h1><span id="2-30-direct-memory-access-controller-dmac"></span>2.30 Direct Memory Access Controller</h1>
+<pre class="code-block"><code class="language-c">    (DMAC)
+</code></pre>
+<p>This Plib implements software abstraction for DMAC Peripheral.</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Direct Memory Access Controller peripheral library provides the following
+                interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DMAC_Initialize</td>
+<td>This function initializes the DMAC controller of the</td>
+</tr>
+<tr>
+<td>device</td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_ChannelCallbackRegister</td>
+<td>This function allows a DMAC PLIB client to set an</td>
+</tr>
+<tr>
+<td>event handler</td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_ChannelTransfer</td>
+<td>Schedules a DMA transfer on the specified DMA</td>
+</tr>
+<tr>
+<td>channel</td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_ChainTransferSetup</td>
+<td>Setup a DMA channel for chain transfer</td>
+</tr>
+<tr>
+<td>DMAC_ChannelPatternMatchSetup</td>
+<td>Sets up DMA channel for pattern matching</td>
+</tr>
+<tr>
+<td>DMAC_ChannelPatternMatchDisable</td>
+<td>Disables the DMA pattern matching</td>
+</tr>
+<tr>
+<td>DMAC_ChannelDisable</td>
+<td>This function disables the DMA channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelIsBusy</td>
+<td>Reads the busy status of a channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelTransferStatusGet</td>
+<td>Returns the DMA channel's transfer status</td>
+</tr>
+<tr>
+<td>DMAC_ChannelGetTransferredCount</td>
+<td>Returns transfer count of the ongoing DMAC</td>
+</tr>
+<tr>
+<td>transfer</td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_ChannelSuspend</td>
+<td>This function Suspends the DMA channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelResume</td>
+<td>This function Resumes the DMA channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelCRCSetup</td>
+<td>DMA Channel CRC setup and enable function</td>
+</tr>
+<tr>
+<td>DMAC_LinkedListDescriptorSetup</td>
+<td>Sets up linked list descriptor</td>
+</tr>
+<tr>
+<td>DMAC_ChannelLinkedListTransfer</td>
+<td>The function submit a list of DMA transfers</td>
+</tr>
+<tr>
+<td>DMAC_ChannelSettingsGet</td>
+<td>Returns the current channel settings for the</td>
+</tr>
+<tr>
+<td>specified DMAC Channel</td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_ChannelSettingsSet</td>
+<td>Changes the current transfer settings of the</td>
+</tr>
+<tr>
+<td>specified DMAC channel</td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_ChannelCRCSetup</td>
+<td>DMA Channel CRC setup and enable function</td>
+</tr>
+<tr>
+<td>DMAC_CRCDisable</td>
+<td>DMA CRC disable function</td>
+</tr>
+<tr>
+<td>DMAC_CRCRead</td>
+<td>DMA CRC read function</td>
+</tr>
+<tr>
+<td>DMAC_CRCCalculate</td>
+<td>Function to calculate CRC using I/O</td>
+</tr>
+<tr>
+<td>Interface</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DMAC_ERROR</td>
+<td>Enum</td>
+<td>Identifies the available DMA operating modes</td>
+</tr>
+<tr>
+<td>DMAC_TRANSFER_EVENT</td>
+<td>Enum</td>
+<td>Identifies the status of the transfer event</td>
+</tr>
+<tr>
+<td>DMAC_DATA_PATTERN_SIZE</td>
+<td>Enum</td>
+<td>Identifies the pattern size for data</td>
+</tr>
+<tr>
+<td>matching</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_CHANNEL_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a DMAC Transfer Event handler</td>
+</tr>
+<tr>
+<td>function</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_CHANNEL_CONFIG</td>
+<td>Typedef</td>
+<td>DMAC Block Transfer Control configuration</td>
+</tr>
+<tr>
+<td>value</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_CHANNEL</td>
+<td>Enum</td>
+<td>Fundamental data object that represents DMA channel</td>
+</tr>
+<tr>
+<td>number</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>DMAC_CRC_POLYNOMIAL_TYPE</td>
+<td>Enum</td>
+<td>Enumeration of Supported CRC polynomials</td>
+</tr>
+<tr>
+<td>DMAC_CRC_BEAT_SIZE</td>
+<td>Enum</td>
+<td>Enumeration of Supported CRC Beat Size</td>
+</tr>
+<tr>
+<td>DMAC_CRC_MODE</td>
+<td>Enum</td>
+<td>Enumeration of Supported CRC modes</td>
+</tr>
+<tr>
+<td>DMAC_CRC_SETUP</td>
+<td>Struct</td>
+<td>Fundamental data object that represents DMA CRC</td>
+</tr>
+<tr>
+<td>setup parameters</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

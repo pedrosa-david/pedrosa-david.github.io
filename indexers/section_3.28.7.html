@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCD Controller (LCDC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.28.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.28.html">SAM 9X60 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">LCD Controller (LCDC)</li>
+    </ol>
+</nav>
+
+<h1>LCD Controller (LCDC)</h1>
+<h1>3.28.7</h1>
+<p>LCD Controller (LCDC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5D4F5968-AE3E-4B1D-A46E-7729B03ED94C.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5D4F5968-AE3E-4B1D-A46E-7729B03ED94C.html</a></p>
+<h1>3.28.7 LCD Controller (LCDC)</h1>
+<p>The LCD Controller (LCDC) consists of logic for transferring LCD image data from an external display buffer to an LCD module. The LCD has one display input buffer per overlay that fetches pixels through the dual AHB master interface and a lookup table to allow palletized display configurations.</p>
+<p>The LCD controller is programmable on a per overlay basis, and supports different LCD resolutions, window sizes, image formats and pixel depths. The LCD is connected to the ARM Advanced High Performance Bus (AHB) as a master for reading pixel data. It also integrates an APB interface to configure its registers.</p>
+<h2>Using The Library</h2>
+<p>Refer LCDC API headers for the usage of the LCDC peripheral library.</p>
+<h2>Library Interface</h2>
+<p>LCD Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LCDCx_AddToQueueEnable</td>
+<td>Indicates that a valid descriptor has been written to memory</td>
+</tr>
+<tr>
+<td>LCDCx_ClockReset</td>
+<td>Resets the pixel clock module</td>
+</tr>
+<tr>
+<td>LCDCx_DISPSignalReset</td>
+<td>Resets the DISP signal</td>
+</tr>
+<tr>
+<td>LCDCx_GetDisplaySignalStatusActivated</td>
+<td>Gets the status of the DISP signal</td>
+</tr>
+<tr>
+<td>LCDCx_GetPixelClockStatusRunning</td>
+<td>Gets the status of the pixel clock</td>
+</tr>
+<tr>
+<td>LCDCx_GetPWMSignalStatusActivated</td>
+<td>Gets the status of the PWM signal</td>
+</tr>
+<tr>
+<td>LCDCx_GetSynchronizationStatusInProgress</td>
+<td>Gets the status of clock domain synchronization</td>
+</tr>
+<tr>
+<td>LCDCx_GetTimingEngineStatusRunning</td>
+<td>Gets the status of the timing engine</td>
+</tr>
+<tr>
+<td>LCDCx_IRQ_CallbackRegister</td>
+<td>Registers a callback function for the LCDC IRQ handler</td>
+</tr>
+<tr>
+<td>LCDCx_IRQ_Disable</td>
+<td>Disables the specified interrupt</td>
+</tr>
+<tr>
+<td>LCDCx_IRQ_Enable</td>
+<td>Enables the specified interrupt</td>
+</tr>
+<tr>
+<td>LCDCx_IRQ_Status</td>
+<td>Reads the value of the interrupt status register</td>
+</tr>
+<tr>
+<td>LCDCx_LAYER_IRQ_Disable</td>
+<td>Disable the interrupt from the specified layer</td>
+</tr>
+<tr>
+<td>LCDCx_LAYER_IRQ_Enable</td>
+<td>Enables the interrupt from the specified layer</td>
+</tr>
+<tr>
+<td>LCDCx_LAYER_IRQ_Status</td>
+<td>Reads the status of the interrupt from the specified layer</td>
+</tr>
+<tr>
+<td>LCDCx_PWMReset</td>
+<td>Resets the PWM module</td>
+</tr>
+<tr>
+<td>LCDCx_SetBlenderDMALayerEnable</td>
+<td>Enables/disables the blender DMA channel</td>
+</tr>
+<tr>
+<td>LCDCx_SetBlenderGlobalAlpha</td>
+<td>Sets the global alpha blending coefficient</td>
+</tr>
+<tr>
+<td>LCDCx_SetBlenderGlobalAlphaEnable</td>
+<td>Enables/disables global alpha blending</td>
+</tr>
+<tr>
+<td>LCDCx_SetBlenderIteratedColorEnable</td>
+<td>Enables use of iterated pixel value for final adder stage operand</td>
+</tr>
+<tr>
+<td>LCDCx_SetBlenderLocalAlphaEnable</td>
+<td>Enables/disables local alpha blending</td>
+</tr>
+<tr>
+<td>LCDCx_SetBlenderOverlayLayerEnable</td>
+<td>Enables/disables the overlay blender</td>
+</tr>
+<tr>
+<td>LCDCx_SetBlenderUseIteratedColor</td>
+<td>Enables use of iterated pixel value for pixel difference</td>
+</tr>
+<tr>
+<td>LCDCx_SetChannelEnable</td>
+<td>Enables/disables the DMA channel</td>
+</tr>
+<tr>
+<td>LCDCx_SetClockDivider</td>
+<td>Sets the clock divider for the pixel clock</td>
+</tr>
+<tr>
+<td>LCDCx_SetClockSourceSelection</td>
+<td>Sets the LCDC clock source</td>
+</tr>
+<tr>
+<td>LCDCx_SetDisplayGuardTime</td>
+<td>Number of frames inserted before and after DISP assertion</td>
+</tr>
+<tr>
+<td>LCDCx_SetDisplaySignalPolarity</td>
+<td>Sets the polarity of the DISP signal</td>
+</tr>
+<tr>
+<td>LCDCx_SetDisplaySignalSynchronization</td>
+<td>Sets the sync of the DISP signal with the HYSNC pulse</td>
+</tr>
+<tr>
+<td>LCDCx_SetDISPSignalEnable</td>
+<td>Enables/disables the DISP signal</td>
+</tr>
+<tr>
+<td>LCDCx_SetDitheringEnable</td>
+<td>Enables/disables the LCDC dithering logical unit</td>
+</tr>
+<tr>
+<td>LCDCx_SetDMAAddressRegister</td>
+<td>Sets the Frame Buffer base address</td>
+</tr>
+<tr>
+<td>LCDCx_SetDMADescriptorNextAddress</td>
+<td>Sets next DMA descriptor address</td>
+</tr>
+<tr>
+<td>LCDCx_SetDMAHeadPointer</td>
+<td>Sets the specified layer's Head Pointer to the DMA descriptor address</td>
+</tr>
+<tr>
+<td>LCDCx_SetHorizontalBackPorchWidth</td>
+<td>Sets HSYNC front porch width, give in number of pixel clocks</td>
+</tr>
+<tr>
+<td>LCDCx_SetHorizontalFrontPorchWidth</td>
+<td>Sets HSYNC front porch width, give in number of pixel clocks</td>
+</tr>
+<tr>
+<td>LCDCx_SetHSYNCPolarity</td>
+<td>Sets the polarity of the HSYNC pulse</td>
+</tr>
+<tr>
+<td>LCDCx_SetHSYNCPulseWidth</td>
+<td>Sets HSYNC pulse length, given in pixel clock cycles</td>
+</tr>
+<tr>
+<td>LCDCx_SetLayerClockGatingDisable</td>
+<td>Disables/Enables the clock gating on the LCDC layers</td>
+</tr>
+<tr>
+<td>LCDCx_SetLCDDisableInterruptEnable</td>
+<td>Enables/disables the LCD disable interrupt</td>
+</tr>
+<tr>
+<td>LCDCx_SetNumActiveRows</td>
+<td>Sets the number of active lines (height) in the frame</td>
+</tr>
+<tr>
+<td>LCDCx_SetNumPixelsPerLine</td>
+<td>Sets the number of pixels in a line (width) in the frame</td>
+</tr>
+<tr>
+<td>LCDCx_SetOutputMode</td>
+<td>Sets the output mode of the LCDC</td>
+</tr>
+<tr>
+<td>LCDCx_SetPixelClockEnable</td>
+<td>Enables/disables the pixel clock</td>
+</tr>
+<tr>
+<td>LCDCx_SetPixelClockPolarity</td>
+<td>Sets the pixel clock signal polarity</td>
+</tr>
+<tr>
+<td>LCDCx_SetPostPocessingEnable</td>
+<td>Enables/disables post processing</td>
+</tr>
+<tr>
+<td>LCDCx_SetPWMClockSourceSelection</td>
+<td>Sets the LCDC PWM clock source</td>
+</tr>
+<tr>
+<td>LCDCx_SetPWMCompareValue</td>
+<td>Sets the PWM compare value</td>
+</tr>
+<tr>
+<td>LCDCx_SetPWMEnable</td>
+<td>Enables/disables the PWM signal</td>
+</tr>
+<tr>
+<td>LCDCx_SetPWMPrescaler</td>
+<td>Sets the configuration of the counter prescaler module</td>
+</tr>
+<tr>
+<td>LCDCx_SetPWMSignalPolarity</td>
+<td>Sets the polarity of the PWM signal</td>
+</tr>
+<tr>
+<td>LCDCx_SetRGBModeInput</td>
+<td>Sets the input color mode for the specified layer</td>
+</tr>
+<tr>
+<td>LCDCx_SetSOFInterruptEnable</td>
+<td>Enables/disables the start of frame interrupt</td>
+</tr>
+<tr>
+<td>LCDCx_SetSYNCEnable</td>
+<td>Enables/disables the VSYNC and HSYNC signals</td>
+</tr>
+<tr>
+<td>LCDCx_SetTransferDescriptorFetchEnable</td>
+<td>Enables/disables Transfer Descriptor Fetch</td>
+</tr>
+<tr>
+<td>LCDCx_SetUseDMAPathEnable</td>
+<td>Enables/disables the DMA path for the specified layer</td>
+</tr>
+<tr>
+<td>LCDCx_SetVerticalBackPorchWidth</td>
+<td>Sets VSYNC back porch width, give in number of lines</td>
+</tr>
+<tr>
+<td>LCDCx_SetVerticalFrontPorchWidth</td>
+<td>Sets VSYNC front porch width, give in number of lines</td>
+</tr>
+<tr>
+<td>LCDCx_SetVSYNCPolarity</td>
+<td>Sets the polarity of the VSYNC pulse</td>
+</tr>
+<tr>
+<td>LCDCx_SetVSYNCPulseEnd</td>
+<td>Sets the HSYNC pulse edge where the VSYNC pulse second active edge is synchronized</td>
+</tr>
+<tr>
+<td>LCDCx_SetVSYNCPulseHoldConfig</td>
+<td>Sets the VSYNC pulse sync with HSYNC pulse edge</td>
+</tr>
+<tr>
+<td>LCDCx_SetVSYNCPulseSetupConfig</td>
+<td>Sets the VSYNC pulse sync with HSYNC pulse edge</td>
+</tr>
+<tr>
+<td>LCDCx_SetVSYNCPulseStart</td>
+<td>Sets the HSYNC pulse edge where the VSYNC pulse first active edge is synchronized</td>
+</tr>
+<tr>
+<td>LCDCx_SetVSYNCPulseWidth</td>
+<td>Sets VSYNC pulse length, given in pixel clock cycles</td>
+</tr>
+<tr>
+<td>LCDCx_SetWindowPosition</td>
+<td>Sets the X, Y position of the specified layer</td>
+</tr>
+<tr>
+<td>LCDCx_SetWindowSize</td>
+<td>Sets the size of the specified layer</td>
+</tr>
+<tr>
+<td>LCDCx_SYNCReset</td>
+<td>Resets the timing engine</td>
+</tr>
+<tr>
+<td>LCDCx_UpdateAttribute</td>
+<td>Updates the specified layer's window attributes</td>
+</tr>
+<tr>
+<td>LCDCx_UpdateOverlayAttributesEnable</td>
+<td>Updates the layer attributes</td>
+</tr>
+<tr>
+<td>LCDCx_WaitForClockRunning</td>
+<td>Waits for pixel clock to start running. Blocks until PCLK is running</td>
+</tr>
+<tr>
+<td>LCDCx_WaitForDISPSignal</td>
+<td>Waits for DISP signal to be activated. Blocks until Timing engine is activated</td>
+</tr>
+<tr>
+<td>LCDCx_WaitForSynchronization</td>
+<td>Waits for timing engine to start running. Blocks until Timing engine is running</td>
+</tr>
+<tr>
+<td>LCDCx_WaitForSyncInProgress</td>
+<td>Waits for synchronization to complete. Unblocks when complete</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LCDCx_CLOCK_SOURCE</td>
+<td>Enum</td>
+<td>Defines the clock sources for the LCDC peripheral</td>
+</tr>
+<tr>
+<td>LCDCx_INPUT_COLOR_MODE</td>
+<td>Enum</td>
+<td>Defines the RGB color mode input types</td>
+</tr>
+<tr>
+<td>LCDCx_INTERRUPT</td>
+<td>Enum</td>
+<td>Defines the interrupts generated by the controller</td>
+</tr>
+<tr>
+<td>LCDCx_IRQ_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the LCDC callback function</td>
+</tr>
+<tr>
+<td>LCDCx_IRQ_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>Struct for LCDC IRQ handler</td>
+</tr>
+<tr>
+<td>LCDCx_LAYER_ID</td>
+<td>Enum</td>
+<td>Defines the types for the LCDC hardware layers and overlays</td>
+</tr>
+<tr>
+<td>LCDCx_LAYER_INTERRUPT</td>
+<td>Enum</td>
+<td>Defines the interrupts generated by the layers</td>
+</tr>
+<tr>
+<td>LCDCx_OUTPUT_COLOR_MODE</td>
+<td>Enum</td>
+<td>Defines the controller output mode types</td>
+</tr>
+<tr>
+<td>LCDCx_PWM_CLOCK_SOURCE</td>
+<td>Enum</td>
+<td>Defines the clock sources for the LCDC PWM</td>
+</tr>
+<tr>
+<td>LCDCx_SIGNAL_POLARITY</td>
+<td>Enum</td>
+<td>Defines the polarity of the LCDC control signals</td>
+</tr>
+<tr>
+<td>LCDCx_VSYNC_SYNC_EDGE</td>
+<td>Enum</td>
+<td>Defines the HSYNC edge where VSYNC is synchronized</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCCx Timer24bitPeriodGet Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.114.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.114.html">Timer Counter for Control Applications (TCC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">TCCx Timer24bitPeriodGet Function</li>
+    </ol>
+</nav>
+
+<h1>TCCx Timer24bitPeriodGet Function</h1>
+<h1>2.114.10</h1>
+<p>TCCx_Timer24bitPeriodGet Function</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-07754671-D215-4BB0-B8BE-6CB57F1FA6FB.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-07754671-D215-4BB0-B8BE-6CB57F1FA6FB.html</a></p>
+<h1><span id="2-114-10-tccx-timer24bitperiodget-function"></span>2.114.10 TCCx_Timer24bitPeriodGet Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">/* x = TCC instance number */
+uint32_t TCCx_Timer24bitPeriodGet( void );</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Reads the period value of given timer.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function reads the value of period.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>TCCx_TimerInitialize() function must have been called first.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>None.</p>
+<h2><span id="returns"></span>Returns</h2>
+<p>Timer's period value.</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">uint32_t period = 0;
+TCC0_TimerInitialize();
+period = TCC0_Timer24bitPeriodGet();</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>The caller must know the number of significant bytes of timer. Period value is right-aligned.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

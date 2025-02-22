@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event System Interface (EVSYS) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.32.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.32.html">SAM C20 C21 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Event System Interface (EVSYS)</li>
+    </ol>
+</nav>
+
+<h1>Event System Interface (EVSYS)</h1>
+<h1>3.32.11</h1>
+<p>Event System Interface (EVSYS)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-72AD3E83-9BB3-49E7-BFE1-72E40A0C4E42_3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-72AD3E83-9BB3-49E7-BFE1-72E40A0C4E42_3.html</a></p>
+<h1>3.32.11 Event System Interface (EVSYS)</h1>
+<p>The Event System (EVSYS) allows autonomous, low-latency and configurable communication between peripherals. Several peripherals can be configured to generate and/or respond to signals known as events. The exact condition to generate an event, or the action taken upon receiving an event, is specific to each peripheral. Peripherals that respond to events are called event users. Peripherals that generate events are called event generators. A peripheral can have one or more event generators and can have one or more event users. Communication is made without CPU intervention and without consuming system resources such as bus or RAM bandwidth. This reduces the load on the CPU and other system resources, compared to a traditional interrupt-based system.</p>
+<h2>Using The Library</h2>
+<p>Configure the EVSYS in MCC by adding a EVSYS channel and configuring the appropriate event generator. Add a event user and configure it to listen to the configured EVSYS channel. Make sure the involved peripherals are correctly configured to enable event generation and using the events in their respective peripheral configurations.</p>
+<h2>Library Interface</h2>
+<p>Event System Interface peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EVSYS_Initialize</td>
+<td>Initializes EVSYS module</td>
+</tr>
+<tr>
+<td>EVSYS_GeneratorEnable</td>
+<td>Enables EVSYS generator</td>
+</tr>
+<tr>
+<td>EVSYS_GeneratorDisable</td>
+<td>Disables EVSYS generator</td>
+</tr>
+<tr>
+<td>EVSYS_UserEnable</td>
+<td>Enables EVSYS user</td>
+</tr>
+<tr>
+<td>EVSYS_UserDisable</td>
+<td>Disables EVSYS user</td>
+</tr>
+<tr>
+<td>EVSYS_InterruptEnable</td>
+<td>Enables EVSYS interrupt</td>
+</tr>
+<tr>
+<td>EVSYS_InterruptDisable</td>
+<td>Disables EVSYS interrupt</td>
+</tr>
+<tr>
+<td>EVSYS_CallbackRegister</td>
+<td>Allows application to register a callback function</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EVSYS_INT_MASK</td>
+<td>Enum</td>
+<td>Identifies the Event system interrupt to be enabled or disabled</td>
+</tr>
+<tr>
+<td>EVSYS_CHANNEL</td>
+<td>Enum</td>
+<td>Identifies the channel to be used</td>
+</tr>
+<tr>
+<td>EVSYS_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a EVSYS CallBack function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

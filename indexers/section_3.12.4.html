@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Memory Access Controller (DMA) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.12.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.12.html">PIC32CZ-CA Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Direct Memory Access Controller (DMA)</li>
+    </ol>
+</nav>
+
+<h1>Direct Memory Access Controller (DMA)</h1>
+<h1>3.12.4</h1>
+<p>Direct Memory Access Controller (DMA)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5E552F1D-1FB3-4D3D-A651-FC2C4164D9C2_2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5E552F1D-1FB3-4D3D-A651-FC2C4164D9C2_2.html</a></p>
+<h1>3.12.4 Direct Memory Access Controller (DMA)</h1>
+<p>The DMA Controller (DMAC) can transfer data between memories and
+peripherals, and thus off-load these tasks from the CPU. It enables
+high data transfer rates with minimum CPU intervention, and frees up
+CPU time. With access to all peripherals, the DMAC can handle automatic
+transfer of data between communication modules. DMAC has several DMA
+channels and each channel is fully programmable and provides both
+peripheral or memory-to-memory transfers.</p>
+<h2>Using The Library</h2>
+<p>DMA Memory to Peripheral and Peripheral to Memory transfer:</p>
+<p>DMA Memory to Memory transfer:</p>
+<p>DMA Linked List transfer:</p>
+<p>DMA Abort on Pattern Match:</p>
+<p>```C
+#define MINIMUM_DMA_BUFFER_SIZE                 (32)
+#define NUM_BYTES_TO_READ                       (10)
+#define LED_ON                                  LED0_Clear
+#define LED_OFF                                 LED0_Set</p>
+<p>static <strong>attribute</strong> ((aligned (32))) char startMessage[192] =
+"<strong><em>* DMAC USART echo demo </em></strong><em>\r\n\
+*</em><strong> Type a buffer of 10 characters and observe it echo back using DMA </strong><strong>\r\n\
+*</strong><em> LED toggles each time the buffer is echoed </em>***\r\n";</p>
+<p>static <strong>attribute</strong> ((aligned (32))) char receiveBuffer[MINIMUM_DMA_BUFFER_SIZE] = {0};
+static <strong>attribute</strong> ((aligned (32))) char echoBuffer[MINIMUM_DMA_BUFFER_SIZE] = {0};</p>
+<p>static volatile bool writeComplete = false;
+static volatile bool readComplete = false;</p>
+<p>static void TransmitCompleteCallback(DMA_TRANSFER_EVENT event, uintptr_t contextHandle)
+{
+    if (event &amp; DMA_TRANSFER_EVENT_BLOCK_TRANSFER_COMPLETE)
+    {
+        writeComplete = true;
+    }
+}</p>
+<p>static void ReceiveCompleteCallback(DMA_TRANSFER_EVENT event, uintptr_t contextHandle)
+{
+    if (event &amp; DMA_TRANSFER_EVENT_BLOCK_TRANSFER_COMPLETE)
+    {
+        readComplete = true;
+    }
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">DMA_ChannelCallbackRegister(DMA_CHANNEL_0, TransmitCompleteCallback, 0);
+DMA_ChannelCallbackRegister(DMA_CHANNEL_1, ReceiveCompleteCallback, 0);
+
+/* Clean cache before submitting DMA request, to move data from data cache to main memory */
+DCACHE_CLEAN_BY_ADDR((uint32_t *)startMessage, strlen(startMessage));
+DMA_ChannelTransfer(DMA_CHANNEL_0, startMessage, (const void *)&amp;SERCOM5_REGS-\&gt;USART_INT.SERCOM_DATA, strlen(startMessage));
+
+while ( true )
+{
+    if(readComplete == true)
+    {
+        /* Echo back received buffer and Toggle LED */
+        readComplete = false;
+
+        memcpy(echoBuffer, receiveBuffer, NUM_BYTES_TO_READ);
+        echoBuffer[NUM_BYTES_TO_READ] = '\\r';
+        echoBuffer[NUM_BYTES_TO_READ + 1] ='\\n';
+
+        /* Clean cache before submitting DMA request, to move data from data cache to main memory */
+        DCACHE_CLEAN_BY_ADDR((uint32_t *)echoBuffer, (NUM_BYTES_TO_READ + 2));
+
+        DMA_ChannelTransfer(DMA_CHANNEL_0, echoBuffer, (const void *)&amp;SERCOM5_REGS-\&gt;USART_INT.SERCOM_DATA, (NUM_BYTES_TO_READ + 2));
+        LED0_Toggle();
+    }
+    else if(writeComplete == true)
+    {
+        /* Now, submit DMA request to read user data */
+        writeComplete = false;
+
+        /* Invalidate cache lines before submitting DMA read request */
+        DCACHE_INVALIDATE_BY_ADDR((uint32_t *)receiveBuffer, NUM_BYTES_TO_READ);
+
+        DMA_ChannelTransfer(DMA_CHANNEL_1, (const void *)&amp;SERCOM5_REGS-\&gt;USART_INT.SERCOM_DATA, receiveBuffer, NUM_BYTES_TO_READ);
+    }
+    else
+    {
+        /* Repeat the loop */
+        ;
+    }
+}
+
+/* Execution should not come here during normal operation */
+
+\return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C
+#define LED_On      LED0_Clear
+#define LED_Off     LED0_Set</p>
+<p>#define TRANSFER_SIZE 1024</p>
+<p><strong>attribute</strong> ((aligned (32))) uint8_t srcBuffer[TRANSFER_SIZE] = {0};
+<strong>attribute</strong> ((aligned (32))) uint8_t dstBuffer[TRANSFER_SIZE] = {0};</p>
+<p>volatile bool dmaXferDone = false;
+volatile bool dmaXferError = false;</p>
+<p>void DMA_EventHandler(DMA_TRANSFER_EVENT status, uintptr_t context)
+{
+    if(status &amp; DMA_TRANSFER_EVENT_BLOCK_TRANSFER_COMPLETE)
+    {
+        dmaXferDone = true;
+    }
+    else if (status &amp; DMA_TRANSFER_EVENT_ERROR)
+    {
+        dmaXferError = true;
+    }
+}</p>
+<p>int main ( void )
+{
+    uint32_t i = 0;</p>
+<pre class="code-block"><code class="language-c">/* Initialize all modules */
+SYS_Initialize ( NULL );
+LED_Off();
+
+/* Build the srcBuffer */
+for (i = 0; i \&lt; TRANSFER_SIZE; i++)
+{
+    srcBuffer[i] = i;
+}
+
+printf("\\n\\r-------------------------------------------------------------");
+printf("\\n\\r\\t\\t DMA Memory Transfer DEMO\\t\\t");
+printf("\\n\\r-------------------------------------------------------------");
+
+/* Register a callback with DMA PLIB to get transfer complete and error events. */
+DMA_ChannelCallbackRegister(DMA_CHANNEL_0, DMA_EventHandler, 0);
+
+/* Clean cache lines having source buffer before submitting a transfer
+ \* request to DMA to load the latest data in the cache to the actual
+ \* memory */
+DCACHE_CLEAN_BY_ADDR((uint32_t *)srcBuffer, TRANSFER_SIZE);
+
+/* Invalidate cache lines before submitting DMA request */
+DCACHE_INVALIDATE_BY_ADDR((uint32_t *)dstBuffer, TRANSFER_SIZE);
+
+DMA_ChannelTransfer(DMA_CHANNEL_0, srcBuffer, dstBuffer, TRANSFER_SIZE);
+
+while (dmaXferDone == false &amp;&amp; dmaXferError == false);
+
+if(dmaXferDone == true)
+{
+    dmaXferDone = false;
+
+    if(memcmp(srcBuffer, dstBuffer, TRANSFER_SIZE) == 0)
+    {
+        /* Successfully transferred the data using DMAC */
+        printf("\\n\\r DMA Memory Transfer Successful with Data Match\\n\\r");
+        LED_On();
+    }
+    else
+    {
+        /* Data transfers done, but data mismatch occurred */
+        printf("\\n\\r DMA Memory Transfer Successful with Data Mismatch !!!\\n\\r");
+        LED_Off();
+    }
+}
+else if(dmaXferError == true)
+{
+    /* Error occurred during the transfers */
+    dmaXferError = false;
+    printf("\\n\\r DMA Memory Transfer Error !!!\\n\\r");
+    LED_Off();
+}
+else
+{
+    /* Nothing to do, loop */
+    ;
+}
+
+while (1)
+{
+
+}
+
+/* Execution should not come here during normal operation */
+
+\return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C
+#define SRC_BUFF1_SIZE                  32
+#define SRC_BUFF2_SIZE                  128
+#define SRC_BUFF3_SIZE                  256</p>
+<p>#define DST_BUFF_SIZE                   (SRC_BUFF1_SIZE + SRC_BUFF2_SIZE + SRC_BUFF3_SIZE)</p>
+<p>static DMA_DESCRIPTOR_REGS dmaDescRegs[3] = {0};
+static volatile bool dmaLLXferDone = false;
+static volatile bool dmaXferError = false;</p>
+<p>static <strong>attribute</strong> ((aligned (32))) uint8_t srcBuffer1[SRC_BUFF1_SIZE];
+static <strong>attribute</strong> ((aligned (32))) uint8_t srcBuffer2[SRC_BUFF2_SIZE];
+static <strong>attribute</strong> ((aligned (32))) uint8_t srcBuffer3[SRC_BUFF3_SIZE];</p>
+<p>static <strong>attribute</strong> ((aligned (32))) uint8_t dstBuffer[DST_BUFF_SIZE];</p>
+<p>void DMA_EventHandler(DMA_TRANSFER_EVENT status, uintptr_t context)
+{
+    if(status &amp; DMA_TRANSFER_EVENT_LINKED_LIST_TRANSFER_COMPLETE)
+    {
+        dmaLLXferDone = true;
+    }
+    else if (status &amp; DMA_TRANSFER_EVENT_ERROR)
+    {
+        dmaXferError = true;
+    }
+}</p>
+<p>void DMA_LinkedListDescSetup(void)
+{
+    dmaDescRegs[0].DMA_BDNXT = (uint32_t)&amp;dmaDescRegs[1];</p>
+<pre class="code-block"><code class="language-c">dmaDescRegs[0].DMA_BDCFG.SSA = 1;
+dmaDescRegs[0].DMA_BDCFG.DSA = 1;
+dmaDescRegs[0].DMA_BDCFG.XSIZ = 1;
+dmaDescRegs[0].DMA_BDCFG.ENABLE = 1;
+dmaDescRegs[0].DMA_BDCFG.LLEN = 1;
+dmaDescRegs[0].DMA_BDCFG.SWFRC = 1;
+dmaDescRegs[0].DMA_BDSSA = (uint32_t)srcBuffer1;
+dmaDescRegs[0].DMA_BDDSA = (uint32_t)&amp;dstBuffer[0];
+dmaDescRegs[0].DMA_BDXSIZ.CSZ = 1;
+dmaDescRegs[0].DMA_BDXSIZ.BLKSZ = SRC_BUFF1_SIZE;
+
+/*------------------------------------------------------*/
+dmaDescRegs[1].DMA_BDNXT = (uint32_t)&amp;dmaDescRegs[2];
+
+dmaDescRegs[1].DMA_BDCFG.SSA = 1;
+dmaDescRegs[1].DMA_BDCFG.DSA = 1;
+dmaDescRegs[1].DMA_BDCFG.XSIZ = 1;
+dmaDescRegs[1].DMA_BDCFG.ENABLE = 1;
+dmaDescRegs[1].DMA_BDCFG.LLEN = 1;
+dmaDescRegs[1].DMA_BDCFG.SWFRC = 1;
+dmaDescRegs[1].DMA_BDSSA = (uint32_t)srcBuffer2;
+dmaDescRegs[1].DMA_BDDSA = (uint32_t)&amp;dstBuffer[SRC_BUFF1_SIZE];
+dmaDescRegs[1].DMA_BDXSIZ.CSZ = 1;
+dmaDescRegs[1].DMA_BDXSIZ.BLKSZ = SRC_BUFF2_SIZE;
+
+/*------------------------------------------------------*/
+dmaDescRegs[2].DMA_BDNXT = 0xFFFFFFFF;
+
+dmaDescRegs[2].DMA_BDCFG.SSA = 1;
+dmaDescRegs[2].DMA_BDCFG.DSA = 1;
+dmaDescRegs[2].DMA_BDCFG.XSIZ = 1;
+dmaDescRegs[2].DMA_BDCFG.ENABLE = 1;
+dmaDescRegs[2].DMA_BDCFG.LLEN = 0;
+dmaDescRegs[2].DMA_BDCFG.SWFRC = 1;
+dmaDescRegs[2].DMA_BDSSA = (uint32_t)srcBuffer3;
+dmaDescRegs[2].DMA_BDDSA = (uint32_t)&amp;dstBuffer[SRC_BUFF1_SIZE + SRC_BUFF2_SIZE];
+dmaDescRegs[2].DMA_BDXSIZ.CSZ = 1;
+dmaDescRegs[2].DMA_BDXSIZ.BLKSZ = SRC_BUFF3_SIZE;
+</code></pre>
+<p>}</p>
+<p>void initSourceBuffers(void)
+{
+    uint32_t i;</p>
+<pre class="code-block"><code class="language-c">for (i = 0; i \&lt; SRC_BUFF1_SIZE; i++ )
+{
+    srcBuffer1[i] = i;
+}
+for (i = 0; i \&lt; SRC_BUFF2_SIZE; i++ )
+{
+    srcBuffer2[i] = i;
+}
+for (i = 0; i \&lt; SRC_BUFF3_SIZE; i++ )
+{
+    srcBuffer3[i] = i;
+}
+</code></pre>
+<p>}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">printf("\\n\\r-------------------------------------------------------------");
+printf("\\n\\r\\t DMA Memory Transfer Using Linked Lists \\t\\t");
+printf("\\n\\r-------------------------------------------------------------");
+
+DMA_ChannelCallbackRegister(DMA_CHANNEL_0, DMA_EventHandler, 0);
+
+initSourceBuffers();
+
+/* Clean cache lines to push data into the main memory */
+DCACHE_CLEAN_BY_ADDR((uint32_t *)srcBuffer1, SRC_BUFF1_SIZE);
+
+DCACHE_CLEAN_BY_ADDR((uint32_t *)srcBuffer2, SRC_BUFF2_SIZE);
+
+DCACHE_CLEAN_BY_ADDR((uint32_t *)srcBuffer3, SRC_BUFF3_SIZE);
+
+/* Invalidate cache lines before submitting DMA request */
+DCACHE_INVALIDATE_BY_ADDR((uint32_t *)dstBuffer, DST_BUFF_SIZE);
+
+DMA_LinkedListDescSetup();
+
+DMA_ChannelLinkedListTransfer(DMA_CHANNEL_0, dmaDescRegs);
+
+while (dmaLLXferDone == false &amp;&amp; dmaXferError == false);
+
+if (dmaLLXferDone == true)
+{
+    if ( (memcmp(srcBuffer1, &amp;dstBuffer[0], SRC_BUFF1_SIZE) == 0) &amp;&amp;
+         (memcmp(srcBuffer2, &amp;dstBuffer[SRC_BUFF1_SIZE], SRC_BUFF2_SIZE) == 0) &amp;&amp;
+         (memcmp(srcBuffer3, &amp;dstBuffer[SRC_BUFF1_SIZE + SRC_BUFF2_SIZE], SRC_BUFF3_SIZE) == 0)
+    )
+    {
+        printf("\\n\\r DMA linked list transfer successful with data match\\r\\n");
+    }
+    else
+    {
+        printf("\\n\\r DMA linked list error - data mismatch\\r\\n");
+    }
+}
+else
+{
+    printf("\\n\\r DMA linked list transfer error\\r\\n");
+}
+
+while ( true )
+{
+
+}
+
+/* Execution should not come here during normal operation */
+
+\return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C
+#define LED_ON                                  LED0_Clear
+#define LED_OFF                                 LED0_Set</p>
+<p>#define USART_RECEIVE_CHANNEL                   DMA_CHANNEL_0
+#define USART_TRANSMIT_CHANNEL                  DMA_CHANNEL_1</p>
+<p>#define MINIMUM_DMA_BUFFER_SIZE                 (32)
+#define NUM_BYTES_TO_READ                       (20)</p>
+<p>static <strong>attribute</strong> ((aligned (32))) char startMessage[192] =
+"<strong><em> DMA USART echo demo </em></strong>\r\n\
+*<strong> Press Enter key to terminate the DMA transfer </strong><em>\r\n\
+*</em><em> Maximum number of characters entered must be less than 20 </em>**\r\n";</p>
+<p>static <strong>attribute</strong> ((aligned (32))) char receiveBuffer[MINIMUM_DMA_BUFFER_SIZE] = {0};
+static <strong>attribute</strong> ((aligned (32))) char echoBuffer[MINIMUM_DMA_BUFFER_SIZE] = {0};</p>
+<p>volatile bool writeComplete = false;
+volatile bool readComplete = false;</p>
+<p>const uint8_t new_line_ch = 0x0A;</p>
+<p>static void TransmitCompleteCallback(DMA_TRANSFER_EVENT event, uintptr_t contextHandle)
+{
+    if (event &amp; DMA_TRANSFER_EVENT_BLOCK_TRANSFER_COMPLETE)
+    {
+        writeComplete = true;
+    }
+}</p>
+<p>static void ReceiveCompleteCallback(DMA_TRANSFER_EVENT event, uintptr_t contextHandle)
+{
+    if (event &amp; DMA_TRANSFER_EVENT_BLOCK_TRANSFER_COMPLETE)
+    {
+        readComplete = true;
+    }
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Clean cache before submitting DMA request, to move data from data cache to main memory */
+DCACHE_CLEAN_BY_ADDR((uint32_t *)startMessage, strlen(startMessage));
+
+/* Transmit the startMessage before turning on the pattern match */
+DMA_ChannelTransfer(USART_TRANSMIT_CHANNEL, (const void *)startMessage, (const void *)&amp;SERCOM5_REGS-\&gt;USART_INT.SERCOM_DATA, sizeof(startMessage));
+
+while (DMA_ChannelIsBusy(USART_TRANSMIT_CHANNEL));
+
+DMA_ChannelCallbackRegister(USART_TRANSMIT_CHANNEL, TransmitCompleteCallback,0);
+DMA_ChannelCallbackRegister(USART_RECEIVE_CHANNEL, ReceiveCompleteCallback,0);
+
+/* data reception from user will stop as soon as "Enter" key is pressed (pattern is matched) */
+DMA_ChannelPatternMatchSetup(USART_RECEIVE_CHANNEL, DMA_PATTERN_MATCH_LEN_1BYTE, (uint16_t)(0x0D));
+
+DMA_ChannelPatternMatchSetup(USART_TRANSMIT_CHANNEL, DMA_PATTERN_MATCH_LEN_1BYTE, (uint16_t)(0x0D));
+
+/* Submit buffer to read user data */
+DMA_ChannelTransfer(USART_RECEIVE_CHANNEL, (const void *)&amp;SERCOM5_REGS-\&gt;USART_INT.SERCOM_DATA, (const void *)receiveBuffer, NUM_BYTES_TO_READ);
+
+while ( true )
+{
+    if(readComplete == true)
+    {
+        /* Echo back received buffer and Toggle LED */
+        readComplete = false;
+
+        memcpy(echoBuffer, receiveBuffer, NUM_BYTES_TO_READ);
+
+        /* Clean cache before submitting DMA request, to move data from data cache to main memory */
+        DCACHE_CLEAN_BY_ADDR((uint32_t *)echoBuffer, NUM_BYTES_TO_READ);
+
+        /* Since pattern matching is enabled on DMA USART TX channel, this should terminate transfer when 0x0D is found */
+        DMA_ChannelTransfer(USART_TRANSMIT_CHANNEL, (const void *)echoBuffer, (const void *)&amp;SERCOM5_REGS-\&gt;USART_INT.SERCOM_DATA, NUM_BYTES_TO_READ);
+        LED0_Toggle();
+    }
+    else if(writeComplete == true)
+    {
+        writeComplete = false;
+
+        /* Ensure to add new line character on the console before receiving the next data from user */
+        DMA_ChannelTransfer(USART_TRANSMIT_CHANNEL, (const void *)&amp;new_line_ch, (const void *)&amp;SERCOM5_REGS-\&gt;USART_INT.SERCOM_DATA, 1);
+        while(writeComplete == false);
+
+        writeComplete = false;
+
+        /* Invalidate cache lines before submitting DMA read request */
+        DCACHE_INVALIDATE_BY_ADDR((uint32_t *)receiveBuffer, NUM_BYTES_TO_READ);
+
+        /* Submit buffer to read user data */
+        DMA_ChannelTransfer(USART_RECEIVE_CHANNEL, (const void *)&amp;SERCOM5_REGS-\&gt;USART_INT.SERCOM_DATA, (const void *)receiveBuffer, NUM_BYTES_TO_READ);
+    }
+    else
+    {
+        /* Repeat the loop */
+        ;
+    }
+}
+
+/* Execution should not come here during normal operation */
+
+\return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Direct Memory Access Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DMA_Initialize</td>
+<td>Initializes the DMA controller of the device</td>
+</tr>
+<tr>
+<td>DMA_ChannelCallbackRegister</td>
+<td>This function allows a DMA PLIB client to set an event handler</td>
+</tr>
+<tr>
+<td>DMA_ChannelTransfer</td>
+<td>Schedules a DMA transfer on the specified DMA channel</td>
+</tr>
+<tr>
+<td>DMA_ChannelIsBusy</td>
+<td>The function returns the busy status of the channel</td>
+</tr>
+<tr>
+<td>DMA_ChannelDisable</td>
+<td>The function disables the specified DMA channel</td>
+</tr>
+<tr>
+<td>DMA_ChannelEnable</td>
+<td>The function enables the specified DMA channel</td>
+</tr>
+<tr>
+<td>DMA_ChannelGetTransferredCount</td>
+<td>Returns transfer count of the ongoing DMA transfer</td>
+</tr>
+<tr>
+<td>DMA_ChannelInterruptEnable</td>
+<td>This API is used to enable DMA channel interrupt</td>
+</tr>
+<tr>
+<td>DMA_ChannelInterruptDisable</td>
+<td>This API is used to disable DMA channel interrupt</td>
+</tr>
+<tr>
+<td>DMA_ChannelInterruptFlagsGet</td>
+<td>This API is used to get the DMA channel interrupt flags</td>
+</tr>
+<tr>
+<td>DMA_ChannelPatternMatchSetup</td>
+<td>This API is used to setup DMA pattern matching</td>
+</tr>
+<tr>
+<td>DMA_ChannelPatternMatchEnable</td>
+<td>Enable DMA channel pattern matching</td>
+</tr>
+<tr>
+<td>DMA_ChannelPatternMatchDisable</td>
+<td>Disable DMA channel pattern matching</td>
+</tr>
+<tr>
+<td>DMA_ChannelPatternIgnoreByteEnable</td>
+<td>Enable DMA channel pattern ignore byte</td>
+</tr>
+<tr>
+<td>DMA_ChannelPatternIgnoreByteDisable</td>
+<td>Disable DMA channel pattern ignore byte</td>
+</tr>
+<tr>
+<td>DMA_ChannelPatternIgnoreValue</td>
+<td>Configures the byte to be ignored for pattern matching when it is enabled</td>
+</tr>
+<tr>
+<td>DMA_ChannelSettingsGet</td>
+<td>Returns the current channel settings for the specified DMA Channel</td>
+</tr>
+<tr>
+<td>DMA_ChannelSettingsSet</td>
+<td>Changes the current transfer settings of the specified DMA channel</td>
+</tr>
+<tr>
+<td>DMA_ChannelLinkedListTransfer</td>
+<td>The function submits a list of DMA transfers</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DMA_CHANNEL</td>
+<td>Enum</td>
+<td>Lists the set of channels available for data transfer using DMA</td>
+</tr>
+<tr>
+<td>DMA_CHANNEL_CONFIG</td>
+<td>Typedef</td>
+<td>Defines the data type for DMA channel configuration</td>
+</tr>
+<tr>
+<td>DMA_TRANSFER_EVENT</td>
+<td>Typedef and Macros</td>
+<td>Defines the data type and macros for DMA_TRANSFER_EVENT</td>
+</tr>
+<tr>
+<td>DMA_INT</td>
+<td>Typedef and Macros</td>
+<td>Defines the data type and macros for DMA_INT</td>
+</tr>
+<tr>
+<td>DMA_PATTERN_MATCH_LEN</td>
+<td>Enum</td>
+<td>Enumeration for DMA pattern match length type</td>
+</tr>
+<tr>
+<td>DMA_DESCRIPTOR_REGS</td>
+<td>Struct</td>
+<td>DMA linked list descriptor</td>
+</tr>
+<tr>
+<td>DMA_CHANNEL_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a DMA Transfer Event handler function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

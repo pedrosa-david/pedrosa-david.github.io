@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded Flash Controller (EFC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.39.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.39.html">SAM G55 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Embedded Flash Controller (EFC)</li>
+    </ol>
+</nav>
+
+<h1>Embedded Flash Controller (EFC)</h1>
+<h1>3.39.6</h1>
+<p>Embedded Flash Controller (EFC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-23D44FFF-DBFC-4943-BB73-BAD0D121CB4A_3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-23D44FFF-DBFC-4943-BB73-BAD0D121CB4A_3.html</a></p>
+<h1>3.39.6 Embedded Flash Controller (EFC)</h1>
+<p>The Enhanced Embedded Flash Controller (EEFC) manages the programming, erasing, locking and unlocking sequences of the Flash using a full set
+of commands.</p>
+<h2>Using The Library</h2>
+<p>The main Flash memory can not be read while it is being erased or written, the CPU is
+        stalled during the entire operation. All functions that modify the main Flash can be run
+        from RAM memory to avoid CPU stall while main Flash is being erased or written.</p>
+<p>The FLASH memory is divided into a number of physical rows, each containing four identically sized flash pages. Pages may be read or written to
+individually, however pages must be erased before being reprogrammed and the smallest granularity available for erasure is one single row.</p>
+<p>EFC APIs are implemented to be non-blocking, the API will return immediately if not stalled by Flash operation. The user application can
+either poll the status or get callback once the flash operation is completed.</p>
+<p>With polling, the application will need to continuously check if the flash operation is completed</p>
+<p>With callback, the registered callback function will be called once the flash operation
+            is completed. This means the application do not have to poll continuously. The interrupt
+            must be enabled in MCC for callback method</p>
+<p>Here is an example code to erase a row and program a page of memory using polling method</p>
+<p>```C
+// Define a constant array in Flash.
+// It must be aligned to sector boundary and size has to be in multiple of sectors
+const uint8_t efc_user_start_address[EFC_SECTORSIZE] <strong>attribute</strong>((aligned(EFC_SECTORSIZE),keep,externally_visible,space(prog)))= {0};</p>
+<p>void populate_buffer(uint8_t* data)
+{
+    int i = 0;</p>
+<pre class="code-block"><code class="language-c">for (i = 0; i &lt; (EFC_PAGESIZE); i++)
+{
+    *(data + i) = i;
+}
+</code></pre>
+<p>}</p>
+<p>int main (void)
+{
+    uint8_t pageBuffer[EFC_PAGESIZE] = {0};</p>
+<pre class="code-block"><code class="language-c">/*Populate pageBuffer to programmed*/
+populate_buffer(pageBuffer);
+
+while(EFC_IsBusy());
+
+/*Erase the sector*/
+EFC_SectorErase(efc_user_start_address);
+
+/* Wait for erase operation to complete */
+while(EFC_IsBusy());
+
+/*Program a page*/
+EFC_PageWrite(pageBuffer, efc_user_start_address);
+
+/* Wait for page program to complete
+while(EFC_IsBusy());
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>With polling, the application will need to continuously check if the flash operation is completed</li>
+<li>With callback, the registered callback function will be called once the flash operation
+            is completed. This means the application do not have to poll continuously. The interrupt
+            must be enabled in MCC for callback method</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Embedded Flash Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EFC_Initialize</td>
+<td>Initializes given instance of the EFC peripheral</td>
+</tr>
+<tr>
+<td>EFC_Read</td>
+<td>Reads length number of bytes from a given address in FLASH memory</td>
+</tr>
+<tr>
+<td>EFC_QuadWordWrite</td>
+<td>Writes a 128-bit data to a given address in FLASH memory</td>
+</tr>
+<tr>
+<td>EFC_PageWrite</td>
+<td>Writes data of size equivalent to page size to a given FLASH address</td>
+</tr>
+<tr>
+<td>EFC_SectorErase</td>
+<td>Erases a Sector in the FLASH</td>
+</tr>
+<tr>
+<td>EFC_ErrorGet</td>
+<td>Returns the error encountered by EFC controller</td>
+</tr>
+<tr>
+<td>EFC_IsBusy</td>
+<td>Returns the current status of EFC controller</td>
+</tr>
+<tr>
+<td>EFC_RegionLock</td>
+<td>Locks a Flash region</td>
+</tr>
+<tr>
+<td>EFC_RegionUnlock</td>
+<td>Unlocks a Flash region</td>
+</tr>
+<tr>
+<td>EFC_CallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be called when the operation is complete</td>
+</tr>
+<tr>
+<td>EFC_PageBufferWrite</td>
+<td>Writes data to the internal buffer of EFC known as the latch buffer</td>
+</tr>
+<tr>
+<td>EFC_PageBufferCommit</td>
+<td>Commits the data present in EFC internal latch buffer to flash memory</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EFC_ERROR</td>
+<td>Enum</td>
+<td>Defines the data type for the EFC Error</td>
+</tr>
+<tr>
+<td>EFC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the EFC peripheral callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Clock (RTC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Real-time Clock (RTC)</li>
+    </ol>
+</nav>
+
+<h1>Real-time Clock (RTC)</h1>
+<h1>2.93</h1>
+<p>Real-time Clock (RTC)</p>
+<p><em>Generated on: 2025-02-20 07:44:05</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FD22253C-43D5-421C-9243-9543D3792CD4.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FD22253C-43D5-421C-9243-9543D3792CD4.html</a></p>
+<h1><span id="2-93-real-time-clock-rtc"></span>2.93 Real-time Clock (RTC)</h1>
+<p>This Plib implements software abstraction for RTC Peripheral.</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Real-time Clock peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTC_Initialize</td>
+<td>Initializes given instance of the RTC</td>
+</tr>
+<tr>
+<td>peripheral</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_TimeSet</td>
+<td>Sets the Time for the RTC peripheral</td>
+</tr>
+<tr>
+<td>RTC_TimeGet</td>
+<td>Reads the current time</td>
+</tr>
+<tr>
+<td>RTC_AlarmSet</td>
+<td>Sets up the Alarm</td>
+</tr>
+<tr>
+<td>RTC_FirstTimeStampGet</td>
+<td>Reads the timestamp for first occurrence of given</td>
+</tr>
+<tr>
+<td>tamper input</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_LastTimeStampGet</td>
+<td>Reads the timestamp for last occurrence of given</td>
+</tr>
+<tr>
+<td>tamper input</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_InterruptDisable</td>
+<td>Disables the specified RTC interrupt</td>
+</tr>
+<tr>
+<td>RTC_InterruptEnable</td>
+<td>Enables the specified RTC interrupt</td>
+</tr>
+<tr>
+<td>RTC_FrequencyCorrect</td>
+<td>Calibrate for too-slow or too-fast</td>
+</tr>
+<tr>
+<td>oscillator</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_Timer16CounterHasOverflowed</td>
+<td>Checks if the 16-bit counter has overflowed</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare0HasMatched</td>
+<td>Returns true if the 16-bit Timer Compare 0 value has</td>
+</tr>
+<tr>
+<td>matched the counter</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare1HasMatched</td>
+<td>Returns true if the 16-bit Timer Compare 1 value has</td>
+</tr>
+<tr>
+<td>matched the counter</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare2HasMatched</td>
+<td>Returns true if the 16-bit Timer Compare 2 value has</td>
+</tr>
+<tr>
+<td>matched the counter</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare3HasMatched</td>
+<td>Returns true if the 16-bit Timer Compare 3 value has</td>
+</tr>
+<tr>
+<td>matched the counter</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_Timer16Start</td>
+<td>Starts the 16-bit timer</td>
+</tr>
+<tr>
+<td>RTC_Timer16Stop</td>
+<td>Stops the 16-bit timer from counting</td>
+</tr>
+<tr>
+<td>RTC_Timer16CounterSet</td>
+<td>Set the 16-bit Timer Counter Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16PeriodSet</td>
+<td>Set the 16-bit timer period value</td>
+</tr>
+<tr>
+<td>RTC_Timer16PeriodGet</td>
+<td>Get 16-bit timer period Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16CounterGet</td>
+<td>Get the current 16-bit counter value</td>
+</tr>
+<tr>
+<td>RTC_Timer16FrequencyGet</td>
+<td>Returns the frequency at which the 16-bit timer</td>
+</tr>
+<tr>
+<td>counter is operating</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_Timer16InterruptEnable</td>
+<td>Enable Selected RTC interrupt</td>
+</tr>
+<tr>
+<td>RTC_Timer16InterruptDisable</td>
+<td>Disable Selected RTC Interrupt</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare0Set</td>
+<td>Set the 16-Bit Counter Compare 0 Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare1Set</td>
+<td>Set the 16-Bit Counter Compare 1 Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare2Set</td>
+<td>Set the 16-Bit Counter Compare 2 Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare3Set</td>
+<td>Set the 16-Bit Counter Compare 3 Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16TimeStampGet</td>
+<td>Get the Time stamp of Tamper Detection</td>
+</tr>
+<tr>
+<td>RTC_Timer16CallbackRegister</td>
+<td>Register the callback function to be called when an</td>
+</tr>
+<tr>
+<td>16-bit Timer Interrupt occurs</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_Timer32CompareHasMatched</td>
+<td>Check for 32-bit Timer Compare match</td>
+</tr>
+<tr>
+<td>RTC_Timer32Compare0HasMatched</td>
+<td>Check for 32-bit Timer Compare match</td>
+</tr>
+<tr>
+<td>RTC_Timer32Compare1HasMatched</td>
+<td>Check for 32-bit Timer Compare match</td>
+</tr>
+<tr>
+<td>RTC_Timer32CounterHasOverflowed</td>
+<td>Check if the 32-bit counter overflow</td>
+</tr>
+<tr>
+<td>RTC_Timer32Start</td>
+<td>Starts the 32-bit timer</td>
+</tr>
+<tr>
+<td>RTC_Timer32Stop</td>
+<td>Stops the 32-bit timer from counting</td>
+</tr>
+<tr>
+<td>RTC_Timer32CounterSet</td>
+<td>Set the 32-bit Timer Counter Value</td>
+</tr>
+<tr>
+<td>RTC_Timer32CompareSet</td>
+<td>Set the 32-bit timer period value</td>
+</tr>
+<tr>
+<td>RTC_Timer32Compare0Set</td>
+<td>Set the 32-bit timer period value</td>
+</tr>
+<tr>
+<td>RTC_Timer32Compare1Set</td>
+<td>Set the 32-bit timer period value</td>
+</tr>
+<tr>
+<td>RTC_Timer32PeriodGet</td>
+<td>Get 32-bit timer period Value</td>
+</tr>
+<tr>
+<td>RTC_Timer32CounterGet</td>
+<td>Get the current 32-bit counter value</td>
+</tr>
+<tr>
+<td>RTC_Timer32FrequencyGet</td>
+<td>Returns the frequency at which the 32-bit timer</td>
+</tr>
+<tr>
+<td>counter is operating</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_Timer32InterruptEnable</td>
+<td>Enable selected RTC interrupt</td>
+</tr>
+<tr>
+<td>RTC_Timer32InterruptDisable</td>
+<td>Disable selected RTC interrupt</td>
+</tr>
+<tr>
+<td>RTC_Timer32CallbackRegister</td>
+<td>Register the callback function to be called when an</td>
+</tr>
+<tr>
+<td>32-bit Timer Interrupt occurs</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_Timer32TimeStampGet</td>
+<td>Get the Time stamp of Tamper Detection</td>
+</tr>
+<tr>
+<td>RTC_PeriodicIntervalHasCompleted</td>
+<td>Check if the configured periodic interval has</td>
+</tr>
+<tr>
+<td>expired</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_RTCCTimeGet</td>
+<td>Gets the current time and date</td>
+</tr>
+<tr>
+<td>RTC_RTCCTimeSet</td>
+<td>Sets the Real Time Clock Calendar time and</td>
+</tr>
+<tr>
+<td>date</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_RTCCAlarmSet</td>
+<td>Set an alarm</td>
+</tr>
+<tr>
+<td>RTC_RTCCCallbackRegister</td>
+<td>Register the callback function to be called when an</td>
+</tr>
+<tr>
+<td>RTCC Interrupt occurs</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_BackupRegisterSet</td>
+<td>Set the value for the selected Backup</td>
+</tr>
+<tr>
+<td>Register</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_BackupRegisterGet</td>
+<td>Get the value stored in the selected Backup</td>
+</tr>
+<tr>
+<td>Register</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_TamperSourceGet</td>
+<td>Get the Tamper source</td>
+</tr>
+<tr>
+<td>RTC_RTCCTimeStampGet</td>
+<td>Get the Time stamp of Tamper Detection</td>
+</tr>
+<tr>
+<td>RTC_CallbackRegister</td>
+<td>Sets the pointer to the function (and it's context)</td>
+</tr>
+<tr>
+<td>to be called when the Timeout events occur</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTC_ALARM_MASK</td>
+<td>Enum</td>
+<td>Defines the data type for the RTC Alarm Mask</td>
+</tr>
+<tr>
+<td>RTC_INT_MASK</td>
+<td>Enum</td>
+<td>Defines the Interrupt mask for RTC events</td>
+</tr>
+<tr>
+<td>RTC_TAMP_INPUT</td>
+<td>Enum</td>
+<td>Defines the Tamper input</td>
+</tr>
+<tr>
+<td>RTC_TIMER16_INT_MASK</td>
+<td>Enum</td>
+<td>Possible RTC 16-bit Timer Counter Mode</td>
+</tr>
+<tr>
+<td>Events</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_TIMER16_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature of the</td>
+</tr>
+<tr>
+<td>RTC 16-bit Timer Counter callback function</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_TIMER32_INT_MASK</td>
+<td>Enum</td>
+<td>Possible RTC 32-bit Timer Counter Mode</td>
+</tr>
+<tr>
+<td>Events</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_TIMER32_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature of the</td>
+</tr>
+<tr>
+<td>RTC 32-bit Timer Counter callback function</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_PERIODIC_INT_MASK</td>
+<td>Enum</td>
+<td>Possible Periodic Interrupt Mask</td>
+</tr>
+<tr>
+<td>RTC_CLOCK_EVENT</td>
+<td>Enum</td>
+<td>Possible RTC RTCC Mode Events</td>
+</tr>
+<tr>
+<td>BACKUP_REGISTER</td>
+<td>Enum</td>
+<td>Possible Backup Register Mask</td>
+</tr>
+<tr>
+<td>TAMPER_CHANNEL</td>
+<td>Enum</td>
+<td>Possible Tamper Channel Mask</td>
+</tr>
+<tr>
+<td>RTC_CLOCK_INT_MASK</td>
+<td>Enum</td>
+<td>Possible RTC Clock Mode Events</td>
+</tr>
+<tr>
+<td>RTC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the</td>
+</tr>
+<tr>
+<td>RTC peripheral callback function</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

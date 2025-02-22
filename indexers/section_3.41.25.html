@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustRAM (TRAM) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.41.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.41.html">SAM L1X Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">TrustRAM (TRAM)</li>
+    </ol>
+</nav>
+
+<h1>TrustRAM (TRAM)</h1>
+<h1>3.41.25</h1>
+<p>TrustRAM (TRAM)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-79B3B49F-2B82-4A7C-A495-FA76216FA608_4.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-79B3B49F-2B82-4A7C-A495-FA76216FA608_4.html</a></p>
+<h1>3.41.25 TrustRAM (TRAM)</h1>
+<p>The TrustRAM (TRAM) is the controller interface for a 256-byte security RAM. This RAM is intended for volatile secret data.</p>
+<p>The TRAM is capable of performing address map scrambling as well as data scrambling for both
+      write and read access to the security RAM. The TRAM can perform silent access of the data
+      stream to improve side-channel attacks resistance.</p>
+<p>The TRAM can execute two automated tasks that are triggered by external events</p>
+<p>Remanence prevention and erase.</p>
+<p>When a remanence periodic event occurs, the physical data stored in the RAM is inverted in order to prevent physical “burn-in” signatures.</p>
+<p>Tamper Event</p>
+<p>When a tamper event occurs, the TRAM executes a full erase of the control signals as well as the data in the security RAM.</p>
+<p>Both automated tasks do not require CPU interaction and can be performed in all sleep modes.</p>
+<ul>
+<li>
+<p>Remanence prevention and erase.</p>
+<pre class="code-block"><code class="language-c">    When a remanence periodic event occurs, the physical data stored in the RAM is inverted in order to prevent physical “burn-in” signatures.
+</code></pre>
+<ul>
+<li>When a remanence periodic event occurs, the physical data stored in the RAM is inverted in order to prevent physical “burn-in” signatures.</li>
+<li>Tamper Event<pre class="code-block"><code class="language-c">When a tamper event occurs, the TRAM executes a full erase of the control signals as well as the data in the security RAM.
+</code></pre>
+<ul>
+<li>When a tamper event occurs, the TRAM executes a full erase of the control signals as well as the data in the security RAM.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>When a remanence periodic event occurs, the physical data stored in the RAM is inverted in order to prevent physical “burn-in” signatures.</p>
+</li>
+<li>
+<p>When a tamper event occurs, the TRAM executes a full erase of the control signals as well as the data in the security RAM.</p>
+</li>
+</ul>
+<h2>Using The Library</h2>
+<p>TRAM Peripheral library allows user to configure the following options of the TRAM
+        peripheral which are part of the initialization routine in MCC.</p>
+<p>Enable silent access</p>
+<p>Enable data remanence prevention</p>
+<p>Enable data erasure on tamper detection</p>
+<p>The example code below demonstrates how to Write and read Data from TRAM.</p>
+<p>```C
+int main( void )
+{
+    uint32_t rData = 0;
+    uint32_t wData = 0;</p>
+<pre class="code-block"><code class="language-c">/* Initialize all modules */
+SYS_Initialize ( NULL );
+
+for(uint8_t i = 0; i &lt; 10; i++)
+{
+    wData = ~(1 &lt;&lt; i);
+
+    TRAM_RAMSet(i, wData);
+
+    TRAM_RAMGet(i, &amp;rData);
+
+    if(rData != wData)
+    {
+        printf("\n\rTRAM register RAM[%d] value mismatch", i);
+        break;
+    }
+}
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>Enable silent access</li>
+<li>Enable data remanence prevention</li>
+<li>Enable data erasure on tamper detection</li>
+</ul>
+<h2>Library Interface</h2>
+<p>TrustRAM peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TRAM_Initialize</td>
+<td>Initializes the TrustRam</td>
+</tr>
+<tr>
+<td>TRAM_DataScrambleEnable</td>
+<td>Enable or Disable data scrambling of the TrustRAM</td>
+</tr>
+<tr>
+<td>TRAM_DataScrambleKeySet</td>
+<td>Sets the key for data scrambling of the TrustRAM</td>
+</tr>
+<tr>
+<td>TRAM_RAMGet</td>
+<td>Reads data from the TrustRAM RAMx register</td>
+</tr>
+<tr>
+<td>TRAM_RAMSet</td>
+<td>Write data into the TrustRAM RAMx register</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

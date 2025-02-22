@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TC CAPTURE Macros and Typedefs | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.113.1.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.113.html">Timer Counter (TC)</a></li>
+        <li class="breadcrumb-item"><a href="section_2.113.1.html">Basic Timer Counter (TC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">TC CAPTURE Macros and Typedefs</li>
+    </ol>
+</nav>
+
+<h1>TC CAPTURE Macros and Typedefs</h1>
+<h1>2.113.1.61</h1>
+<p>TC_CAPTURE Macros and Typedefs</p>
+<p><em>Generated on: 2025-02-19 08:42:42</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-797339EB-744D-4538-97DB-096C5BDD0AE9.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-797339EB-744D-4538-97DB-096C5BDD0AE9.html</a></p>
+<h1>2.113.1.61 TC_CAPTURE Macros and Typedefs</h1>
+<h2>C</h2>
+<p>```C</p>
+<h1>define TC_CAPTURE_STATUS_NONE              0U</h1>
+<p>/<em> Capture status overflow </em>/</p>
+<h1>define TC_CAPTURE_STATUS_OVERFLOW          TC_INTFLAG_OVF_Msk</h1>
+<p>/<em> Capture status error </em>/</p>
+<h1>define TC_CAPTURE_STATUS_ERROR             TC_INTFLAG_ERR_Msk</h1>
+<p>/<em> Capture status ready for channel 0 </em>/</p>
+<h1>define TC_CAPTURE_STATUS_CAPTURE0_READY    TC_INTFLAG_MC0_Msk</h1>
+<p>/<em> Capture status ready for channel 1 </em>/</p>
+<h1>define TC_CAPTURE_STATUS_CAPTURE1_READY    TC_INTFLAG_MC1_Msk</h1>
+<h1>define TC_CAPTURE_STATUS_MSK               (TC_CAPTURE_STATUS_OVERFLOW | TC_CAPTURE_STATUS_ERROR | TC_CAPTURE_STATUS_CAPTURE0_READY | TC_CAPTURE_STATUS_CAPTURE1_READY)</h1>
+<p>/<em> Invalid capture status </em>/</p>
+<h1>define TC_CAPTURE_STATUS_INVALID           0xFFFFFFFFU</h1>
+<p>/<em> TC_COMPARE_STATUS type </em>/
+typedef uint32_t TC_COMPARE_STATUS;
+```</p>
+<h2>Summary</h2>
+<p>Defines macros and typedefs associated with tc capture status</p>
+<h2>Description</h2>
+<p>Provides convenience macros and type definitions for status flags associated with capture mode of TC</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

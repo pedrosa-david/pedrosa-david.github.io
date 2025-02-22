@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Volatile Memory Controller (NVMCTRL) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.35.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.35.html">SAM D51 E51 E53 E54 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Non-Volatile Memory Controller (NVMCTRL)</li>
+    </ol>
+</nav>
+
+<h1>Non-Volatile Memory Controller (NVMCTRL)</h1>
+<h1>3.35.16</h1>
+<p>Non-Volatile Memory Controller (NVMCTRL)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-35FBE6D6-3355-42A1-975B-F8CE7842BC1D.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-35FBE6D6-3355-42A1-975B-F8CE7842BC1D.html</a></p>
+<h1>3.35.16 Non-Volatile Memory Controller (NVMCTRL)</h1>
+<p>The Non-Volatile Memory (NVM) module provides an interface to the device's Non-Volatile Memory controller, so that memory pages can be written, read, erased, and reconfigured in a standardized manner.</p>
+<h2>Using The Library</h2>
+<p>NVMCTRL Peripheral library provides non-Blocking API's and they can be used to perform below functionalities on the NVMCTRL peripheral.</p>
+<p>Initialize the NVMCTRL</p>
+<p>Register a callback</p>
+<p>Perform NVM write and erase operations</p>
+<p>Manage region locks</p>
+<p>Manage SmartEEPROM</p>
+<p>Check error and status of NVM</p>
+<p>The Flash memory main address space on this device is arranged as two memory banks. It is possible to execute code from one memory bank while a write or erase operation is progressing on the other memory bank. The entire flash memory is divided into 32 regions.</p>
+<p>Each region has a corresponding lock bit which can be programmed (with Lock Region command) to temporarily prevent write and erase operations. Temporarily here means until the region is unlocked with an unlock command. These lock bits can be erased (with an Unlock Region command)) to temporarily unlock a region. When the device is reset, region lock values are loaded with the default value stored in the NVM User Page.</p>
+<p>The main address space is divided into  blocks . Each of the block contains several flash pages. Commands used for the main address space and NVM User Page are different.</p>
+<p>There are multiple commands to perform erase and write operations.</p>
+<p>EB: Erase Block</p>
+<p>EP: Erase Page</p>
+<p>WP: Write Page</p>
+<p>WQW: Write Quad Word</p>
+<p>SmartEEPROM is the feature which perform EEPROM emulation on the device flash. There are fuse bits in the NVM User Page to configure SmartEEPROM total size and page size. Refer the datasheet and code examples for more details on the SmartEEPROM.</p>
+<p>Here is an example code to erase a block and program a page of memory using polling method</p>
+<p>```C
+// Define a constant array in Flash.
+// It must be aligned to block boundary and size has to be in multiple of rows
+const uint8_t nvm_user_start_address[NVMCTRL_FLASH_BLOCKSIZE] <strong>attribute</strong>((aligned(NVMCTRL_FLASH_BLOCKSIZE),keep,externally_visible,space(prog)))= {0};</p>
+<p>void populate_buffer(uint8_t* data)
+{
+    int i = 0;</p>
+<pre class="code-block"><code class="language-c">for (i = 0; i &lt; (NVMCTRL_FLASH_PAGESIZE); i++)
+{
+    *(data + i) = i;
+}
+</code></pre>
+<p>}</p>
+<p>int main (void)
+{
+    uint8_t pageBuffer[NVMCTRL_FLASH_PAGESIZE] = {0};</p>
+<pre class="code-block"><code class="language-c">/*Populate pageBuffer to programmed*/
+populate_buffer(pageBuffer);
+
+while(NVMCTRL_IsBusy());
+
+/* Erase the block */
+NVMCTRL_BlockErase((uint32_t)nvm_user_start_address);
+
+/* Wait for row erase  to complete */
+while(NVMCTRL_IsBusy());
+
+/* Program a page of data */
+NVMCTRL_PageWrite((uint32_t *)pageBuffer, (uint32_t)nvm_user_start_address);
+
+/* Wait for page program to compete */
+while(NVMCTRL_IsBusy());
+</code></pre>
+<p>}
+```</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Memory</th>
+<th>WP</th>
+<th>WQW</th>
+<th>EP</th>
+<th>EB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main Address Space</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td></td>
+</tr>
+<tr>
+<td>User Page Address Space</td>
+<td>X</td>
+<td>X</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Initialize the NVMCTRL</li>
+<li>Register a callback</li>
+<li>Perform NVM write and erase operations</li>
+<li>Manage region locks</li>
+<li>Manage SmartEEPROM</li>
+<li>
+<p>Check error and status of NVM</p>
+</li>
+<li>
+<p>EB: Erase Block</p>
+</li>
+<li>EP: Erase Page</li>
+<li>WP: Write Page</li>
+<li>WQW: Write Quad Word</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Non-Volatile Memory Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NVMCTRL_Initialize</td>
+<td>Initializes given instance of the NVMCTRL peripheral</td>
+</tr>
+<tr>
+<td>NVMCTRL_Read</td>
+<td>Reads length number of bytes from a given address in FLASH memory</td>
+</tr>
+<tr>
+<td>NVMCTRL_SetWriteMode</td>
+<td>Sets the write mode for Flash</td>
+</tr>
+<tr>
+<td>NVMCTRL_PageWrite</td>
+<td>Writes one page of data to given NVM address</td>
+</tr>
+<tr>
+<td>NVMCTRL_BlockErase</td>
+<td>Erases a Block in the NVM</td>
+</tr>
+<tr>
+<td>NVMCTRL_ErrorGet</td>
+<td>Returns error conditions of NVM controller</td>
+</tr>
+<tr>
+<td>NVMCTRL_StatusGet</td>
+<td>Returns status conditions of NVM controller</td>
+</tr>
+<tr>
+<td>NVMCTRL_IsBusy</td>
+<td>Returns the current status of NVM controller</td>
+</tr>
+<tr>
+<td>NVMCTRL_RegionLock</td>
+<td>Locks a NVMCTRL region</td>
+</tr>
+<tr>
+<td>NVMCTRL_RegionUnlock</td>
+<td>Unlocks a NVM region</td>
+</tr>
+<tr>
+<td>NVMCTRL_RegionLockStatusGet</td>
+<td>Returns the value of RUNLOCK register</td>
+</tr>
+<tr>
+<td>NVMCTRL_BankSwap</td>
+<td>Swaps NVM Banks</td>
+</tr>
+<tr>
+<td>NVMCTRL_MainCallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be called when an operation on the Flash is complete, provided the corresponding interrupt is enabled</td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEEPROM_IsBusy</td>
+<td>Checks whether SmartEEPROM is ready to perform next command</td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEepromStatusGet</td>
+<td>Returns status conditions of SmartEEPROM</td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEEPROM_IsActiveSectorFull</td>
+<td>Check whether active sector used by the SmartEEPROM is full</td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEepromSectorReallocate</td>
+<td>Performs sector reallocation for the SmartEEPROM</td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEepromFlushPageBuffer</td>
+<td>Flush SmartEEPROM data when in buffered mode</td>
+</tr>
+<tr>
+<td>NVMCTRL_SmartEEPROMCallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be called when an operation on the SmartEEPROM is complete, provided the corresponding interrupt is enabled</td>
+</tr>
+<tr>
+<td>NVMCTRL_EnableMainFlashInterruptSource</td>
+<td>Enables a given interrupt source for the Flash</td>
+</tr>
+<tr>
+<td>NVMCTRL_DisableMainFlashInterruptSource</td>
+<td>Disables a given interrupt source for the Flash</td>
+</tr>
+<tr>
+<td>NVMCTRL_EnableSmartEepromInterruptSource</td>
+<td>Enables a given interrupt source for the SmartEEPROM</td>
+</tr>
+<tr>
+<td>NVMCTRL_DisableSmartEepromInterruptSource</td>
+<td>Disables a given interrupt source for the SmartEEPROM</td>
+</tr>
+<tr>
+<td>NVMCTRL_PageBufferWrite</td>
+<td>Writes data to the internal buffer of NVM known as the page buffer</td>
+</tr>
+<tr>
+<td>NVMCTRL_PageBufferCommit</td>
+<td>Commits the data present in NVM internal page buffer to flash memory</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NVMCTRL_FLASH_START_ADDRESS</td>
+<td>Macro</td>
+<td>Defines the start address of NVMCTRL Flash</td>
+</tr>
+<tr>
+<td>NVMCTRL_FLASH_SIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of Flash</td>
+</tr>
+<tr>
+<td>NVMCTRL_FLASH_PAGESIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of a NVMCTRL Page</td>
+</tr>
+<tr>
+<td>NVMCTRL_FLASH_BLOCKSIZE</td>
+<td>Macro</td>
+<td>Defines the size (in bytes) of a NVMCTRL Block</td>
+</tr>
+<tr>
+<td>NVMCTRL_WRITEMODE</td>
+<td>Enum</td>
+<td>Defines the NVMCTRL Write Modes</td>
+</tr>
+<tr>
+<td>NVMCTRL_INTERRUPT0_SOURCE</td>
+<td>Enum</td>
+<td>Defines the Interrupt sources for the main flash</td>
+</tr>
+<tr>
+<td>NVMCTRL_INTERRUPT1_SOURCE</td>
+<td>Enum</td>
+<td>Defines the Interrupt sources for the SmartEEPROM</td>
+</tr>
+<tr>
+<td>NVMCTRL_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the NVMCTRL peripheral callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTC Timer32Compare1Set Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.93.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.93.html">Real-time Clock (RTC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">RTC Timer32Compare1Set Function</li>
+    </ol>
+</nav>
+
+<h1>RTC Timer32Compare1Set Function</h1>
+<h1>2.93.20</h1>
+<p>RTC_Timer32Compare1Set Function</p>
+<p><em>Generated on: 2025-02-20 07:44:05</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-0295E41E-2EEC-4CE9-A932-9F4BFD3D9CB3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-0295E41E-2EEC-4CE9-A932-9F4BFD3D9CB3.html</a></p>
+<h1><span id="2-93-20-rtc-timer32compare1set-function"></span>2.93.20 RTC_Timer32Compare1Set Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void RTC_Timer32Compare1Set ( uint32_t compare )</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Set the 32-bit timer period value.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function sets the 32-bit timer compare value. The counter value will be compared against the compare value and a compare match event will occur when the counter matches the compare value. If the library is configured for interrupt mode and if a event handler function has been set through the RTC_Timer32CallbackRegister() function, the event handling function will be called. When the match occurs, the counter can optionally be reset if clear on compare is enabled to generate periodic interrupt.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>RTC_Initialize must have been called for the associated RTC instance. The RTC peripheral should have been configured in 32-bit Timer Counter mode.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>compare</td>
+<td>Compare value</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>compare</td>
+<td>Compare value</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">uint32_t period = 0x00000FFF;
+RTC_Initialize();
+RTC_Timer32Compare1Set(period);
+RTC_Timer32CounterSet(0);
+RTC_Timer32Start();
+while(!RTC_Timer32Compare1HasMatched());</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>This API is available for devices that have more than one compare register in 32-bit mode.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

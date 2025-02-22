@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cache Controller (Cache) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.26.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.26.html">PIC32MZ EF Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cache Controller (Cache)</li>
+    </ol>
+</nav>
+
+<h1>Cache Controller (Cache)</h1>
+<h1>3.26.2</h1>
+<p>Cache Controller (Cache)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FCA9DB8E-14D0-4E43-B78F-E2D0169E201B_2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FCA9DB8E-14D0-4E43-B78F-E2D0169E201B_2.html</a></p>
+<h1>3.26.2 Cache Controller (Cache)</h1>
+<p>This library provides a brief overview of the L1 Cache peripheral in the PIC32MZ family of devices.</p>
+<p>The L1 cache is divided into two parts, a Data Cache (D-cache) and an Instruction Cache (I-cache). These blocks of high-speed memory both serve to compensate for the lengthy access time of main memory, by fetching instructions and data for the CPU ahead of time. The CPU can then access the information directly through the cache in a single clock cycle, rather than having to wait multiple clock cycles for accesses to main memory. The L1 cache provides a drastic increase in performance, but the user must be aware of hazards that exist when using the cache.</p>
+<h2>Using The Library</h2>
+<p>Cache Coherency</p>
+<p>Cache coherency is the discipline of ensuring that the data stored in main memory matches the corresponding data in the cache. The majority of the cache-related APIs deal with cache coherency. These functions allow the user to flush, clean and invalidate entire cache(s), or just a range of addresses within the cache.</p>
+<p>Caches most often lose coherency when a bus master other than the CPU modifies memory. This happens frequently with DMA. Two examples are provided in the following section.</p>
+<p>Example 1:</p>
+<p>Imagine a situation where you would like to transfer data from a source buffer to a destination buffer using DMA. You would write data to the source buffer, start the DMA transfer, and then expect that the same data now appears in the destination buffer. With the cache in write-back mode (the default mode for the PIC32MZ family), this will not be the case. When transferring data out of memory using DMA, it is possible that the desired data is held in the D-cache, but has never been written back to main memory. Therefore, in this case, you write data to the source buffer and it gets stored in cache. When the DMA transfer executes, it will pull the data from the source buffer out of RAM and then transfer it to the destination buffer in RAM. The problem is that the fresh data was stored in the cache but never written back to RAM, so what has happened is that stale data was copied over rather than the intended data. What is needed is a way to force the cache to write its data back to main memory before the DMA transfer. This is known as a write-back operation and would be performed with the use of the function:</p>
+<p>Example 2:</p>
+<p>The second situation involves writing data into memory using DMA. Imagine that the cache is holding a chunk of data known as destination_buffer. You then execute a DMA transfer to copy some new data from a source buffer into destination_buffer. The issue here is that main memory now contains the correct data, but the cache holds a copy of stale data for destination_buffer. The CPU cannot see this problem and it will keep pulling the data out of the cache, not even realizing that it’s stale. What is needed is a way to tell the cache to pull the fresh data out of main memory, to replace the stale data that the cache contains. This is known as an invalidate operation. It is performed with the use of the function:</p>
+<p>The below example application shows how to use the cache maintenance APIs to avoid issues related to cache coherency when the data cache is enabled.</p>
+<p>The application uses the USART and the DMA PLIBs to demonstrate the cache maintenance APIs provided by the Cache peripheral library. It registers a callback with the DMA transmit and receive channels. The application first transmits a message using the DMA transmit channel and then schedules a read of ten characters using the DMA receive channel. Once the DMA read is complete, it reads the received data and echoes the same on the terminal using the DMA transmit channel.</p>
+<p>The application calls the DCACHE_CLEAN_BY_ADDR API on the write buffer before transmitting it. Calling this API copies the data from the cache memory to the main memory, thereby ensuring that the DMA peripheral uses the updated values in the write buffer.</p>
+<p>The application calls the DCACHE_INVALIDATE_BY_ADDR API on the read buffer after reception of data is complete by the DMA receive channel. Calling this API invalidates the cache region corresponding to the read buffer, thereby ensuring that the CPU reads the updated values in the read buffer from the main memory and into the cache.</p>
+<p>The cache maintenance operations are always performed on a cache line (1 cache line = 32 bytes), the read and write buffers must be aligned to a 32 byte boundary and must be a multiple of 32 bytes. For the same reason, the number of received and echoed back bytes is 10, the size of the receive and echo buffers is 32 bytes.</p>
+<p><pre class="code-block"><code class="language-c">CACHE_DataCacheClean(uint32_t addr, size_t len)</code></pre></p>
+<p><pre class="code-block"><code class="language-c">CACHE_DataCacheInvalidate(uint32_t addr, size_t len)</code></pre></p>
+<p>```C</p>
+<h1>define READ_SIZE               10</h1>
+<h1>define BUFFER_SIZE             (2*CACHE_LINE_SIZE)     // Buffer size in terms of cache lines</h1>
+<p>char <strong>attribute</strong> ((aligned (16))) messageStart[] = "<strong><em>* CACHE maintenance demo with UART </em></strong><em>\r\n\
+</em><strong><em> Type a buffer of 10 characters and observe it echo back </em></strong><em>\r\n\
+</em><strong><em> LED toggles on each time the buffer is echoed </em></strong>*\r\n";
+char <strong>attribute</strong> ((aligned (16))) receiveBuffer[BUFFER_SIZE] = {};
+char <strong>attribute</strong> ((aligned (16))) echoBuffer[BUFFER_SIZE] = {};</p>
+<p>bool writeStatus  = false;
+bool readStatus   = false;</p>
+<p>void TX_DMAC_Callback(DMAC_TRANSFER_EVENT status, uintptr_t contextHandle)
+{
+    writeStatus = true;
+}</p>
+<p>void RX_DMAC_Callback(DMAC_TRANSFER_EVENT status, uintptr_t contextHandle)
+{
+    readStatus = true;
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Register callback functions for both write and read contexts */
+DMAC_ChannelCallbackRegister(DMAC_CHANNEL_0, TX_DMAC_Callback, 0);
+DMAC_ChannelCallbackRegister(DMAC_CHANNEL_1, RX_DMAC_Callback, 1);
+
+DCACHE_CLEAN_BY_ADDR((uint32_t)messageStart, sizeof(messageStart));
+
+DMAC_ChannelTransfer(DMAC_CHANNEL_0, &amp;messageStart, sizeof(messageStart), (const void *)&amp;U2TXREG, 1, 1);
+
+while(1)
+{
+    if(readStatus == true)
+    {
+        readStatus = false;
+
+        memcpy(echoBuffer, receiveBuffer, READ_SIZE);
+        echoBuffer[READ_SIZE] = '\r';
+        echoBuffer[(READ_SIZE + 1)] = '\n';
+
+        DCACHE_CLEAN_BY_ADDR((uint32_t)echoBuffer, sizeof(echoBuffer));
+
+        DMAC_ChannelTransfer(DMAC_CHANNEL_0, echoBuffer, READ_SIZE+2, (const void *)&amp;U2TXREG, 1, 1);
+    }
+    else if(writeStatus == true)
+    {
+        writeStatus = false;
+
+        /* Invalidate cache lines having received buffer before using it
+         * to load the latest data in the actual memory to the cache */
+        DCACHE_INVALIDATE_BY_ADDR((uint32_t)receiveBuffer, sizeof(receiveBuffer));
+
+        DMAC_ChannelTransfer(DMAC_CHANNEL_1, (const void *)&amp;U2RXREG, 1, receiveBuffer, READ_SIZE, 1);
+    }
+}
+
+  /* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Cache Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CACHE_CacheInit</td>
+<td>Initialize the L1 cache</td>
+</tr>
+<tr>
+<td>CACHE_CacheFlush</td>
+<td>Flushes the L1 cache</td>
+</tr>
+<tr>
+<td>CACHE_DataCacheFlush</td>
+<td>Flushes the L1 data cache</td>
+</tr>
+<tr>
+<td>CACHE_InstructionCacheFlush</td>
+<td>Flushes (invalidates) the L1 instruction cache</td>
+</tr>
+<tr>
+<td>CACHE_CacheClean</td>
+<td>Write back and invalidate an address range in either cache</td>
+</tr>
+<tr>
+<td>CACHE_DataCacheClean</td>
+<td>Write back and invalidate an address range in the data cache</td>
+</tr>
+<tr>
+<td>CACHE_DataCacheInvalidate</td>
+<td>Invalidate an address range in the data cache</td>
+</tr>
+<tr>
+<td>CACHE_InstructionCacheInvalidate</td>
+<td>Invalidate an address range in the instruction cache</td>
+</tr>
+<tr>
+<td>CACHE_InstructionCacheLock</td>
+<td>Fetch and lock a block of instructions in the instruction cache</td>
+</tr>
+<tr>
+<td>CACHE_DataCacheLock</td>
+<td>Fetch and lock a block of data in the data cache</td>
+</tr>
+<tr>
+<td>CACHE_CacheSync</td>
+<td>Synchronize the instruction and data caches</td>
+</tr>
+<tr>
+<td>CACHE_CacheCoherencySet</td>
+<td>Set the cache coherency attribute for kseg0</td>
+</tr>
+<tr>
+<td>CACHE_CacheCoherencyGet</td>
+<td>Returns the current cache coherency attribute for kseg0</td>
+</tr>
+<tr>
+<td>CACHE_DataCacheAssociativityGet</td>
+<td>Returns the number of ways in the data cache</td>
+</tr>
+<tr>
+<td>CACHE_InstructionCacheAssociativityGet</td>
+<td>Returns the number of ways in the instruction cache</td>
+</tr>
+<tr>
+<td>CACHE_DataCacheLineSizeGet</td>
+<td>Returns the data cache line size</td>
+</tr>
+<tr>
+<td>CACHE_InstructionCacheLineSizeGet</td>
+<td>Returns the instruction cache line size</td>
+</tr>
+<tr>
+<td>CACHE_DataCacheLinesPerWayGet</td>
+<td>Returns the number of lines per way in the data cache</td>
+</tr>
+<tr>
+<td>CACHE_InstructionCacheLinesPerWayGet</td>
+<td>Returns the number of lines per way in the instruction cache</td>
+</tr>
+<tr>
+<td>CACHE_DataCacheSizeGet</td>
+<td>Returns the total number of bytes in the data cache</td>
+</tr>
+<tr>
+<td>CACHE_InstructionCacheSizeGet</td>
+<td>Returns the total number of bytes in the instruction cache</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CACHE_COHERENCY</td>
+<td>Enum</td>
+<td>L1 cache coherency settings</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

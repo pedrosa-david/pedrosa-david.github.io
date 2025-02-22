@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Counter for Control Applications (TCC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.33.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.33.html">SAM D09 D10 D11 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Timer Counter for Control Applications (TCC)</li>
+    </ol>
+</nav>
+
+<h1>Timer Counter for Control Applications (TCC)</h1>
+<h1>3.33.19</h1>
+<p>Timer Counter for Control Applications (TCC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3491AC5B-ACA9-44FB-ACB5-351DD7F54FA4_11.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3491AC5B-ACA9-44FB-ACB5-351DD7F54FA4_11.html</a></p>
+<h1>3.33.19 Timer Counter for Control Applications (TCC)</h1>
+<p>Timer Counter for Control Applications (TCC) peripheral consists of counter, compare/capture channels and control logic. Waveform extensions are featured for motor control, ballast, LED, H-bridge, power converters, and other types of power control applications. They allow for low- and high-side output with optional dead-time insertion.</p>
+<p>TCC provides below features:</p>
+<p>Up to four compare/capture channels (CC) with double buffering</p>
+<p>Waveform extensions:</p>
+<p>Configurable distribution of compare channels outputs across port pins</p>
+<p>Low- and high-side output with programmable dead-time insertion</p>
+<p>Waveform swap option with double buffer support</p>
+<p>Pattern generation with double buffer support</p>
+<p>Dithering support</p>
+<p>Fault protection for safe disabling of drivers</p>
+<p>Two non-recoverable fault sources</p>
+<p>Two recoverable fault sources</p>
+<p>Timer mode</p>
+<p>This section provides brief overview of the TC peripheral library in Timer mode</p>
+<ul>
+<li>Up to four compare/capture channels (CC) with double buffering</li>
+<li>Waveform extensions:</li>
+<li>Configurable distribution of compare channels outputs across port pins</li>
+<li>Low- and high-side output with programmable dead-time insertion</li>
+<li>Waveform swap option with double buffer support</li>
+<li>Pattern generation with double buffer support</li>
+<li>Dithering support</li>
+<li>Fault protection for safe disabling of drivers</li>
+<li>Two non-recoverable fault sources</li>
+<li>Two recoverable fault sources</li>
+</ul>
+<h2>Using The Library</h2>
+<p>When the timer is enabled, it increments by one on every rising edge of the input clock, and generates an interrupt on a period match (period is controlled by CC0 in MPWM waveform mode). Timer mode is used for periodic interrupt generation. It provides both polling and callback methods to indicate period match has occurred. With polling, the application will need to continuously poll to check if the timer has expired. With callback, the registered callback function will be called when the timer expires. This means the application do not have to poll continuously.</p>
+<h2>Library Interface</h2>
+<p>Timer Counter for Control Applications peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>Compare mode</p>
+<p>This section provides brief overview of the TC peripheral library in Compare mode.</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCCx_TimerInitialize</td>
+<td>Initializes given instance of TCC</td>
+</tr>
+<tr>
+<td>TCCx_TimerStart</td>
+<td>Starts the timer for given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_TimerStop</td>
+<td>Stops the timer for given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_TimerFrequencyGet</td>
+<td>Provides the given timer's counter-increment frequency</td>
+</tr>
+<tr>
+<td>TCCx_Timer32bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCCx_Timer32bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCCx_Timer32bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCCx_Timer32bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCCx_Timer24bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCCx_Timer24bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCCx_Timer24bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCCx_Timer24bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCCx_Timer24bitCompareSet</td>
+<td>Sets the compare value of a given timer channel</td>
+</tr>
+<tr>
+<td>TCCx_Timer16bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCCx_Timer16bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCCx_Timer16bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCCx_Timer16bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCCx_Timer16bitCompareSet</td>
+<td>Sets the compare value of a given timer channel</td>
+</tr>
+<tr>
+<td>TCCx_TimerCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>TCCx_TimerPeriodHasExpired</td>
+<td>Checks whether timer period is elapsed</td>
+</tr>
+<tr>
+<td>TCCx_TimerCommandSet</td>
+<td>Issues the command to TCC instance</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tcc callback function</td>
+</tr>
+</tbody>
+</table>
+<h2>Using The Library</h2>
+<p>When using the TC and the Compare/Capture Value registers (CCx) for compare operations, the counter value is continuously compared to the values in the CCx registers. The Channel x Compare Buffer (CCBUFx) registers provide double buffer capability. Output polarity can be reversed by inverting the output waveforms. In compare mode, overflow interrupt and compare match interrupts can be used to change the frequency or duty cycle of the waveform.</p>
+<h2>Library Interface</h2>
+<p>Timer Counter for Control Applications peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>Capture mode</p>
+<p>This section provides brief overview of the TC peripheral library in Capture mode.</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCCx_CompareInitialize</td>
+<td>Initializes given instance of TCC</td>
+</tr>
+<tr>
+<td>TCCx_CompareStart</td>
+<td>Starts the timer for given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_CompareStop</td>
+<td>Stops the timer for given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_CompareFrequencyGet</td>
+<td>Provides the given timer's counter-increment frequency</td>
+</tr>
+<tr>
+<td>TCCx_Compare16bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCCx_Compare16bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCCx_Compare16bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCCx_Compare16bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCCx_Compare16bitMatchSet</td>
+<td>Writes compare value of the given compare channel</td>
+</tr>
+<tr>
+<td>TCCx_Compare24bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCCx_Compare24bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCCx_Compare24bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCCx_Compare24bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCCx_Compare24bitMatchSet</td>
+<td>Writes compare value of the given compare channel</td>
+</tr>
+<tr>
+<td>TCCx_Compare32bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCCx_Compare32bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCCx_Compare32bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCCx_Compare32bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCCx_Compare32bitMatchSet</td>
+<td>Writes compare value of the given compare channel</td>
+</tr>
+<tr>
+<td>TCCx_CompareCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>TCCx_CompareStatusGet</td>
+<td>Reads status of compare operation</td>
+</tr>
+<tr>
+<td>TCCx_CompareCommandSet</td>
+<td>Issues the command to TCC instance</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tcc callback function</td>
+</tr>
+</tbody>
+</table>
+<h2>Using The Library</h2>
+<p>Capture trigger can be provided by</p>
+<p>Input event line TC_EV</p>
+<p>Two event input line is available</p>
+<p>This provides different capture event actions:</p>
+<p>Pulse width in CC0 and period in CC1</p>
+<p>Pulse width in CC1 and period in CC0</p>
+<p>Pulse width</p>
+<p>Input event line TC_MCEIx</p>
+<p>Each capture channel has associated input capture event line</p>
+<p>It provides both polling and callback methods to indicate capture event has occurred.</p>
+<p>With polling, the application will need to continuously poll to check if the capture event has occurred.</p>
+<p>With callback, the registered callback function will be called when the capture event occurs. This means the application do not have to poll continuously.</p>
+<ul>
+<li>Input event line TC_EV</li>
+<li>Two event input line is available</li>
+<li>This provides different capture event actions:</li>
+<li>Pulse width in CC0 and period in CC1</li>
+<li>Pulse width in CC1 and period in CC0</li>
+<li>Pulse width</li>
+<li>Input event line TC_MCEIx</li>
+<li>
+<p>Each capture channel has associated input capture event line</p>
+</li>
+<li>
+<p>With polling, the application will need to continuously poll to check if the capture event has occurred.</p>
+</li>
+<li>With callback, the registered callback function will be called when the capture event occurs. This means the application do not have to poll continuously.</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Timer Counter for Control Applications peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>PWM mode</p>
+<p>This section provides brief overview of the TC peripheral library in PWM mode.</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCCx_CaptureInitialize</td>
+<td>Initializes given instance of TCC</td>
+</tr>
+<tr>
+<td>TCCx_CaptureStart</td>
+<td>Starts the timer for given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_CaptureStop</td>
+<td>Stops the timer for given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_CaptureFrequencyGet</td>
+<td>Provides the given timer's counter-increment frequency</td>
+</tr>
+<tr>
+<td>TCCx_Capture16bitValueGet</td>
+<td>Reads capture value from given channel</td>
+</tr>
+<tr>
+<td>TCCx_Capture16bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCCx_Capture24bitValueGet</td>
+<td>Reads capture value from given channel</td>
+</tr>
+<tr>
+<td>TCCx_Capture24bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCCx_Capture32bitValueGet</td>
+<td>Reads capture value from given channel</td>
+</tr>
+<tr>
+<td>TCCx_Capture32bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCCx_CaptureCommandSet</td>
+<td>Issues the command to TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_CaptureCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>TCCx_CaptureStatusGet</td>
+<td>Reads status capture operation</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tcc callback function</td>
+</tr>
+<tr>
+<td>TCCx_CAPTURE_STATUS</td>
+<td>Enum</td>
+<td>TCC capture status flags</td>
+</tr>
+</tbody>
+</table>
+<h2>Using The Library</h2>
+<p>TCC is used to generate single slope or dual slope PWM signals with dead time. This can generate four complimentary PWM signals.</p>
+<p>Below example shows to generate 3 phase PWM signals for motor control
+application. Duty cycle is updated in interrupt handler.</p>
+<p>```C
+/<em> Duty cycle increment value </em>/
+#define DUTY_INCREMENT (10U)</p>
+<p>/<em> Save PWM period </em>/
+uint32_t period;</p>
+<p>/<em> This function is called after TCC period event </em>/
+void TCC_PeriodEventHandler(uint32_t status, uintptr_t context)
+{
+    /<em> duty cycle values </em>/
+    static uint32_t duty1 = 0U;
+    static uint32_t duty2 = 0U;
+    static uint32_t duty3 = 0U;</p>
+<pre class="code-block"><code class="language-c">TCC0_PWM24bitDutySet(TCC0_CHANNEL1, duty1);
+TCC0_PWM24bitDutySet(TCC0_CHANNEL2, duty2);
+TCC0_PWM24bitDutySet(TCC0_CHANNEL3, duty3);
+
+/* Increment duty cycle values */
+duty1 += DUTY_INCREMENT;
+duty2 += DUTY_INCREMENT;
+duty3 += DUTY_INCREMENT;
+
+if (duty1 &gt; period)
+{
+        duty1 = 0U;
+    if (duty2 &gt; period)
+        duty2 = 0U;
+    if (duty3 &gt; period)
+        duty3 = 0U;
+}
+</code></pre>
+<p>}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">    /* Register callback function for period event */
+TCC0_PWMCallbackRegister(TCC_PeriodEventHandler, (uintptr_t)NULL);
+
+/* Read the period */
+period = TCC0_PWM24bitPeriodGet();
+
+/* Start PWM*/
+TCC0_PWMStart();
+
+while(1);
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Timer Counter for Control Applications peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCCx_PWMInitialize</td>
+<td>Initializes given instance of TCC</td>
+</tr>
+<tr>
+<td>TCCx_PWMStart</td>
+<td>Starts PWM generation of given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWMStop</td>
+<td>Stops PWM generation of given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWMPatternSet</td>
+<td>Sets the output PWM pattern</td>
+</tr>
+<tr>
+<td>TCCx_PWM24bitPeriodSet</td>
+<td>Sets the period value of a given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWM24bitPeriodGet</td>
+<td>Reads the period value of a given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWM24bitDutySet</td>
+<td>Sets the duty value of a given TCC channel</td>
+</tr>
+<tr>
+<td>TCCx_PWM24bitCounterSet</td>
+<td>Sets the counter value of a given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWM16bitPeriodSet</td>
+<td>Sets the period value of a given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWM16bitPeriodGet</td>
+<td>Reads the period value of a given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWM16bitDutySet</td>
+<td>Sets the duty value of a given TCC channel</td>
+</tr>
+<tr>
+<td>TCCx_PWM16bitCounterSet</td>
+<td>Sets the counter value of a given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWM32bitPeriodSet</td>
+<td>Sets the period value of a given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWM32bitPeriodGet</td>
+<td>Reads the period value of a given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWM32bitDutySet</td>
+<td>Sets the duty value of a given TCC channel</td>
+</tr>
+<tr>
+<td>TCCx_PWM32bitCounterSet</td>
+<td>Sets the counter value of a given TCC instance</td>
+</tr>
+<tr>
+<td>TCCx_PWMDeadTimeSet</td>
+<td>Sets the dead time of a given TCC module</td>
+</tr>
+<tr>
+<td>TCCx_PWMForceUpdate</td>
+<td>Updates double buffer register value to actual register asynchronously</td>
+</tr>
+<tr>
+<td>TCCx_PWMPeriodInterruptEnable</td>
+<td>Enables period interrupt</td>
+</tr>
+<tr>
+<td>TCCx_PWMPeriodInterruptDisable</td>
+<td>Disables period interrupt</td>
+</tr>
+<tr>
+<td>TCCx_PWMInterruptStatusGet</td>
+<td>Reads the interrupt flags</td>
+</tr>
+<tr>
+<td>TCCx_PWMCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCCx_CHANNEL_NUM</td>
+<td>Enum</td>
+<td>Identifies channel number within TCC module</td>
+</tr>
+<tr>
+<td>TCC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tcc callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

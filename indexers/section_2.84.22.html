@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWMx CompareValueSet Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.84.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.84.html">Pulse Width Modulation Controller (PWM)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">PWMx CompareValueSet Function</li>
+    </ol>
+</nav>
+
+<h1>PWMx CompareValueSet Function</h1>
+<h1>2.84.22</h1>
+<p>PWMx_CompareValueSet Function</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-49E380F8-9AC0-44C4-AE2C-8C5E043475D3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-49E380F8-9AC0-44C4-AE2C-8C5E043475D3.html</a></p>
+<h1><span id="2-84-22-pwmx-comparevalueset-function"></span>2.84.22 PWMx_CompareValueSet Function</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> x = PWM instance number </em>/</p>
+<p>void PWMx_CompareValueSet (PWM_COMPARE cmp_unit, uint16_t cmp_value)
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Writes the compare value for given PWM peripheral and given comparison unit</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function writes compare value in a double buffer register. Update to the actual
+compare value register happens at the PWM period border when compare period counter expires.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>PWMx_Initialize() function must have been called first for the associated instance. And associated channel must be running.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cmp_unit</td>
+<td>compare unit number</td>
+</tr>
+<tr>
+<td>cmp_value</td>
+<td>compare value which is compared with channel 0 counter</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cmp_unit</td>
+<td>compare unit number</td>
+</tr>
+<tr>
+<td>cmp_value</td>
+<td>compare value which is compared with channel 0 counter</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>None</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">PWM0_Initialize();
+PWM0_ChannelsStart(PWM_CHANNEL_0_MASK);
+PWM0_CompareValueSet(PWM_COMPARE_0, 0x25);</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>When compare value matches the counter of PWM channel 0, interrupt is generated and also pulse is generated on PWM event line which can be used to synchronize ADC conversion.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

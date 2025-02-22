@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFECx ConversionSequenceSet Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.5.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.5.html">Analog Front-End Controller (AFEC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">AFECx ConversionSequenceSet Function</li>
+    </ol>
+</nav>
+
+<h1>AFECx ConversionSequenceSet Function</h1>
+<h1>2.5.9</h1>
+<p>AFECx_ConversionSequenceSet Function</p>
+<p><em>Generated on: 2025-02-20 07:44:03</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-45A29600-1F1D-4D3C-A528-636B008079C2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-45A29600-1F1D-4D3C-A528-636B008079C2.html</a></p>
+<h1><span id="2-5-9-afecx-conversionsequenceset-function"></span>2.5.9 AFECx_ConversionSequenceSet Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void AFECx_ConversionSequenceSet (AFEC_CHANNEL *channelList, uint8_t numChannel) // x - Instance of the AFEC peripheral</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Sets the user sequence of the channel conversion</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function sets the order in which channels are converted.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>AFECx_Initialize() must have been called first for the associate instance. Conversion should not be ongoing while changing the sequence.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*channelList</td>
+<td>pointer to the list of the channels which describes the order of conversion</td>
+</tr>
+<tr>
+<td>numChannel</td>
+<td>Number of enabled channels in the list</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*channelList</td>
+<td>pointer to the list of the channels which describes the order of conversion</td>
+</tr>
+<tr>
+<td>numChannel</td>
+<td>Number of enabled channels in the list</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">AFEC_CHANNEL seq_order[4] = {AFEC_CH3, AFEC_CH5, AFEC_CH1, AFEC_CH2};
+    AFEC0_Initialize();
+    AFEC0_ConversionSequenceSet(seq_order, 0x4);
+    AFEC0_ChannelsEnable(AFEC_CH0_MASK | AFEC_CH1_MASK | AFEC_CH2_MASK | AFEC_CH3_MASK);</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>Conversion order is set in this function and remains valid until user configures new conversion sequence order or reinitializes the peripheral. Array pointed to by *channelList must be valid during the call to this function. This function copies the array data into AFEC HW registers.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

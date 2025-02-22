@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Counter (TC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.37.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.37.html">SAM E70 S70 V70 V71 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Timer Counter (TC)</li>
+    </ol>
+</nav>
+
+<h1>Timer Counter (TC)</h1>
+<h1>3.37.23</h1>
+<p>Timer Counter (TC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-26BFCA9A-A451-4B5F-AF0F-049038B07352_6.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-26BFCA9A-A451-4B5F-AF0F-049038B07352_6.html</a></p>
+<h1>3.37.23 Timer Counter (TC)</h1>
+<p>A Timer Counter (TC) module includes three identical TC channels. All channels of the Timer Counter are independent and identical in operation except when the quadrature encode mode is enabled. Timer counter module can be configured to operate in one of the following modes:</p>
+<p>Timer mode used for periodic interrupt generation</p>
+<p>Compare mode used for generating PWM signals</p>
+<p>Capture mode used to perform measurements such as pulse timing, frequency, period, duty cycle and phase</p>
+<p>Quadrature encoder mode used to measure the position and speed of the motor</p>
+<p>Timer mode</p>
+<p>The TC channel in timer mode is used for periodic interrupt generation.</p>
+<p>Using The Library</p>
+<p>When the timer is enabled, it increments by one on every rising edge of the input clock, and generates an interrupt on a period match (Timer expiry period). Timer mode is used for periodic interrupt generation.</p>
+<p>It provides both polling and callback methods to indicate period match has occurred.</p>
+<p>With polling, the application will need to continuously poll to check if the timer has expired.</p>
+<p>With callback, the registered callback function will be called when the timer expires. This means the application do not have to poll continuously.</p>
+<p>Callback method</p>
+<p>This example demonstrates how to use TC channel in timer mode to
+generate periodic callback.</p>
+<p>Library Interface</p>
+<p>Timer Counter peripheral library operating in timer mode provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>Compare mode</p>
+<p>The TC channel in compare mode generates one or two PWM signals with the same frequency and independently programmable duty cycles, or generates different types of one-shot or repetitive pulses.</p>
+<p>Using The Library</p>
+<p>In this mode, TIOAx is configured as an output. TIOBx is configured as an output, if it is not used as an external event.</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>Capture mode</p>
+<p>The TC channel in capture mode is used to measure pulse time, frequency, period and duty cycle.</p>
+<p>Using The Library</p>
+<p>In Capture mode, TIOAx and TIOBx are configured as inputs. The counter value is captured in the buffer on the selected input edge and it is used as a timestamp for the event. The user can select up to two input events and the respective timestamp is captured in Capture A and Capture B buffers, it can be used to measure pulse, period, frequency and duty cycle of the external input.</p>
+<p>It provides both polling and callback methods to indicate capture event has occurred.</p>
+<p>With polling, the application will need to continuously poll to check if the capture event has occurred</p>
+<p>With callback, the registered callback function will be called when the capture event occurs. This means the application do not have to poll continuously</p>
+<p>Callback method</p>
+<p>This example demonstrates how to use the TC channel in capture mode to
+measure off time and period. The rising edge is captured in Capture A
+and Falling edge is captured in Capture B register, and then the timer
+is reset.</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>Quadrature decoder mode</p>
+<p>The quadrature decoder (QDEC) mode is used to measure the position and speed of the motor</p>
+<p>Using The Library</p>
+<p>The TC embeds a Quadrature Decoder (QDEC) connected in front of the timers and driven by TIOA0, TIOB0 and TIOB1 inputs. When enabled, the QDEC performs the input lines filtering, decoding of quadrature signals and connects to the timers and counters in order to read the position and speed of the motor through the user interface.</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>```C
+/<em> This function is called after period expires </em>/
+void TC0_CH0_TimerInterruptHandler(TC_TIMER_STATUS status, uintptr_t context)
+{
+    /<em> Toggle LED </em>/
+    LED_Toggle();
+}</p>
+<p>int main(void)
+{</p>
+<pre class="code-block"><code class="language-c">/* Register callback function for CH0 period interrupt */
+TC0_CH0_TimerCallbackRegister(TC0_CH0_TimerInterruptHandler, (uintptr_t)NULL);
+
+/* Start the timer channel 0*/
+TC0_CH0_TimerStart();
+</code></pre>
+<p>}
+```</p>
+<p>```C
+/<em> This function is called after Capture B </em>/
+void TC0_CH0_CaptureInterruptHandler(TC_CAPTURE_STATUS status, uintptr_t context)
+{
+    /<em> Read Captured values </em>/
+    off_time = TC0_CH0_CaptureAGet();
+    period = TC0_CH0_CaptureBGet();
+}</p>
+<p>int main(void)
+{</p>
+<pre class="code-block"><code class="language-c">/* Register callback function for CH0 period interrupt */
+TC0_CH0_CaptureCallbackRegister(TC0_CH0_CaptureInterruptHandler, (uintptr_t)NULL);
+
+/* Start the Capture channel 0*/
+TC0_CH0_CaptureStart();
+</code></pre>
+<p>}
+```</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCx_CHy_TimerInitialize</td>
+<td>Initializes given instance of TC channel</td>
+</tr>
+<tr>
+<td>TCx_CHy_TimerStart</td>
+<td>Starts the given TC channel counter</td>
+</tr>
+<tr>
+<td>TCx_CHy_TimerStop</td>
+<td>Stops the given TC channel counter</td>
+</tr>
+<tr>
+<td>TCx_CHy_TimerCompareSet</td>
+<td>Sets the compare value of a given timer channel</td>
+</tr>
+<tr>
+<td>TCx_CHy_TimerPeriodSet</td>
+<td>Sets the period value of a given timer channel</td>
+</tr>
+<tr>
+<td>TCx_CHy_TimerPeriodGet</td>
+<td>Reads the period value of given timer channel</td>
+</tr>
+<tr>
+<td>TCx_CHy_TimerCounterGet</td>
+<td>Reads the timer channel counter value</td>
+</tr>
+<tr>
+<td>TCx_CHy_TimerFrequencyGet</td>
+<td>Provides the given timer's counter-increment frequency</td>
+</tr>
+<tr>
+<td>TCx_CHy_TimerPeriodHasExpired</td>
+<td>Checks whether timer period is elapsed</td>
+</tr>
+<tr>
+<td>TCx_CHy_TimerCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC_TIMER_STATUS</td>
+<td>Enum</td>
+<td>Identifies channel interrupt source mask</td>
+</tr>
+<tr>
+<td>TC_TIMER_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tc channel callback function</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCx_CHy_CompareInitialize</td>
+<td>Initializes given TC channel in compare mode</td>
+</tr>
+<tr>
+<td>TCx_CHy_CompareStart</td>
+<td>Starts the given TC channel compare counter</td>
+</tr>
+<tr>
+<td>TCx_CHy_CompareStop</td>
+<td>Stops the given TC channel counter in compare mode</td>
+</tr>
+<tr>
+<td>TCx_CHy_ComparePeriodSet</td>
+<td>Sets the period value of a given TC channel in compare mode</td>
+</tr>
+<tr>
+<td>TCx_CHy_ComparePeriodGet</td>
+<td>Gets the period value of given timer channel in compare mode</td>
+</tr>
+<tr>
+<td>TCx_CHy_CompareFrequencyGet</td>
+<td>Provides the given timer's counter-increment frequency in compare mode</td>
+</tr>
+<tr>
+<td>TCx_CHy_CompareCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>TCx_CHy_CompareASet</td>
+<td>Sets the Compare-A value of the given timer channel in compare mode</td>
+</tr>
+<tr>
+<td>TCx_CHy_CompareBSet</td>
+<td>Sets the Compare-B value of the given timer channel in compare mode</td>
+</tr>
+<tr>
+<td>TCx_CHy_CompareStatusGet</td>
+<td>Identifies status of the compare events</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC_COMPARE_STATUS</td>
+<td>Enum</td>
+<td>Identifies channel interrupt source mask</td>
+</tr>
+<tr>
+<td>TC_COMPARE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tc channel callback function</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCx_CHy_CaptureInitialize</td>
+<td>Initializes given instance of TC channel to capture mode</td>
+</tr>
+<tr>
+<td>TCx_CHy_CaptureStart</td>
+<td>Starts the given TC channel capture counter</td>
+</tr>
+<tr>
+<td>TCx_CHy_CaptureStop</td>
+<td>Stops the given TC channel counter</td>
+</tr>
+<tr>
+<td>TCx_CHy_CaptureCallbackRegister</td>
+<td>Registers the function to be called from the capture-event</td>
+</tr>
+<tr>
+<td>TCx_CHy_CaptureAGet</td>
+<td>Returns the Capture-A value</td>
+</tr>
+<tr>
+<td>TCx_CHy_CaptureBGet</td>
+<td>Returns the Capture-B value</td>
+</tr>
+<tr>
+<td>TCx_CHy_CaptureStatusGet</td>
+<td>Identifies status of the capture events</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC_CAPTURE_STATUS</td>
+<td>Enum</td>
+<td>Identifies channel interrupt source mask</td>
+</tr>
+<tr>
+<td>TC_CAPTURE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tc channel callback function</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCx_QuadratureInitialize</td>
+<td>Initializes given instance of TC channel in quadrature mode</td>
+</tr>
+<tr>
+<td>TCx_QuadratureStart</td>
+<td>Starts the given TC channel counter in quadrature mode</td>
+</tr>
+<tr>
+<td>TCx_QuadratureStop</td>
+<td>Stops the given TC channel counter in quadrature mode</td>
+</tr>
+<tr>
+<td>TCx_QuadraturePositionGet</td>
+<td>Reads the angular position from the quadrature encoder</td>
+</tr>
+<tr>
+<td>TCx_QuadratureRevolutionsGet</td>
+<td>Reads the number of revolutions from the quadrature encoder</td>
+</tr>
+<tr>
+<td>TCx_QuadratureSpeedGet</td>
+<td>Reads the quadrature index change speed</td>
+</tr>
+<tr>
+<td>TCx_CHy_QuadratureStatusGet</td>
+<td>Identifies status of the quadrature events</td>
+</tr>
+<tr>
+<td>TCx_QuadratureCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC_QUADRATURE_STATUS</td>
+<td>Enum</td>
+<td>Identifies channel interrupt source mask</td>
+</tr>
+<tr>
+<td>TC_QUADRATURE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tc channel callback function</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Timer mode used for periodic interrupt generation</li>
+<li>Compare mode used for generating PWM signals</li>
+<li>Capture mode used to perform measurements such as pulse timing, frequency, period, duty cycle and phase</li>
+<li>
+<p>Quadrature encoder mode used to measure the position and speed of the motor</p>
+</li>
+<li>
+<p>With polling, the application will need to continuously poll to check if the timer has expired.</p>
+</li>
+<li>
+<p>With callback, the registered callback function will be called when the timer expires. This means the application do not have to poll continuously.</p>
+</li>
+<li>
+<p>With polling, the application will need to continuously poll to check if the capture event has occurred</p>
+</li>
+<li>With callback, the registered callback function will be called when the capture event occurs. This means the application do not have to poll continuously</li>
+</ul>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

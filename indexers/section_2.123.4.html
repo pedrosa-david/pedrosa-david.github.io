@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UARTx Read Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.123.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.123.html">Universal Asynchronous Receiver Transmitter (UART)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">UARTx Read Function</li>
+    </ol>
+</nav>
+
+<h1>UARTx Read Function</h1>
+<h1>2.123.4</h1>
+<p>UARTx_Read Function</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5CDD8C06-6ADF-40AE-BDFC-F34FA0C964C1.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5CDD8C06-6ADF-40AE-BDFC-F34FA0C964C1.html</a></p>
+<h1><span id="2-123-4-uartx-read-function"></span>2.123.4 UARTx_Read Function</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> x = UART instance number </em>/</p>
+<p>/<em> Blocking and non-blocking mode </em>/</p>
+<p>bool UARTx_Read( void *buffer, const size_t size )</p>
+<p>/<em> Ring buffer mode </em>/</p>
+<p>size_t UARTx_Read(uint8_t* buffer, const size_t size)
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Blocking and non-blocking mode</p>
+<p>Submits a read buffer to the given UART peripheral to process</p>
+<p>Ring buffer mode</p>
+<p>Read the requested data from the receive buffer into the application buffer</p>
+<h2><span id="description"></span>Description</h2>
+<p>Blocking mode</p>
+<p>In blocking mode, the API blocks until the requested number of bytes have been received. The return value is true if the requested number of bytes have been read successfully. If not, call the UARTx_ErrorGet() API to check the error. The UARTx_ReadCountGet function can be called to know the number of bytes that were received till the error occurred.</p>
+<p>Non-blocking mode</p>
+<p>This function submits a read buffer to the UART peripheral to process. A call to this function submits the buffer and the size to the peripheral library and returns immediately. The transfer completion status can either be checked through the callback mechanism or by calling the UARTx_ReadIsBusy function. The success of the operation can be obtained by calling the UARTx_ErrorGet function.  If the UARTx_ErrorGet function returns no error, then this means that the requested number of bytes have been processed. If the function returns some error, the UARTx_ReadCountGet function can be called to know the number of bytes that were received till the error occurred.</p>
+<p>Ring buffer mode</p>
+<p>The API copies the number of bytes available in the receive buffer and returns the number of bytes actually copied. If the number of bytes copied is less than the requested size, the application must try reading after some time. If notifications are enabled and a callback is registered, a callback is given when the receive threshold condition is met. This lets the application to get notified when the data is available in the receive buffer.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>UARTx_Initialize must have been called for the associated UART instance.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>buffer</td>
+<td>Pointer to the user buffer where received data will be placed.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>Number of bytes to be received. If 9-bit mode is enabled, then the size is specified in terms of number of 9 bit data. For example, if 5 9-bit data are being received, then the size must be specified as 5.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>buffer</td>
+<td>Pointer to the user buffer where received data will be placed.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>Number of bytes to be received. If 9-bit mode is enabled, then the size is specified in terms of number of 9 bit data. For example, if 5 9-bit data are being received, then the size must be specified as 5.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>Blocking and non-blocking mode</p>
+<p>true - if the Read transaction is successful or if the requested size is 0.</p>
+<p>false - if the arguments are not valid or if the device is busy or if an error occurred while receiving data.</p>
+<p>Ring buffer mode</p>
+<p>The API returns the number of bytes actually read into the user buffer. Application must retry by calling this API again if the return value is less than the number of bytes requested. Application can use the UARTx_ReadCountGet API to determine the number of unread bytes available in the receive buffer. Application can also choose to register for event notification to get notified when data is available in the receive buffer (set by the UARTx_ReadThresholdSet API). If 9-bit mode is enabled, then the return value indicates the number of 9-bit data copied to the application buffer.</p>
+<h2><span id="example"></span>Example</h2>
+<p>Blocking mode</p>
+<p>Non-blocking mode</p>
+<p>Ring buffer mode</p>
+<p>```C
+uint8_t rxBuffer[100];</p>
+<p>//The below call blocks until the requested bytes have been read
+UART1_Read(rxBuffer, 100);
+```</p>
+<p>```C
+uint8_t rxBuffer[100];</p>
+<p>//The below call submits the request and returns immediately. Transfer status can be checked either by calling the UARTx_ReadIsBusy API or by registering a callback and getting notified.
+UART1_Read(rxBuffer, 100);</p>
+<p>if (UART1_ReadIsBusy() == false)
+{
+    // Transfer has completed.
+}
+```</p>
+<p>```C
+uint8_t rxBuffer[100];
+uint32_t nBytesRead = 0;</p>
+<p>nBytesRead = UART1_Read((uint8_t*)rxBuffer, 100);
+if (nBytesRead &lt; 100)
+{
+    // Receive buffer does not have more data, try after some time
+    // Application can even enable notification to get notified when the
+    // data becomes available in the receive buffer
+}
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

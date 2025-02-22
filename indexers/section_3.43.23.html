@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Timer Counter (TC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.43.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.43.html">SAM L22 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Basic Timer Counter (TC)</li>
+    </ol>
+</nav>
+
+<h1>Basic Timer Counter (TC)</h1>
+<h1>3.43.23</h1>
+<p>Basic Timer Counter (TC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-032176A0-02C1-48D3-9087-597DF7F5019B_16.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-032176A0-02C1-48D3-9087-597DF7F5019B_16.html</a></p>
+<h1>3.43.23 Basic Timer Counter (TC)</h1>
+<p>A Timer Counter (TC) module can operate in any one of the below three modes.
+Timer mode - is used for periodic delay.
+Compare mode is used to generate waveforms on WO[0]and WO[1]
+Capture mode is used to measure delay, pulse width and frequency of the input signal. Capture trigger can be provided by input event line.</p>
+<p>Timer mode</p>
+<p>The TC in timer mode is used for periodic interrupt generation.
+This provides below features:</p>
+<p>Selectable 8/16/32 bit counter</p>
+<p>Interrupts/output events on:</p>
+<p>Counter overflow/underflow</p>
+<p>Compare match</p>
+<p>Using The Library</p>
+<p>When the timer is enabled, it increments by one on every rising edge of the input clock, and generates an interrupt on a period match (period is controlled by CC0 in MPWM waveform mode). Timer mode is used for periodic interrupt generation.</p>
+<p>It provides both polling and callback methods to indicate period match has occurred.</p>
+<p>With polling, the application will need to continuously poll to check if the timer has expired</p>
+<p>With callback, the registered callback function will be called when the timer expires(Application do not have to poll continuously)</p>
+<p>Polling method</p>
+<p>This example demonstrates how to check if timer period is expired by
+polling the status.</p>
+<p>Callback method</p>
+<p>This example demonstrates how to use TC in timer mode to
+generate periodic callback.</p>
+<p>Library Interface</p>
+<p>Basic Timer Counter peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>Compare mode</p>
+<p>The TC channel in compare mode is used for waveform generation. This provides below features:</p>
+<p>Selectable 8/16/32 bit counter</p>
+<p>2 compare/capture channels (CC)</p>
+<p>Waveform configurations</p>
+<p>Normal Frequency - Period controlled by MAX (by PER in 8-bit mode)</p>
+<p>Match Frequency - Period controlled by CC0 to generates 50% duty cycle waveform</p>
+<p>Normal PWM - Period controlled by MAX (by PER in 8-bit mode) and duty controlled by CCx</p>
+<p>Match PWM - Period controlled by CC0 and duty controlled by CC1</p>
+<p>Interrupts/output events on:</p>
+<p>Counter overflow/underflow</p>
+<p>Compare match</p>
+<p>Using The Library</p>
+<p>When using the TC and the Compare/Capture Value registers (CCx) for compare operations, the counter value is continuously compared to the values in the CCx registers. Output polarity can be reversed by inverting the output waveforms. This library provides below waveform types:</p>
+<p>In compare mode, overflow interrupt and compare match interrupts can be used to change the frequency or duty cycle of the waveform.</p>
+<p>Library Interface</p>
+<p>Basic Timer Counter peripheral library provides the following interfaces for compare operations:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>Capture mode</p>
+<p>The TC channel in capture mode is used to measure pulse width, period,
+timestamp. A capture trigger can be provided by input event line TC_EV.
+This provides below features:</p>
+<p>Selectable 8/16/32 bit counter</p>
+<p>Input capture</p>
+<p>Period captured in CC0 and pulse width in CC1</p>
+<p>Period captured in CC1 and pulse width in CC0</p>
+<p>Interrupts/output events on:</p>
+<p>Capture</p>
+<p>DMA support</p>
+<p>Using The Library</p>
+<p>Capture trigger can be provided by</p>
+<p>Input event line TC_EV</p>
+<p>Only one event input line is available</p>
+<p>This provides different capture event actions:</p>
+<p>Pulse width in CC0 and period in CC1</p>
+<p>Pulse width in CC1 and period in CC0</p>
+<p>It provides both polling and callback methods to indicate capture event
+has occurred.</p>
+<p>With polling, the application will need to continuously poll to check if the capture event has occurred.</p>
+<p>With callback, the registered callback function will be called when the capture event occurs. This means the application do not have to poll continuously.</p>
+<p>Callback method</p>
+<p>This example demonstrates how to use TC in capture mode to measure on time and period. CC0 captures on time and CC1 captures period of the input event. Event action is configured as PWP (Pulse width in CC0 and period in CC1).</p>
+<p>Library Interface</p>
+<p>Basic Timer Counter peripheral library provides the following interfaces for capture operations:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>```C
+int main(void)
+{</p>
+<pre class="code-block"><code class="language-c">/* Start the timer instance 3*/
+TC3_TimerStart();
+
+while (1)
+{
+   while(! TC3_TimerPeriodHasExpired());
+   LED_Toggle();
+}
+</code></pre>
+<p>}
+```</p>
+<p>```C
+/<em> This function is called after period expires </em>/
+void TC3_Callback_InterruptHandler(TC_TIMER_STATUS status, uintptr_t context)
+{
+    /<em> Toggle LED </em>/
+    LED_Toggle();
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Register callback function for TC3 period interrupt */
+TC3_TimerCallbackRegister(TC3_Callback_InterruptHandler, (uintptr_t)NULL);
+
+/* Start the timer*/
+TC3_TimerStart();
+
+while ( true )
+{
+    /* Maintain state machines of all polled MPLAB Harmony modules. */
+    SYS_Tasks ( );
+}
+
+/* Execution should not come here during normal operation */
+
+\return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C
+/ * This function is called after Capture 0 interrupt  <em>/
+void TC3_CaptureInterruptHandler(TC_CAPTURE_STATUS status, uintptr_t context)
+{
+    / * Read Captured values  </em>/
+    on_time = TC3_Capture16bitChannel0Get();
+    period = TC3_Capture16bitChannel1Get();
+}</p>
+<p>int main(void)
+{</p>
+<pre class="code-block"><code class="language-c">/ * Register callback function for period interrupt  */
+TC3_CaptureCallbackRegister(TC3_CaptureInterruptHandler, (uintptr_t)NULL);
+
+/ * Start the Capture  */
+TC3_CaptureStart();
+</code></pre>
+<p>}
+```</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCx_TimerInitialize</td>
+<td>Initializes given instance of TC</td>
+</tr>
+<tr>
+<td>TCx_TimerStart</td>
+<td>Starts the timer for given TC instance</td>
+</tr>
+<tr>
+<td>TCx_TimerStop</td>
+<td>Stops the timer for given TC instance</td>
+</tr>
+<tr>
+<td>TCx_Timer8bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCx_Timer8bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCx_Timer8bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCx_Timer8bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCx_Timer8bitCompareSet</td>
+<td>Sets the compare value of a given timer</td>
+</tr>
+<tr>
+<td>TCx_Timer16bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCx_Timer16bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCx_Timer16bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCx_Timer16bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCx_Timer16bitCompareSet</td>
+<td>Sets the compare value of a given timer</td>
+</tr>
+<tr>
+<td>TCx_Timer32bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCx_Timer32bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCx_Timer32bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCx_Timer32bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCx_Timer32bitCompareSet</td>
+<td>Sets the compare value of a given timer</td>
+</tr>
+<tr>
+<td>TCx_TimerPeriodHasExpired</td>
+<td>Checks whether timer period is elapsed</td>
+</tr>
+<tr>
+<td>TCx_TimerFrequencyGet</td>
+<td>Provides the given timer's counter-increment frequency</td>
+</tr>
+<tr>
+<td>TCx_TimerCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC_TIMER_STATUS</td>
+<td>Typedef</td>
+<td>Identifies channel interrupt source mask</td>
+</tr>
+<tr>
+<td>TC_TIMER_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the TC channel callback function</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Operation</th>
+<th>TOP</th>
+<th>Update</th>
+<th>Output on match</th>
+<th>Output on update</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MFRQ (output on WO[0] )</td>
+<td>Match Frequency</td>
+<td>CC0</td>
+<td>TOP/ZERO</td>
+<td>Toggle</td>
+<td>Stable</td>
+</tr>
+<tr>
+<td>MPWM (output on WO[1] )</td>
+<td>Match PWM</td>
+<td>CC0</td>
+<td>TOP/ZERO</td>
+<td>Toggle</td>
+<td>Toggle</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCx_CompareInitialize</td>
+<td>Initializes given instance of TC</td>
+</tr>
+<tr>
+<td>TCx_CompareStart</td>
+<td>Starts the timer for given TC instance</td>
+</tr>
+<tr>
+<td>TCx_CompareStop</td>
+<td>Stops the timer for given TC instance</td>
+</tr>
+<tr>
+<td>TCx_Compare8bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCx_Compare8bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCx_Compare8bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCx_Compare8bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCx_Compare8bitMatch0Set</td>
+<td>Writes compare value of the given compare channel 0</td>
+</tr>
+<tr>
+<td>TCx_Compare8bitMatch1Set</td>
+<td>Writes compare value of the given compare channel 1</td>
+</tr>
+<tr>
+<td>TCx_Compare16bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCx_Compare16bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCx_Compare16bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCx_Compare16bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCx_Compare16bitMatch0Set</td>
+<td>Writes compare value of the given compare channel 0</td>
+</tr>
+<tr>
+<td>TCx_Compare16bitMatch1Set</td>
+<td>Writes compare value of the given compare channel 1</td>
+</tr>
+<tr>
+<td>TCx_Compare32bitPeriodSet</td>
+<td>Sets the period value of a given timer</td>
+</tr>
+<tr>
+<td>TCx_Compare32bitPeriodGet</td>
+<td>Reads the period value of given timer</td>
+</tr>
+<tr>
+<td>TCx_Compare32bitCounterGet</td>
+<td>Reads the timer current count value</td>
+</tr>
+<tr>
+<td>TCx_Compare32bitCounterSet</td>
+<td>Sets new timer counter value</td>
+</tr>
+<tr>
+<td>TCx_Compare32bitMatch0Set</td>
+<td>Writes compare value of the given compare channel 0</td>
+</tr>
+<tr>
+<td>TCx_Compare32bitMatch1Set</td>
+<td>Writes compare value of the given compare channel 1</td>
+</tr>
+<tr>
+<td>TCx_CompareFrequencyGet</td>
+<td>Provides the given timer's counter-increment frequency</td>
+</tr>
+<tr>
+<td>TCx_CompareCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>TCx_CompareStatusGet</td>
+<td>Reads status of compare operation</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCx_COMPARE_STATUS</td>
+<td>Typedef</td>
+<td>Identifies channel interrupt source mask</td>
+</tr>
+<tr>
+<td>TCx_COMPARE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tc channel callback function</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCx_CaptureInitialize</td>
+<td>Initializes given instance of TC</td>
+</tr>
+<tr>
+<td>TCx_CaptureStart</td>
+<td>Starts the timer for given TC instance</td>
+</tr>
+<tr>
+<td>TCx_CaptureStop</td>
+<td>Stops the timer for given TC instance</td>
+</tr>
+<tr>
+<td>TCx_Capture8bitChannel0Get</td>
+<td>Reads capture value from channel 0</td>
+</tr>
+<tr>
+<td>TCx_Capture16bitChannel0Get</td>
+<td>Reads capture value from channel 0</td>
+</tr>
+<tr>
+<td>TCx_Capture32bitChannel0Get</td>
+<td>Reads capture value from channel 0</td>
+</tr>
+<tr>
+<td>TCx_Capture8bitChannel1Get</td>
+<td>Reads capture value from channel 1</td>
+</tr>
+<tr>
+<td>TCx_Capture16bitChannel1Get</td>
+<td>Reads capture value from channel 1</td>
+</tr>
+<tr>
+<td>TCx_Capture32bitChannel1Get</td>
+<td>Reads capture value from channel 1</td>
+</tr>
+<tr>
+<td>TCx_CaptureStatusGet</td>
+<td>Reads status capture operation</td>
+</tr>
+<tr>
+<td>TCx_CaptureCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCx_CAPTURE_STATUS</td>
+<td>Typedef</td>
+<td>Identifies channel interrupt source mask</td>
+</tr>
+<tr>
+<td>TCx_CAPTURE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the tc channel callback function</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Selectable 8/16/32 bit counter</li>
+<li>Interrupts/output events on:</li>
+<li>Counter overflow/underflow</li>
+<li>
+<p>Compare match</p>
+</li>
+<li>
+<p>With polling, the application will need to continuously poll to check if the timer has expired</p>
+</li>
+<li>
+<p>With callback, the registered callback function will be called when the timer expires(Application do not have to poll continuously)</p>
+</li>
+<li>
+<p>Selectable 8/16/32 bit counter</p>
+</li>
+<li>2 compare/capture channels (CC)</li>
+<li>
+<p>Waveform configurations</p>
+<pre class="code-block"><code class="language-c">    Normal Frequency - Period controlled by MAX (by PER in 8-bit mode)
+
+    Match Frequency - Period controlled by CC0 to generates 50% duty cycle waveform
+
+    Normal PWM - Period controlled by MAX (by PER in 8-bit mode) and duty controlled by CCx
+
+    Match PWM - Period controlled by CC0 and duty controlled by CC1
+</code></pre>
+<ul>
+<li>Normal Frequency - Period controlled by MAX (by PER in 8-bit mode)</li>
+<li>Match Frequency - Period controlled by CC0 to generates 50% duty cycle waveform</li>
+<li>Normal PWM - Period controlled by MAX (by PER in 8-bit mode) and duty controlled by CCx</li>
+<li>Match PWM - Period controlled by CC0 and duty controlled by CC1</li>
+<li>Interrupts/output events on:<pre class="code-block"><code class="language-c">ounter overflow/underflow
+
+Compare match
+</code></pre>
+<ul>
+<li>Counter overflow/underflow</li>
+<li>Compare match</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Normal Frequency - Period controlled by MAX (by PER in 8-bit mode)</p>
+</li>
+<li>Match Frequency - Period controlled by CC0 to generates 50% duty cycle waveform</li>
+<li>Normal PWM - Period controlled by MAX (by PER in 8-bit mode) and duty controlled by CCx</li>
+<li>
+<p>Match PWM - Period controlled by CC0 and duty controlled by CC1</p>
+</li>
+<li>
+<p>Counter overflow/underflow</p>
+</li>
+<li>
+<p>Compare match</p>
+</li>
+<li>
+<p>Selectable 8/16/32 bit counter</p>
+</li>
+<li>
+<p>Input capture</p>
+<pre class="code-block"><code class="language-c">    Period captured in CC0 and pulse width in CC1
+
+    Period captured in CC1 and pulse width in CC0
+</code></pre>
+<ul>
+<li>Period captured in CC0 and pulse width in CC1</li>
+<li>Period captured in CC1 and pulse width in CC0</li>
+<li>Interrupts/output events on:<pre class="code-block"><code class="language-c">apture
+</code></pre>
+<ul>
+<li>Capture</li>
+<li>DMA support</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Period captured in CC0 and pulse width in CC1</p>
+</li>
+<li>
+<p>Period captured in CC1 and pulse width in CC0</p>
+</li>
+<li>
+<p>Capture</p>
+</li>
+<li>
+<p>Input event line TC_EV</p>
+<pre class="code-block"><code class="language-c">    Only one event input line is available
+
+    This provides different capture event actions:
+
+        Pulse width in CC0 and period in CC1
+
+        Pulse width in CC1 and period in CC0
+</code></pre>
+<ul>
+<li>Only one event input line is available</li>
+<li>This provides different capture event actions:<pre class="code-block"><code class="language-c">    Pulse width in CC0 and period in CC1
+
+    Pulse width in CC1 and period in CC0
+</code></pre>
+<ul>
+<li>Pulse width in CC0 and period in CC1</li>
+<li>Pulse width in CC1 and period in CC0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Only one event input line is available</p>
+</li>
+<li>
+<p>This provides different capture event actions:</p>
+<pre class="code-block"><code class="language-c">        Pulse width in CC0 and period in CC1
+
+        Pulse width in CC1 and period in CC0
+</code></pre>
+<ul>
+<li>Pulse width in CC0 and period in CC1</li>
+<li>Pulse width in CC1 and period in CC0</li>
+</ul>
+</li>
+<li>
+<p>Pulse width in CC0 and period in CC1</p>
+</li>
+<li>
+<p>Pulse width in CC1 and period in CC0</p>
+</li>
+<li>
+<p>With polling, the application will need to continuously poll to check if the capture event has occurred.</p>
+</li>
+<li>With callback, the registered callback function will be called when the capture event occurs. This means the application do not have to poll continuously.</li>
+</ul>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

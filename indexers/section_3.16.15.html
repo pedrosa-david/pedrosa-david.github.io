@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Output Compare (OCMP) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.16.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.16.html">PIC32MK MCA Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Output Compare (OCMP)</li>
+    </ol>
+</nav>
+
+<h1>Output Compare (OCMP)</h1>
+<h1>3.16.15</h1>
+<p>Output Compare (OCMP)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F4702921-429B-4ACD-A594-A5E7BBC1EC21_4.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F4702921-429B-4ACD-A594-A5E7BBC1EC21_4.html</a></p>
+<h1>3.16.15 Output Compare (OCMP)</h1>
+<p>The Output Compare module is primarily used to generate a single pulse or a series of pulses in response to selected time base events. Each output compare module can select between one of six 16-bit timers for the time base, or two of six 16-bit timers together to form a 32-bit timer. The selected timer can use either an internal or external clock.</p>
+<p>Each Output Compare module has the following modes of operation (OCM bit field):
+Single Compare Match Mode:</p>
+<p>With output drive high - Initial state of the pin is low. OCx pin becomes high on compare match.</p>
+<p>With output drive low - Initial state of the pin is high. OCx pin becomes low on compare match.</p>
+<p>With output drive toggles - OCx pin toggles on compare match.</p>
+<p>Dual Compare Match Mode:</p>
+<p>With single output pulse - OCx pin becomes high on compare match and becomes low on secondary compare match</p>
+<p>With continuous output pulses - OCx pin becomes high on compare match and becomes low on secondary compare match continuously. Compare time base will count up to period value defined in the selected timer source module.</p>
+<p>Pulse Width Modulation Mode:</p>
+<p>PWM without fault protection input - PWM duty cycle is defined by secondary compare register, OCxRS and PWM period is defined by selected timer period register (PRy)</p>
+<p>PWM with fault protection input - PWM duty cycle is defined by secondary compare register, OCxRS and PWM period is defined by selected timer period register (PRy). PWM outputs are shut asynchronously when fault condition is detected.</p>
+<ul>
+<li>With output drive high - Initial state of the pin is low. OCx pin becomes high on compare match.</li>
+<li>With output drive low - Initial state of the pin is high. OCx pin becomes low on compare match.</li>
+<li>
+<p>With output drive toggles - OCx pin toggles on compare match.</p>
+</li>
+<li>
+<p>With single output pulse - OCx pin becomes high on compare match and becomes low on secondary compare match</p>
+</li>
+<li>
+<p>With continuous output pulses - OCx pin becomes high on compare match and becomes low on secondary compare match continuously. Compare time base will count up to period value defined in the selected timer source module.</p>
+</li>
+<li>
+<p>PWM without fault protection input - PWM duty cycle is defined by secondary compare register, OCxRS and PWM period is defined by selected timer period register (PRy)</p>
+</li>
+<li>PWM with fault protection input - PWM duty cycle is defined by secondary compare register, OCxRS and PWM period is defined by selected timer period register (PRy). PWM outputs are shut asynchronously when fault condition is detected.</li>
+</ul>
+<h2>Using The Library</h2>
+<p>This peripheral library is used to generate a single pulse or continuous pulses. The OCMP module needs the TMR module to provide the time base. The period value is defined in the TMR module and the compare value is defined in the OCMP module.</p>
+<p>In this application, three OCMP modules are used to generate waveforms.</p>
+<p>Active Low Output: By default output is set as high and it is set as low on the compare match</p>
+<p>Active High Output: By default output is set as low and it is set as high on the compare match</p>
+<p>Toggled Output: Compare match toggles the output.</p>
+<p>```C
+int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Active low output */
+OCMP1_Enable();
+/* Active high output */
+OCMP2_Enable();
+/* toggled output */
+OCMP3_Enable();
+
+TMR2_Start();
+
+while ( true )
+{
+    /* Maintain state machines of all polled MPLAB Harmony modules. */
+    SYS_Tasks ( );
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OCMPx_Initialize</td>
+<td>Initializes OCMPx module of the device</td>
+</tr>
+<tr>
+<td>OCMPx_Enable</td>
+<td>Enable function for the OCMPx peripheral</td>
+</tr>
+<tr>
+<td>OCMPx_Disable</td>
+<td>Disable function for the OCMPx peripheral</td>
+</tr>
+<tr>
+<td>OCMPx_FaultStatusGet</td>
+<td>Reads the fault status</td>
+</tr>
+<tr>
+<td>OCMPx_CompareValueSet</td>
+<td>Configures the compare register</td>
+</tr>
+<tr>
+<td>OCMPx_CompareValueGet</td>
+<td>Reads the compare value</td>
+</tr>
+<tr>
+<td>OCMPx_CompareSecondaryValueGet</td>
+<td>Reads secondary compare register</td>
+</tr>
+<tr>
+<td>OCMPx_CompareSecondaryValueSet</td>
+<td>Sets OCMPx Secondary Compare Register</td>
+</tr>
+<tr>
+<td>OCMPx_CallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OCMP_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the OCMP callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

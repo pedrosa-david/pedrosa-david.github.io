@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIVAS DivmodUnsigned Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.28.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.28.html">Divide and Square Root Accelerator (DIVAS)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DIVAS DivmodUnsigned Function</li>
+    </ol>
+</nav>
+
+<h1>DIVAS DivmodUnsigned Function</h1>
+<h1>2.28.5</h1>
+<p>DIVAS_DivmodUnsigned Function</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-CF7C1F8C-ED3B-4AF8-9B38-ECE363617611.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-CF7C1F8C-ED3B-4AF8-9B38-ECE363617611.html</a></p>
+<h1><span id="2-28-5-divas-divmodunsigned-function"></span>2.28.5 DIVAS_DivmodUnsigned Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">uint64_t DIVAS_DivmodUnsigned( uint32_t numerator, uint32_t denominator)</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>This function uses the DIVAS peripheral to performs a unsigned 32-bit division, and returns both the quotient and remainder as 64-bit number.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function uses the DIVAS peripheral to perform a unsigned 32-bit division.
+The function takes a unsigned divisor and dividend as input, and returns quotient and remainder as 64-bit number</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>The peripheral should have been initialized by calling the DIVAS_Initialize() function once.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>numerator</td>
+<td>This should contain the unsigned dividend.</td>
+</tr>
+<tr>
+<td>denominator</td>
+<td>This should contain the unsigned divisor</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>numerator</td>
+<td>This should contain the unsigned dividend.</td>
+</tr>
+<tr>
+<td>denominator</td>
+<td>This should contain the unsigned divisor</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>Returns quotient and remainder as 64-bit number (32-bit LSB is quotient and 32-bit MSB is remainder)</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+uint32_t dividend;
+uint32_t divisor;
+uint64_t divmod;</p>
+<p>dividend = 10000;
+divisor = 2000;</p>
+<p>divmod = DIVAS_DivmodUnsigned(dividend, divisor)
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

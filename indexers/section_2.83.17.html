@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POWER DSGPR Enum | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.83.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.83.html">Low Power Modes (Power)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">POWER DSGPR Enum</li>
+    </ol>
+</nav>
+
+<h1>POWER DSGPR Enum</h1>
+<h1>2.83.17</h1>
+<p>POWER_DSGPR Enum</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-ECB9EE4E-5AB5-4EAF-AA6A-DBCBA35AA1EA.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-ECB9EE4E-5AB5-4EAF-AA6A-DBCBA35AA1EA.html</a></p>
+<h1><span id="2-83-17-power-dsgpr-enum"></span>2.83.17 POWER_DSGPR Enum</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+typedef enum
+{
+    /<em> Deep Sleep GPR 0 </em>/
+    POWER_DSGPR0,
+    /<em> Deep Sleep GPR 1 </em>/
+    POWER_DSGPR1,
+    /<em> Deep Sleep GPR 2 </em>/
+    POWER_DSGPR2,
+    /<em> Deep Sleep GPR 3 </em>/
+    POWER_DSGPR3,
+    /<em> Deep Sleep GPR 4 </em>/
+    POWER_DSGPR4,
+    /<em> Deep Sleep GPR 5 </em>/
+    POWER_DSGPR5,
+    /<em> Deep Sleep GPR 6 </em>/
+    POWER_DSGPR6,
+    /<em> Deep Sleep GPR 7 </em>/
+    POWER_DSGPR7,
+    /<em> Deep Sleep GPR 8 </em>/
+    POWER_DSGPR8,
+    /<em> Deep Sleep GPR 9 </em>/
+    POWER_DSGPR9,
+    /<em> Deep Sleep GPR 10 </em>/
+    POWER_DSGPR10,
+    /<em> Deep Sleep GPR 11 </em>/
+    POWER_DSGPR11,
+    /<em> Deep Sleep GPR 12 </em>/
+    POWER_DSGPR12,
+    /<em> Deep Sleep GPR 13 </em>/
+    POWER_DSGPR13,
+    /<em> Deep Sleep GPR 14 </em>/
+    POWER_DSGPR14,
+    /<em> Deep Sleep GPR 15 </em>/
+    POWER_DSGPR15,
+    /<em> Deep Sleep GPR 16 </em>/
+    POWER_DSGPR16,
+    /<em> Deep Sleep GPR 17 </em>/
+    POWER_DSGPR17,
+    /<em> Deep Sleep GPR 18 </em>/
+    POWER_DSGPR18,
+    /<em> Deep Sleep GPR 19 </em>/
+    POWER_DSGPR19,
+    /<em> Deep Sleep GPR 20 </em>/
+    POWER_DSGPR20,
+    /<em> Deep Sleep GPR 21 </em>/
+    POWER_DSGPR21,
+    /<em> Deep Sleep GPR 22 </em>/
+    POWER_DSGPR22,
+    /<em> Deep Sleep GPR 23 </em>/
+    POWER_DSGPR23,
+    /<em> Deep Sleep GPR 24 </em>/
+    POWER_DSGPR24,
+    /<em> Deep Sleep GPR 25 </em>/
+    POWER_DSGPR25,
+    /<em> Deep Sleep GPR 26 </em>/
+    POWER_DSGPR26,
+    /<em> Deep Sleep GPR 27 </em>/
+    POWER_DSGPR27,
+    /<em> Deep Sleep GPR 28 </em>/
+    POWER_DSGPR28,
+    /<em> Deep Sleep GPR 29 </em>/
+    POWER_DSGPR29,
+    /<em> Deep Sleep GPR 30 </em>/
+    POWER_DSGPR30,
+    /<em> Deep Sleep GPR 31 </em>/
+    POWER_DSGPR31,
+    /<em> Deep Sleep GPR 32 </em>/
+    POWER_DSGPR32,</p>
+<p>} POWER_DSGPR;
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Identifies deep sleep GPRs</p>
+<h2><span id="description"></span>Description</h2>
+<p>This enumeration identifies deep sleep general purpose registers which can
+be used to save critical data during deep sleep state.</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>Not all the options are available for all the devices. MCC will generate only the
+        applicable options for the selected device. Check device datasheet for more information.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

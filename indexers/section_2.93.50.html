@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTC RTCCTimeSet Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.93.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.93.html">Real-time Clock (RTC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">RTC RTCCTimeSet Function</li>
+    </ol>
+</nav>
+
+<h1>RTC RTCCTimeSet Function</h1>
+<h1>2.93.50</h1>
+<p>RTC_RTCCTimeSet Function</p>
+<p><em>Generated on: 2025-02-20 07:44:05</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2CBCA2D4-2120-415F-B568-2C8762686DF7.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2CBCA2D4-2120-415F-B568-2C8762686DF7.html</a></p>
+<h1><span id="2-93-50-rtc-rtcctimeset-function"></span>2.93.50 RTC_RTCCTimeSet Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">bool RTC_RTCCTimeSet (struct tm * initialTime )</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Sets the Real Time Clock Calendar time and date.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function sets the Real Time Clock Calendar time and date. The time and
+date should be specified via the struct tm structure. The isdst, tm_wday,
+tm_yday member of the initialTime data structure is ignored.</p>
+<p>The reference year parameter in MCC should be adjusted to be within 64 years of the input
+        year range. In that, the function will subtract the reference year from the input year while
+        setting the calendar year.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>RTC_Initialize must have been called for the associated RTC instance. The RTC should have been configured for Real Time Clock Calendar operation.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>initialTime</td>
+<td>Initial time value from the user of type tm structure defined in the time.h header file</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>initialTime</td>
+<td>Initial time value from the user of type tm structure defined in the time.h header file</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>bool.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+struct tm initialTime;</p>
+<p>RTC_Initialize();</p>
+<p>// Set the time as 22:31:23 and date as 7 April 1980.
+// The Reference Year Configuration in MCC should be within
+// 64 years of 1980. Also note that tm structure needs the tm_year to
+// specified as years since 1900.</p>
+<p>initialTime.tm_sec = 23;
+initialTime.tm_min = 31;
+initialTime.tm_hour = 22;
+initialTime.tm_mday = 7;
+initialTime.tm_mon = 3;
+initialTime.tm_year = 80;</p>
+<p>if(RTC_RTCCTimeSet(&amp;initialTime) == false)
+{
+    //incorrect format
+}
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

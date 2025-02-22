@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Memory Access Controller (DMAC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.5.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.5.html">PIC32CM LE00 LS00 LS60 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Direct Memory Access Controller (DMAC)</li>
+    </ol>
+</nav>
+
+<h1>Direct Memory Access Controller (DMAC)</h1>
+<h1>3.5.6</h1>
+<p>Direct Memory Access Controller (DMAC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-72811540-494C-44B3-9487-2C8166D897A6_3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-72811540-494C-44B3-9487-2C8166D897A6_3.html</a></p>
+<h1>3.5.6 Direct Memory Access Controller (DMAC)</h1>
+<p>The DMA Controller (DMAC) can transfer data between memories and
+peripherals, and thus off-load these tasks from the CPU. It enables
+high data transfer rates with minimum CPU intervention, and frees up
+CPU time. With access to all peripherals, the DMAC can handle automatic
+transfer of data between communication modules. DMAC has several DMA
+channels and each channel is fully programmable and provides both
+peripheral or memory-to-memory transfers.</p>
+<p>The DMA Controller can also be used to generate CRC on the data been transferred
+through the channel or an I/O interface.</p>
+<h2>Using The Library</h2>
+<p>DMA controller requires source address, destination address and
+transfer count to initiate transfer. It transfers data on each DMA
+trigger and decrements the transfer count. The DMA generates completion
+interrupt to notify CPU at the end of the DMA transfer.</p>
+<p>User can use either callback mechanism or polling mechanism to
+determine DMA completion.</p>
+<p>With polling, the application will need to continuously poll to
+check if the DMA has completed the transfer.</p>
+<p>With callback, the registered callback function will be called when
+the transfer is completed. This means the application do not have to
+poll continuously.</p>
+<p>Callback method</p>
+<p>This example demonstrates DMA transfer with callback</p>
+<p>Polling method</p>
+<p>This example demonstrates DMA transfer with polling</p>
+<p>```C</p>
+<h1>define USART1_TRANSMIT_ADDRESS     (&amp;SERCOM4_REGS-&gt;USART.DATA)</h1>
+<p>uint8_t txBuffer[] = "Hello World!";</p>
+<p>void DMAC_Callback(DMAC_TRANSFER_EVENT status, uintptr_t context)
+{
+      if(status == DMAC_TRANSFER_EVENT_COMPLETE)
+      {
+           // Transfer is completed.
+      }
+}</p>
+<p>int main ( void )
+{
+      SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">  DMAC_ChannelCallbackRegister(DMAC_CHANNEL_0, DMAC_Callback, 0);
+
+  DMAC_ChannelTransfer(DMAC_CHANNEL_0, txBuffer, (const void *)USART1_TRANSMIT_ADDRESS, sizeof(txBuffer));
+</code></pre>
+<p>}
+```</p>
+<p>```C</p>
+<h1>define USART1_TRANSMIT_ADDRESS     (&amp;SERCOM4_REGS-&gt;USART.DATA)</h1>
+<p>uint8_t txBuffer[] = "Hello World!";</p>
+<p>int main ( void )
+{
+      SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">  DMAC_ChannelTransfer(DMAC_CHANNEL_0, txBuffer, (const void *)USART1_TRANSMIT_ADDRESS, sizeof(txBuffer));
+
+  while(DMAC_ChannelIsBusy(DMAC_CHANNEL_0));
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>With polling, the application will need to continuously poll to
+check if the DMA has completed the transfer.</li>
+<li>With callback, the registered callback function will be called when
+the transfer is completed. This means the application do not have to
+poll continuously.</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Direct Memory Access Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DMAC_Initialize</td>
+<td>Initializes the DMAC controller of the device</td>
+</tr>
+<tr>
+<td>DMAC_ChannelCallbackRegister</td>
+<td>This function allows a DMAC PLIB client to set an event handler</td>
+</tr>
+<tr>
+<td>DMAC_ChannelTransfer</td>
+<td>Schedules a DMA transfer on the specified DMA channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelIsBusy</td>
+<td>The function returns the busy status of the channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelTransferStatusGet</td>
+<td>Returns the DMA channel's transfer status</td>
+</tr>
+<tr>
+<td>DMAC_ChannelDisable</td>
+<td>The function disables the specified DMAC channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelGetTransferredCount</td>
+<td>Returns transfer count of the ongoing DMAC transfer</td>
+</tr>
+<tr>
+<td>DMAC_ChannelSuspend</td>
+<td>This function Suspends the DMA channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelResume</td>
+<td>This function Resumes the DMA channel</td>
+</tr>
+<tr>
+<td>DMAC_LinkedListDescriptorSetup</td>
+<td>Sets up linked list descriptor</td>
+</tr>
+<tr>
+<td>DMAC_ChannelLinkedListTransfer</td>
+<td>The function submit a list of DMA transfers</td>
+</tr>
+<tr>
+<td>DMAC_ChannelSettingsGet</td>
+<td>Returns the current channel settings for the specified DMAC Channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelSettingsSet</td>
+<td>Changes the current transfer settings of the specified DMAC channel</td>
+</tr>
+<tr>
+<td>DMAC_ChannelCRCSetup</td>
+<td>DMA Channel CRC setup and enable function</td>
+</tr>
+<tr>
+<td>DMAC_CRCRead</td>
+<td>DMA CRC read function</td>
+</tr>
+<tr>
+<td>DMAC_CRCCalculate</td>
+<td>Function to calculate CRC using I/O Interface</td>
+</tr>
+<tr>
+<td>DMAC_CRCDisable</td>
+<td>DMA CRC disable function</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DMAC_CHANNEL</td>
+<td>Enum</td>
+<td>Lists the set of channels available for data transfer using DMAC</td>
+</tr>
+<tr>
+<td>DMAC_TRANSFER_EVENT</td>
+<td>Enum</td>
+<td>Enumeration of possible DMAC transfer events</td>
+</tr>
+<tr>
+<td>DMAC_CRC_POLYNOMIAL_TYPE</td>
+<td>Enum</td>
+<td>Enumeration of Supported CRC polynomials</td>
+</tr>
+<tr>
+<td>DMAC_CRC_BEAT_SIZE</td>
+<td>Enum</td>
+<td>Enumeration of Supported CRC Beat Size</td>
+</tr>
+<tr>
+<td>DMAC_CRC_SETUP</td>
+<td>Struct</td>
+<td>Fundamental data object that represents DMA CRC setup parameters</td>
+</tr>
+<tr>
+<td>DMAC_CHANNEL_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a DMAC Transfer Event handler function</td>
+</tr>
+<tr>
+<td>DMAC_CHANNEL_CONFIG</td>
+<td>Typedef</td>
+<td>DMAC Block Transfer Control configuration value</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

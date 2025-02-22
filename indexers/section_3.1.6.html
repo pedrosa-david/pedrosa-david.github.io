@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathing Blinking LED | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.1.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.1.html">CEC173X Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Breathing Blinking LED</li>
+    </ol>
+</nav>
+
+<h1>Breathing Blinking LED</h1>
+<h1>3.1.6</h1>
+<p>Breathing/Blinking LED</p>
+<p><em>Generated on: 2025-02-19 08:42:43</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-585F814D-A3E5-423C-9206-E8DED65D2E65.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-585F814D-A3E5-423C-9206-E8DED65D2E65.html</a></p>
+<h1>3.1.6 Breathing/Blinking LED</h1>
+<p>LEDs are used in computer applications to communicate internal state information to a user
+      through a minimal interface.</p>
+<p>Typical applications will cause an LED to blink at different rates to convey different state
+      information. For example, an LED could be full on, full off, blinking at a rate of once a
+      second, or blinking at a rate of once every four seconds, in order to communicate four
+      different states.</p>
+<p>As an alternative to blinking, an LED can “breathe”, that is, oscillate between a bright
+      state and a dim state in a continuous, or apparently continuous manner. The rate of breathing,
+      or the level of brightness at the extremes of the oscillation period, can be used to convey
+      state information to the user that may be more informative, or at least more novel, than
+      traditional blinking.</p>
+<h2>Using the Library</h2>
+<p>The LEDx_Initialize routine will set up the LED for the breathing action as configured
+        using MCC. No additional APIs are typically needed to be called to achieve the breathing
+        action.</p>
+<h2>Library Interface</h2>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LEDx_Initialize</td>
+<td>Initializes given instance of LED peripheral.</td>
+</tr>
+<tr>
+<td>LEDx_ClockPrescalerSet</td>
+<td>Configures the prescaler for the PWM clock in LED blinking mode</td>
+</tr>
+<tr>
+<td>LEDx_DutyCycleCountSet</td>
+<td>Configures the duty cycle of the blink function in LED blinking mode</td>
+</tr>
+<tr>
+<td>LEDx_DutyCycleMaxSet</td>
+<td>Specifies the maximum duty cycle value.</td>
+</tr>
+<tr>
+<td>LEDx_DutyCycleMinSet</td>
+<td>Specifies the minimum duty cycle value.</td>
+</tr>
+<tr>
+<td>LEDx_HighDelaySet</td>
+<td>Specifies the number of PWM periods to wait before updating the current duty</td>
+</tr>
+<tr>
+<td>cycle when the current duty cycle is greater than or equal to the value MAX in</td>
+<td></td>
+</tr>
+<tr>
+<td>register LED_LIMIT</td>
+<td></td>
+</tr>
+<tr>
+<td>LEDx_LowDelaySet</td>
+<td>Specifies the number of PWM periods to wait before updating the current duty</td>
+</tr>
+<tr>
+<td>cycle when the current duty cycle is greater than or equal to the value MIN in</td>
+<td></td>
+</tr>
+<tr>
+<td>register LED_LIMIT</td>
+<td></td>
+</tr>
+<tr>
+<td>LEDx_SegmentsIntervalSet</td>
+<td>Configures the number of PWM periods between updates to current duty</td>
+</tr>
+<tr>
+<td>cycle</td>
+<td></td>
+</tr>
+<tr>
+<td>LEDx_SegmentsStepSizeSet</td>
+<td>Configures the amount the current duty cycle is adjusted at the end of every</td>
+</tr>
+<tr>
+<td>PWM period</td>
+<td></td>
+</tr>
+<tr>
+<td>LEDx_SymmetrySet</td>
+<td>Configures the LED rising and falling times in Asymmetric or Symmetric</td>
+</tr>
+<tr>
+<td>modes</td>
+<td></td>
+</tr>
+<tr>
+<td>LEDx_Update</td>
+<td>Enables update of LED Delay, LED Step and LED interval registers</td>
+</tr>
+<tr>
+<td>LEDx_WDT_CallbackRegister</td>
+<td>Allows application to register a callback with the LED WDT module</td>
+</tr>
+<tr>
+<td>LEDx_WDTReloadCountSet</td>
+<td>Configures the PWM WDT counter value</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LED_WDT_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the LED WDT callback</td>
+</tr>
+<tr>
+<td>function.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LED_SYM</td>
+<td>Enum</td>
+<td>Defines the enumerations associated with LED symmetry modes</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

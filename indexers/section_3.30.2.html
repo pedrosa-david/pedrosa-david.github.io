@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog-to-Digital Converter (ADC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.30.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.30.html">SAM A5D2 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Analog-to-Digital Converter (ADC)</li>
+    </ol>
+</nav>
+
+<h1>Analog-to-Digital Converter (ADC)</h1>
+<h1>3.30.2</h1>
+<p>Analog-to-Digital Converter (ADC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F4230CE8-EF3A-4CE5-9215-9109A637929F_3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F4230CE8-EF3A-4CE5-9215-9109A637929F_3.html</a></p>
+<h1>3.30.2 Analog-to-Digital Converter (ADC)</h1>
+<p>12-bit Resolution with Enhanced Mode up to 14 bits</p>
+<p>1 Msps Conversion Rate</p>
+<p>Digital Averaging Function providing Enhanced Resolution Mode up to 14 bits</p>
+<p>Wide Range of Power Supply Operation</p>
+<p>Selectable Single-Ended or Differential Input Voltage</p>
+<p>Integrated Multiplexer Offering Up to 12 Independent Analog Inputs</p>
+<p>Individual Enable and Disable of Each Channel</p>
+<p>Hardware or Software Trigger</p>
+<p>Drive of PWM Fault Input</p>
+<p>DMA Support</p>
+<p>Two Sleep Modes</p>
+<p>Channel Sequence Customizing</p>
+<p>Automatic Window Comparison of Converted Values</p>
+<ul>
+<li>12-bit Resolution with Enhanced Mode up to 14 bits</li>
+<li>1 Msps Conversion Rate</li>
+<li>Digital Averaging Function providing Enhanced Resolution Mode up to 14 bits</li>
+<li>Wide Range of Power Supply Operation</li>
+<li>Selectable Single-Ended or Differential Input Voltage</li>
+<li>Integrated Multiplexer Offering Up to 12 Independent Analog Inputs</li>
+<li>Individual Enable and Disable of Each Channel</li>
+<li>Hardware or Software Trigger</li>
+<li>Drive of PWM Fault Input</li>
+<li>DMA Support</li>
+<li>Two Sleep Modes</li>
+<li>Channel Sequence Customizing</li>
+<li>Automatic Window Comparison of Converted Values</li>
+</ul>
+<h2>Using The Library</h2>
+<p>Interrupt mode:</p>
+<p>Polling mode:</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<p>/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*
+ ADC CH0 - PD19 - Connect to Vcc
+ ADC CH5 - PD24 - connect to Vcc
+ ADC_CH6 - PD25 - Connect to GND
+ </em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>*/</p>
+<h1>define ADC_VREF               (3.3f)</h1>
+<p>uint16_t adc_ch0_count, adc_ch5_count, adc_ch6_count;</p>
+<p>float adc_ch0_voltage, adc_ch5_voltage, adc_ch6_voltage;</p>
+<p>volatile bool result_ready = false;</p>
+<p>/<em> This function is called after conversion of last channel in the user sequence </em>/
+void ADC_EventHandler(uint32_t status, uintptr_t context)
+{
+    /<em> Read the result of 3 channels</em>/
+    adc_ch5_count = ADC_ChannelResultGet(ADC_CH5);
+    adc_ch6_count = ADC_ChannelResultGet(ADC_CH6);
+    adc_ch0_count = ADC_ChannelResultGet(ADC_CH0);</p>
+<pre class="code-block"><code class="language-c">result_ready = true;
+</code></pre>
+<p>}</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Register callback function for ADC end of conversion interrupt*/
+ADC_CallbackRegister(ADC_EventHandler, (uintptr_t)NULL);
+
+printf("\n\r---------------------------------------------------------");
+printf("\n\r                    ADC User Sequence Demo                 ");
+printf("\n\r---------------------------------------------------------\n\r");
+printf("CH0 Count  CH0 Voltage  CH5 Count  CH5 Voltage  CH6 Count  CH6 Voltage \n\r");
+
+/* Start ADC conversion */
+ADC_ConversionStart();
+
+while ( true )
+{
+    /* Check if result is ready to be transmitted to console */
+    if (result_ready == true)
+    {
+        adc_ch5_voltage = (float)adc_ch5_count * ADC_VREF/4095U;
+        adc_ch6_voltage = (float)adc_ch6_count * ADC_VREF/4095U;
+        adc_ch0_voltage = (float)adc_ch0_count * ADC_VREF/4095U;
+        printf("0x%03x      %0.2f V       0x%03x      %0.2f V       0x%03x      %0.2f V \t\r",
+                adc_ch0_count, adc_ch0_voltage, adc_ch5_count, adc_ch5_voltage, adc_ch6_count, adc_ch6_voltage);
+
+
+        result_ready = false;
+
+        PIT_DelayMs(500);
+
+        /* Start ADC conversion */
+        ADC_ConversionStart();
+    }
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include <stdio.h></stdio.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<p>/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*
+ ADC CH0 - PD19 - Connect to Vcc or GND
+ </em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>*/</p>
+<h1>define ADC_VREF               (3.3f)</h1>
+<p>uint16_t adc_count;
+float input_voltage;</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">printf("\n\r---------------------------------------------------------");
+printf("\n\r                    ADC Demo                 ");
+printf("\n\r---------------------------------------------------------\n\r");
+
+while (1)
+{
+    /* Start ADC conversion */
+    ADC_ConversionStart();
+
+    /* Wait till ADC conversion result is available */
+    while(!ADC_ChannelResultIsReady(ADC_CH0))
+    {
+
+    };
+
+    /* Read the ADC result */
+    adc_count = ADC_ChannelResultGet(ADC_CH0);
+    input_voltage = (float)adc_count * ADC_VREF / 4095U;
+
+    printf("ADC Count = 0x%03x, ADC Input Voltage = %0.2f V \r",adc_count, input_voltage);
+
+    PIT_DelayMs(500);
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Analog-to-Digital Converter peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADCx_Initialize</td>
+<td>Initializes given instance of ADC peripheral</td>
+</tr>
+<tr>
+<td>ADC_ChannelsEnable</td>
+<td>Enables the ADC channels</td>
+</tr>
+<tr>
+<td>ADC_ChannelsDisable</td>
+<td>Disables the ADC channels</td>
+</tr>
+<tr>
+<td>ADC_ChannelsInterruptEnable</td>
+<td>Enables the ADC interrupt sources</td>
+</tr>
+<tr>
+<td>ADC_ChannelsInterruptDisable</td>
+<td>Disables the ADC interrupt sources</td>
+</tr>
+<tr>
+<td>ADCx_ConversionStart</td>
+<td>Starts the ADC conversion of all the enabled channels with the software trigger</td>
+</tr>
+<tr>
+<td>ADC_ChannelResultIsReady</td>
+<td>Returns the status of the channel conversion</td>
+</tr>
+<tr>
+<td>ADC_ChannelResultGet</td>
+<td>Reads the conversion result of the channel</td>
+</tr>
+<tr>
+<td>ADC_ConversionSequenceSet</td>
+<td>Sets the user sequence of the channel conversion</td>
+</tr>
+<tr>
+<td>ADCx_ComparisonWindowSet</td>
+<td>Sets Low threshold and High threshold in comparison window</td>
+</tr>
+<tr>
+<td>ADC_ComparisonEventResultIsReady</td>
+<td>Returns the status of the Comparison event</td>
+</tr>
+<tr>
+<td>ADC_ComparisonRestart</td>
+<td>Restart the comparison function</td>
+</tr>
+<tr>
+<td>ADC_SleepModeEnable</td>
+<td>This function enables ADC sleep mode</td>
+</tr>
+<tr>
+<td>ADC_SleepModeDisable</td>
+<td>This function disables ADC sleep mode</td>
+</tr>
+<tr>
+<td>ADC_FastWakeupEnable</td>
+<td>This function enables ADC Fast Wakeup</td>
+</tr>
+<tr>
+<td>ADC_FastWakeupDisable</td>
+<td>This function disables ADC Fast Wakeup</td>
+</tr>
+<tr>
+<td>ADCx_CallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADC_CHANNEL_MASK</td>
+<td>Enum</td>
+<td>Identifies ADC channel mask</td>
+</tr>
+<tr>
+<td>ADC_CHANNEL_NUM</td>
+<td>Enum</td>
+<td>Identifies ADC channel number</td>
+</tr>
+<tr>
+<td>ADC_INTERRUPT_MASK</td>
+<td>Enum</td>
+<td>Identifies interrupt sources number</td>
+</tr>
+<tr>
+<td>ADC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the ADC peripheral callback function</td>
+</tr>
+<tr>
+<td>ADC_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>ADC Callback structure</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

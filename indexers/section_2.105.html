@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I2C SMBUS | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">I2C SMBUS</li>
+    </ol>
+</nav>
+
+<h1>I2C SMBUS</h1>
+<h1>2.105</h1>
+<p>I2C SMBUS</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-17BB17D6-E9A3-467E-B076-6ACA2BCF2A21.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-17BB17D6-E9A3-467E-B076-6ACA2BCF2A21.html</a></p>
+<h1><span id="2-105-i2c-smbus"></span>2.105 I2C SMBUS</h1>
+<p>The I2C SMBUS PLIB support I2C Master, I2C Slave, SMBUS Master and SMBUS Slave modes.</p>
+<h2><span id="using-the-library"></span>Using the Library</h2>
+<p>```C</p>
+<h1>include <string.h></string.h></h1>
+<h1>define LED_ON()                       LED5_Set()</h1>
+<h1>define LED_OFF()                      LED5_Clear()</h1>
+<h1>define APP_AT24MAC_DEVICE_ADDR             0x0054</h1>
+<h1>define APP_AT24MAC_MEMORY_ADDR             0x00</h1>
+<h1>define APP_AT24MAC_MEMORY_ADDR1            0x00</h1>
+<h1>define APP_TRANSMIT_DATA_LENGTH            6</h1>
+<h1>define APP_ACK_DATA_LENGTH                 1</h1>
+<h1>define APP_RECEIVE_DUMMY_WRITE_LENGTH      2</h1>
+<h1>define APP_RECEIVE_DATA_LENGTH             4</h1>
+<p>static uint8_t testTxData[APP_TRANSMIT_DATA_LENGTH] =
+{
+    APP_AT24MAC_MEMORY_ADDR,APP_AT24MAC_MEMORY_ADDR1,
+    'M','C','H','P',
+};</p>
+<p>static uint8_t  testRxData[APP_RECEIVE_DATA_LENGTH];</p>
+<p>typedef enum
+{
+    APP_STATE_EEPROM_STATUS_VERIFY,
+    APP_STATE_EEPROM_WRITE,
+    APP_STATE_EEPROM_WAIT_WRITE_COMPLETE,
+    APP_STATE_EEPROM_CHECK_INTERNAL_WRITE_STATUS,
+    APP_STATE_EEPROM_READ,
+    APP_STATE_EEPROM_WAIT_READ_COMPLETE,
+    APP_STATE_VERIFY,
+    APP_STATE_IDLE,
+    APP_STATE_XFER_SUCCESSFUL,
+    APP_STATE_XFER_ERROR</p>
+<p>} APP_STATES;</p>
+<p>typedef enum
+{
+    APP_TRANSFER_STATUS_IN_PROGRESS,
+    APP_TRANSFER_STATUS_SUCCESS,
+    APP_TRANSFER_STATUS_ERROR,
+    APP_TRANSFER_STATUS_IDLE,</p>
+<p>} APP_TRANSFER_STATUS;</p>
+<p>void APP_I2CCallback(uintptr_t context )
+{
+    APP_TRANSFER_STATUS<em> transferStatus = (APP_TRANSFER_STATUS</em>)context;</p>
+<pre class="code-block"><code class="language-c">if(I2C0_ErrorGet() == I2C_ERROR_NONE)
+{
+    if (transferStatus)
+    {
+        *transferStatus = APP_TRANSFER_STATUS_SUCCESS;
+    }
+}
+else
+{
+    if (transferStatus)
+    {
+        *transferStatus = APP_TRANSFER_STATUS_ERROR;
+    }
+}
+</code></pre>
+<p>}</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>int main ( void )
+{
+    APP_STATES state = APP_STATE_EEPROM_STATUS_VERIFY;
+    volatile APP_TRANSFER_STATUS transferStatus = APP_TRANSFER_STATUS_ERROR;
+    uint8_t ackData = 0;</p>
+<pre class="code-block"><code class="language-c">/* Initialize all modules */
+SYS_Initialize ( NULL );
+
+while(1)
+{
+    /* Check the application's current state. */
+    switch (state)
+    {
+        case APP_STATE_EEPROM_STATUS_VERIFY:
+
+            /* Register the TWIHS Callback with transfer status as context */
+            I2C0_CallbackRegister( APP_I2CCallback, (uintptr_t)&amp;transferStatus );
+
+           /* Verify if EEPROM is ready to accept new requests */
+            transferStatus = APP_TRANSFER_STATUS_IN_PROGRESS;
+            I2C0_Write(APP_AT24MAC_DEVICE_ADDR, &amp;ackData, APP_ACK_DATA_LENGTH);
+
+            state = APP_STATE_EEPROM_WRITE;
+            break;
+
+        case APP_STATE_EEPROM_WRITE:
+
+            if (transferStatus == APP_TRANSFER_STATUS_SUCCESS)
+            {
+                /* Write data to EEPROM */
+                transferStatus = APP_TRANSFER_STATUS_IN_PROGRESS;
+                I2C0_Write(APP_AT24MAC_DEVICE_ADDR, &amp;testTxData[0], APP_TRANSMIT_DATA_LENGTH);
+                state = APP_STATE_EEPROM_WAIT_WRITE_COMPLETE;
+            }
+            else if (transferStatus == APP_TRANSFER_STATUS_ERROR)
+            {
+                /* EEPROM is not ready to accept new requests. 
+                 * Keep checking until the EEPROM becomes ready. */
+                state = APP_STATE_EEPROM_STATUS_VERIFY;
+            }
+            break;
+
+        case APP_STATE_EEPROM_WAIT_WRITE_COMPLETE:
+
+            if (transferStatus == APP_TRANSFER_STATUS_SUCCESS)
+            {
+                /* Read the status of internal write cycle */
+                transferStatus = APP_TRANSFER_STATUS_IN_PROGRESS;
+                I2C0_Write(APP_AT24MAC_DEVICE_ADDR, &amp;ackData, APP_ACK_DATA_LENGTH);
+                state = APP_STATE_EEPROM_CHECK_INTERNAL_WRITE_STATUS;
+            }
+            else if (transferStatus == APP_TRANSFER_STATUS_ERROR)
+            {
+                state = APP_STATE_XFER_ERROR;
+            }
+            break;
+
+         case APP_STATE_EEPROM_CHECK_INTERNAL_WRITE_STATUS:
+
+            if (transferStatus == APP_TRANSFER_STATUS_SUCCESS)
+            {
+                state = APP_STATE_EEPROM_READ;
+            }
+            else if (transferStatus == APP_TRANSFER_STATUS_ERROR)
+            {
+                /* EEPROM's internal write cycle is not complete. Keep checking. */
+                transferStatus = APP_TRANSFER_STATUS_IN_PROGRESS;
+                I2C0_Write(APP_AT24MAC_DEVICE_ADDR, &amp;ackData, APP_ACK_DATA_LENGTH);
+            }
+            break;
+
+        case APP_STATE_EEPROM_READ:
+
+            transferStatus = APP_TRANSFER_STATUS_IN_PROGRESS;
+            /* Read the data from the page written earlier */
+            I2C0_WriteRead(APP_AT24MAC_DEVICE_ADDR, &amp;testTxData[0], APP_RECEIVE_DUMMY_WRITE_LENGTH,  &amp;testRxData[0], APP_RECEIVE_DATA_LENGTH);
+
+            state = APP_STATE_EEPROM_WAIT_READ_COMPLETE;
+
+            break;
+
+        case APP_STATE_EEPROM_WAIT_READ_COMPLETE:
+
+            if (transferStatus == APP_TRANSFER_STATUS_SUCCESS)
+            {
+                state = APP_STATE_VERIFY;
+            }
+            else if (transferStatus == APP_TRANSFER_STATUS_ERROR)
+            {
+                state = APP_STATE_XFER_ERROR;
+            }
+            break;
+
+        case APP_STATE_VERIFY:
+
+            if (memcmp(&amp;testTxData[2], &amp;testRxData[0], APP_RECEIVE_DATA_LENGTH) != 0 )
+            {
+                /* It means received data is not same as transmitted data */
+                state = APP_STATE_XFER_ERROR;
+            }
+            else
+            {
+                /* It means received data is same as transmitted data */
+                state = APP_STATE_XFER_SUCCESSFUL;
+            }
+            break;
+
+        case APP_STATE_XFER_SUCCESSFUL:
+        {
+            LED_ON();
+            break;
+        }
+        case APP_STATE_XFER_ERROR:
+        {
+            LED_OFF();
+            break;
+        }
+        default:
+            break;
+    }
+}
+</code></pre>
+<p>}
+```</p>
+<p>```C</p>
+<h1>define EEPROM_PAGE_SIZE_BYTES                  256</h1>
+<h1>define EEPROM_PAGE_SIZE_MASK                   0xFF</h1>
+<h1>define EEPROM_SIZE_BYTES                       512</h1>
+<p>typedef enum
+{
+    EEPROM_CMD_WRITE,
+    EEPROM_CMD_IDLE,
+}EEPROM_CMD;</p>
+<p>typedef struct
+{
+    /<em> currentAddrPtr - to allow for sequential read (from the current address) </em>/
+    uint16_t                    currentAddrPtr;
+    /<em> addrIndex - used to copy 2 bytes of EEPROM memory address </em>/
+    uint8_t                     addrIndex;
+    /<em> wrBuffer - holds the incoming data from the I2C master </em>/
+    uint8_t                     wrBuffer[EEPROM_PAGE_SIZE_BYTES];
+    /<em> wrBufferIndex - Index into the wrBuffer[] </em>/
+    uint16_t                    wrBufferIndex;
+    /<em> wrAddr - indicates the starting address of the EEPROM emulation memory to write to </em>/
+    volatile uint16_t           wrAddr;
+    /<em> nWrBytes - indicates the number of bytes to write to EEPROM emulation buffer </em>/
+    volatile uint8_t            nWrBytes;
+    /<em> internalWriteInProgress - indicates that EEPROM is busy with internal writes </em>/
+    bool                        internalWriteInProgress;
+    /<em> eepromCommand - used to trigger write to the EEPROM emulation buffer </em>/
+    EEPROM_CMD                  eepromCommand;
+}EEPROM_DATA;</p>
+<p>EEPROM_DATA         eepromData;</p>
+<p>uint8_t EEPROM_EmulationBuffer[EEPROM_SIZE_BYTES] =
+{
+    0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,0x0d,0x0e,0x0f,
+    0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,0x1a,0x1b,0x1c,0x1d,0x1e,0x1f,
+    0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,
+    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f,
+    0x40,0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,
+    0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x5b,0x5c,0x5d,0x5e,0x5f,
+    0x60,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,
+    0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a,0x7b,0x7c,0x7d,0x7e,0x7f,
+    0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,
+    0x90,0x91,0x92,0x93,0x94,0x95,0x96,0x97,0x98,0x99,0x9a,0x9b,0x9c,0x9d,0x9e,0x9f,
+    0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,
+    0xb0,0xb1,0xb2,0xb3,0xb4,0xb5,0xb6,0xb7,0xb8,0xb9,0xba,0xbb,0xbc,0xbd,0xbe,0xbf,
+    0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,
+    0xd0,0xd1,0xd2,0xd3,0xd4,0xd5,0xd6,0xd7,0xd8,0xd9,0xda,0xdb,0xdc,0xdd,0xde,0xdf,
+    0xe0,0xe1,0xe2,0xe3,0xe4,0xe5,0xe6,0xe7,0xe8,0xe9,0xea,0xeb,0xec,0xed,0xee,0xef,
+    0xf0,0xf1,0xf2,0xf3,0xf4,0xf5,0xf6,0xf7,0xf8,0xf9,0xfa,0xfb,0xfc,0xfd,0xfe,0xff,</p>
+<pre class="code-block"><code class="language-c">0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,0x0d,0x0e,0x0f,
+0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,0x1a,0x1b,0x1c,0x1d,0x1e,0x1f,
+0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,
+0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f,
+0x40,0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,
+0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x5b,0x5c,0x5d,0x5e,0x5f,
+0x60,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,
+0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a,0x7b,0x7c,0x7d,0x7e,0x7f,
+0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,
+0x90,0x91,0x92,0x93,0x94,0x95,0x96,0x97,0x98,0x99,0x9a,0x9b,0x9c,0x9d,0x9e,0x9f,
+0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,
+0xb0,0xb1,0xb2,0xb3,0xb4,0xb5,0xb6,0xb7,0xb8,0xb9,0xba,0xbb,0xbc,0xbd,0xbe,0xbf,
+0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,
+0xd0,0xd1,0xd2,0xd3,0xd4,0xd5,0xd6,0xd7,0xd8,0xd9,0xda,0xdb,0xdc,0xdd,0xde,0xdf,
+0xe0,0xe1,0xe2,0xe3,0xe4,0xe5,0xe6,0xe7,0xe8,0xe9,0xea,0xeb,0xec,0xed,0xee,0xef,
+0xf0,0xf1,0xf2,0xf3,0xf4,0xf5,0xf6,0xf7,0xf8,0xf9,0xfa,0xfb,0xfc,0xfd,0xfe,0xff
+</code></pre>
+<p>};</p>
+<p>bool APP_SERCOM_I2C_Callback ( I2C_SLAVE_TRANSFER_EVENT event, uintptr_t contextHandle )
+{
+    bool isSuccess = true;</p>
+<pre class="code-block"><code class="language-c">switch(event)
+{
+    case I2C_SLAVE_TRANSFER_EVENT_ADDR_MATCH:
+        if ((I2C0_TransferDirGet() == I2C_SLAVE_TRANSFER_DIR_WRITE) &amp;&amp; (eepromData.internalWriteInProgress == true))
+        {
+            /* EEPROM is busy. Send NAK */
+            isSuccess = false;
+        }
+        else
+        {
+            /* Reset the indexes */
+            eepromData.addrIndex = 0;
+            eepromData.wrBufferIndex = 0;
+        }
+        break;
+
+    case I2C_SLAVE_TRANSFER_EVENT_RX_READY:
+        /* Read the data sent by I2C Master */
+        if (eepromData.addrIndex &lt; 2)
+        {
+            ((uint8_t*)&amp;eepromData.currentAddrPtr)[eepromData.addrIndex++] = I2C0_ReadByte();
+        }
+        else
+        {
+            eepromData.wrBuffer[(eepromData.wrBufferIndex &amp; EEPROM_PAGE_SIZE_MASK)] = I2C0_ReadByte();
+            eepromData.wrBufferIndex++;
+        }
+        break;
+
+    case I2C_SLAVE_TRANSFER_EVENT_TX_READY:
+        /* Provide the EEPROM data requested by the I2C Master */
+        I2C0_WriteByte(EEPROM_EmulationBuffer[eepromData.currentAddrPtr++]);
+        if (eepromData.currentAddrPtr &gt;= EEPROM_SIZE_BYTES)
+        {
+            eepromData.currentAddrPtr = 0;
+        }
+        break;
+
+    case I2C_SLAVE_TRANSFER_EVENT_STOP_BIT_RECEIVED:
+        if (eepromData.wrBufferIndex &gt; 0)
+        {
+            if (eepromData.wrBufferIndex &gt; EEPROM_PAGE_SIZE_BYTES)
+            {
+                eepromData.wrBufferIndex = EEPROM_PAGE_SIZE_BYTES;
+            }
+            eepromData.wrAddr = eepromData.currentAddrPtr;
+            eepromData.nWrBytes = eepromData.wrBufferIndex;
+
+            /* Update the current address pointer to allow for sequential read */
+            eepromData.currentAddrPtr += eepromData.wrBufferIndex;
+
+            /* Reset the indexes */
+            eepromData.addrIndex = 0;
+            eepromData.wrBufferIndex = 0;
+
+            /* Set busy flag to send NAK for any write requests */
+            eepromData.internalWriteInProgress = true;
+            eepromData.eepromCommand = EEPROM_CMD_WRITE;
+        }
+        break;
+    default:
+        break;
+}
+
+return isSuccess;
+</code></pre>
+<p>}</p>
+<p>void EEPROM_StateMachine(void)
+{
+    switch(eepromData.eepromCommand)
+    {
+        case EEPROM_CMD_WRITE:
+            memcpy(&amp;EEPROM_EmulationBuffer[eepromData.wrAddr], &amp;eepromData.wrBuffer[0], eepromData.nWrBytes);
+            eepromData.internalWriteInProgress = false;
+            eepromData.eepromCommand = EEPROM_CMD_IDLE;
+            break;
+        case EEPROM_CMD_IDLE:
+            /<em> Do Nothing </em>/
+            break;
+    }
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );
+    eepromData.eepromCommand = EEPROM_CMD_IDLE;
+    I2C0_CallbackRegister(APP_SERCOM_I2C_Callback, 0);
+    while ( true )
+    {
+        EEPROM_StateMachine();
+    }
+    /<em> Execution should not come here during normal operation </em>/
+    return ( EXIT_FAILURE );
+}
+```</p>
+<p>```C</p>
+<h1>define I2C_SLAVE_ADDR                 0x54</h1>
+<p>typedef enum
+{
+    HOST_STATE_WRITE_BYTE = 0,
+    HOST_STATE_WRITE_WORD,
+    HOST_STATE_WRITE_BLOCK,
+    HOST_STATE_READ_BYTE,
+    HOST_STATE_READ_WORD,
+    HOST_STATE_READ_BLOCK,
+    HOST_STATE_WRITE_READ_BLOCK,
+    HOST_STATE_WAIT_FOR_TRANSFER_DONE,
+    HOST_STATE_ERROR,
+    HOST_STATE_SUCCESS,
+}HOST_STATE;</p>
+<p>typedef enum
+{
+    HOST_CMD_WRITE_BYTE,
+    HOST_CMD_WRITE_WORD,
+    HOST_CMD_WRITE_BLOCK,
+    HOST_CMD_READ_BYTE,
+    HOST_CMD_READ_WORD,
+    HOST_CMD_READ_BLOCK,
+    HOST_CMD_WRITE_READ_BLOCK,
+}HOST_CMD;</p>
+<p>volatile bool transferDone = false;
+volatile uint32_t nBytesRead = 0;
+bool blockRead = false;
+uint32_t nBytesRequested = 0;
+uint8_t wrBuffer[50] = {0};
+uint8_t rdBuffer[50] = {0};</p>
+<p>volatile HOST_STATE state = HOST_STATE_WRITE_BYTE;
+HOST_STATE nextState;</p>
+<p>void i2cSMB0HostEventHandler (I2C_SMB_HOST_TRANSFER_EVENT event, uintptr_t contextHandle)
+{
+    switch(event)
+    {
+        case I2C_SMB_HOST_TRANSFER_EVENT_RX_READY:
+            nBytesRead = I2CSMB0_HostBufferRead(rdBuffer);
+            break;</p>
+<pre class="code-block"><code class="language-c">    case I2C_SMB_HOST_TRANSFER_EVENT_DONE:
+        transferDone = true;
+        break;
+
+    case I2C_SMB_HOST_TRANSFER_EVENT_ERROR:
+        state = HOST_STATE_ERROR;
+        break;
+
+    default:
+        break;
+}
+</code></pre>
+<p>}</p>
+<p>int main ( void )
+{      <br/>
+    uint32_t i = 0;
+    uint32_t data = 1;</p>
+<pre class="code-block"><code class="language-c">/* Initialize all modules */
+SYS_Initialize ( NULL );
+
+I2CSMB0_HostCallbackRegister(i2cSMB0HostEventHandler, 0);
+
+while (1)
+{
+    switch(state)
+    {
+        case HOST_STATE_WAIT_FOR_TRANSFER_DONE:
+            if (transferDone == true)
+            {
+                transferDone = false;
+                state = nextState;
+
+                if (nBytesRequested &gt; 0)
+                {
+                    i = 0;
+                    data = 1;
+
+                    if (blockRead == true)
+                    {
+                        // for block reads, the first byte indicates the number of bytes transmitted by the slave
+                        nBytesRead =  rdBuffer[i++];    
+                        blockRead = false;
+                    }                        
+                    if (nBytesRead != nBytesRequested)
+                    {
+                        state = HOST_STATE_ERROR;
+                        break;
+                    }
+                    while (nBytesRequested--)
+                    {
+                        if (rdBuffer[i++] != data++)
+                        {
+                            state = HOST_STATE_ERROR;
+                            break;
+                        }                            
+                    }
+
+                    nBytesRequested = 0;
+                }
+            }
+            break;
+
+        case HOST_STATE_WRITE_BYTE:
+            wrBuffer[0] = 1;
+            I2CSMB0_HostWriteByte(I2C_SLAVE_ADDR, HOST_CMD_WRITE_BYTE, wrBuffer);
+            state = HOST_STATE_WAIT_FOR_TRANSFER_DONE;
+            nextState = HOST_STATE_READ_BYTE;
+            break;
+
+        case HOST_STATE_READ_BYTE:
+            nBytesRequested = 1;
+            I2CSMB0_HostReadByte(I2C_SLAVE_ADDR, HOST_CMD_READ_BYTE);
+            state = HOST_STATE_WAIT_FOR_TRANSFER_DONE;
+            nextState = HOST_STATE_WRITE_WORD;
+            break;
+
+        case HOST_STATE_WRITE_WORD:
+            wrBuffer[0] = 1;
+            wrBuffer[1] = 2;
+            I2CSMB0_HostWriteWord(I2C_SLAVE_ADDR, HOST_CMD_WRITE_WORD, wrBuffer);
+            state = HOST_STATE_WAIT_FOR_TRANSFER_DONE;
+            nextState = HOST_STATE_READ_WORD;
+            break;
+
+        case HOST_STATE_READ_WORD:
+            nBytesRequested = 2;
+            I2CSMB0_HostReadWord(I2C_SLAVE_ADDR, HOST_CMD_READ_WORD);
+            state = HOST_STATE_WAIT_FOR_TRANSFER_DONE;
+            nextState = HOST_STATE_WRITE_BLOCK;
+            break;
+
+        case HOST_STATE_WRITE_BLOCK:
+            for (uint32_t i = 0; i &lt; 32; i++)
+            {
+                wrBuffer[i] = i+1;
+            }
+            I2CSMB0_HostWriteBlock(I2C_SLAVE_ADDR, HOST_CMD_WRITE_BLOCK, wrBuffer, 32);
+            state = HOST_STATE_WAIT_FOR_TRANSFER_DONE;
+            nextState = HOST_STATE_READ_BLOCK;
+            break;
+
+        case HOST_STATE_READ_BLOCK:
+            nBytesRequested = 32;
+            blockRead = true;
+            I2CSMB0_HostReadBlock(I2C_SLAVE_ADDR, HOST_CMD_READ_BLOCK);
+            state = HOST_STATE_WAIT_FOR_TRANSFER_DONE;
+            nextState = HOST_STATE_WRITE_READ_BLOCK;
+            break;
+
+        case HOST_STATE_WRITE_READ_BLOCK:
+            nBytesRequested = 32;
+            blockRead = true;
+            I2CSMB0_HostWriteReadBlock(I2C_SLAVE_ADDR, HOST_CMD_WRITE_READ_BLOCK, wrBuffer, 32);
+            state = HOST_STATE_WAIT_FOR_TRANSFER_DONE;
+            nextState = HOST_STATE_SUCCESS;
+            break;
+
+        case HOST_STATE_SUCCESS:
+            break;
+
+        case HOST_STATE_ERROR:
+            break;
+    }
+}
+
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C
+typedef enum
+{
+    HOST_CMD_WRITE_BYTE,
+    HOST_CMD_WRITE_WORD,
+    HOST_CMD_WRITE_BLOCK,
+    HOST_CMD_READ_BYTE,
+    HOST_CMD_READ_WORD,
+    HOST_CMD_READ_BLOCK,
+    HOST_CMD_WRITE_READ_BLOCK,
+}HOST_CMD;</p>
+<p>volatile uint8_t targetRxBuffer[100];
+volatile uint8_t targetTxBuffer[100];
+volatile uint32_t nBytesRead = 0;
+volatile uint32_t nDataBytes = 0;
+volatile HOST_CMD command;</p>
+<p>bool i2cSMB0TargetEventHandler (I2C_SMB_TARGET_TRANSFER_EVENT event, uintptr_t contextHandle)
+{
+    switch (event)
+    {
+        case I2C_SMB_TARGET_TRANSFER_EVENT_RX_READY:
+            nBytesRead = I2CSMB0_TargetBufferRead((void<em>)targetRxBuffer);
+            command = targetRxBuffer[1];
+            if (command == HOST_CMD_WRITE_BYTE)
+            {
+                nDataBytes = 1;      <br/>
+                targetTxBuffer[0] = targetRxBuffer[2];
+            }
+            else if (command == HOST_CMD_WRITE_WORD)
+            {
+                nDataBytes = 2;          <br/>
+                targetTxBuffer[0] = targetRxBuffer[2];
+                targetTxBuffer[1] = targetRxBuffer[3];
+            }
+            else if ((command == HOST_CMD_WRITE_BLOCK) || (command == HOST_CMD_WRITE_READ_BLOCK))
+            {
+                nDataBytes = targetRxBuffer[2];
+                targetTxBuffer[0] = nDataBytes;
+                memcpy((void</em>)&amp;targetTxBuffer[1], (void<em>)&amp;targetRxBuffer[3], nDataBytes);
+                nDataBytes = nDataBytes + 1;
+            }                      <br/>
+            break;
+        case I2C_SMB_TARGET_TRANSFER_EVENT_TX_READY:
+            I2CSMB0_TargetBufferWrite((void</em>)targetTxBuffer, nDataBytes);
+            break;
+        case I2C_SMB_TARGET_TRANSFER_EVENT_ERROR:
+            break;
+        case I2C_SMB_TARGET_TRANSFER_EVENT_DONE:
+            break;
+        default:
+            break;
+    }
+    return true;
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">I2CSMB0_TargetCallbackRegister(i2cSMB0TargetEventHandler, 0);
+
+I2CSMB0_TargetStart();
+
+while (1)
+{
+    /* Do nothing */
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>I2C SMBUS peripheral library provides the following interfaces:</p>
+<p>I2C Mode</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>SMBUS Mode</p>
+<p>Data types and constants</p>
+<p>Defines macros associated with I2C error in SMBUS Host mode</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Master mode</th>
+<th>Slave mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I2CSMBx_Initialize</td>
+<td>Initializes given instance of I2C SMBUS peripheral.</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_Read</td>
+<td>Reads data from the slave.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_Write</td>
+<td>Writes data to the slave.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_WriteRead</td>
+<td>Write and Read data from I2C Slave.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_IsBusy</td>
+<td>Returns the Peripheral busy status.</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_ErrorGet</td>
+<td>Returns the I2C error that occurred on the bus.</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_TransferSetup</td>
+<td>Dynamic setup of I2C Peripheral.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_CallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be called</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>when the given I2C's transfer events occur.</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>I2CSMBx_ReadByte</td>
+<td>Read the received I2C byte</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_WriteByte</td>
+<td>Write a data byte to I2C master</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_TransferDirGet</td>
+<td>Returns the I2C transfer direction.</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_LastByteAckStatusGet</td>
+<td>Returns the ACK status of the last byte written to the I2C</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>master.</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>I2CSMBx_StatusFlagsGet</td>
+<td>Returns the status register</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_StatusFlagsReset</td>
+<td>Resets the status register bits</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_TransferAbort</td>
+<td>Aborts an ongoing transfer</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Master mode</th>
+<th>Slave mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I2C_ERROR</td>
+<td>Enum</td>
+<td>Defines the possible errors that the I2C peripheral can generate</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>in I2C master mode.</td>
+<td>Yes</td>
+<td>No</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>I2C_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the I2C</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>peripheral callback function in I2C master mode.</td>
+<td>Yes</td>
+<td>No</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>I2C_SLAVE_TRANSFER_EVENT</td>
+<td>Enum</td>
+<td>Defines the enum for the I2C slave transfer event</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2C_SLAVE_TRANSFER_DIR</td>
+<td>Enum</td>
+<td>Defines the enum for I2C data transfer direction</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2C_SLAVE_ERROR</td>
+<td>Enum</td>
+<td>Defines errors associated with I2C in slave mode</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2C_SLAVE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the I2C Slave</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>callback function.</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>I2C_SLAVE_ACK_STATUS</td>
+<td>Enum</td>
+<td>Defines the enum for the I2C slave acknowledgment.</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2C_TRANSFER_SETUP</td>
+<td>Struct</td>
+<td>I2C transfer setup data structure</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Host Mode</th>
+<th>Target Mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I2CSMBx_Initialize</td>
+<td>Initializes given instance of I2C SMBUS peripheral.</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostReadByte</td>
+<td>Reads a data byte from slave</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostReadWord</td>
+<td>Reads a data word from slave</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostWriteByte</td>
+<td>Writes data to the slave.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostWriteBlock</td>
+<td>Writes a block of data to the slave.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostReadBlock</td>
+<td>Reads a block of data from the slave</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostWriteWord</td>
+<td>Writes word data to the slave.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostWriteReadBlock</td>
+<td>Writes block followed by a read block from the slave</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostWriteBlock</td>
+<td>Writes a block of data to the slave.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostTransferSetup</td>
+<td>Dynamic setup of I2C Peripheral in SMBUS host mode</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostTransferCountGet</td>
+<td>Returns the transfer count for the last transfer</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostIsBusy</td>
+<td>Returns the Peripheral busy status.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostErrorGet</td>
+<td>Returns the I2C error that occurred on the bus.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2CSMBx_HostCallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>called when the given I2C's transfer events occur.</td>
+<td>Yes</td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td>I2CSMBx_HostBufferRead</td>
+<td>Reads data from the internal buffer and into the application</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>buffer</td>
+<td>Yes</td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td>I2CSMBx_TargetTransferDirGet</td>
+<td>Returns the I2C transfer direction.</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_TargetStart</td>
+<td>Configures the DMA and starts the target in receive</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>mode</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>I2CSMBx_TargetIsBusy</td>
+<td>Returns the Peripheral busy status.</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_TargetErrorGet</td>
+<td>Returns the I2C error that occurred on the bus.</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2CSMBx_TargetCallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>called when the given I2C's transfer events occur.</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>I2CSMBx_TargetBufferWrite</td>
+<td>Copies the data to be transmitted into the PLIBs internal</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>buffer</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>I2CSMBx_TargetBufferRead</td>
+<td>Reads the received data from internal buffer into the</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>application buffer</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Host mode</th>
+<th>Target mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I2C_SMB_HOST_TRANSFER_SETUP</td>
+<td>Struct</td>
+<td>I2C Transfer Setup Data Structure</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2C_SMB_HOST_TRANSFER_EVENT</td>
+<td>Enum</td>
+<td>Defines the enum for the I2C SMBUS host transfer events.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2C_SMB_HOST_ERROR</td>
+<td>Macro</td>
+<td>Defines macros associated with I2C error in SMBUS Host mode</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>I2C_SMB_HOST_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the I2C SMBUS</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>host mode callback function.</td>
+<td>Yes</td>
+<td>No</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>I2C_SMB_TARGET_TRANSFER_EVENT</td>
+<td>Enum</td>
+<td>Defines the enum for the I2C SMBUS target transfer events</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>I2C_SMB_TARGET_TRANSFER_DIR</td>
+<td>Enum</td>
+<td>Defines the enum for the I2C SMBUS Target mode transfer</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>direction</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>I2C_SMB_TARGET_ERROR</td>
+<td>Macro</td>
+<td>Defines macros associated with I2C error in SMBUS Target</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>mode</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>I2C_SMB_TARGET_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the I2C SMBUS</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Target mode callback function.</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

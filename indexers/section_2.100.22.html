@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDMMC SPEED MODE Enum | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.100.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.100.html">Secure Digital MultiMedia Card Controller (SDMMC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">SDMMC SPEED MODE Enum</li>
+    </ol>
+</nav>
+
+<h1>SDMMC SPEED MODE Enum</h1>
+<h1>2.100.22</h1>
+<p>SDMMC_SPEED_MODE Enum</p>
+<p><em>Generated on: 2025-02-20 07:44:00</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FECF7334-2C35-443F-A3B2-AC03719BAFC6.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FECF7334-2C35-443F-A3B2-AC03719BAFC6.html</a></p>
+<h1><span id="2-100-22-sdmmc-speed-mode-enum"></span>2.100.22 SDMMC_SPEED_MODE Enum</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+typedef enum
+{
+    // SDMMC speed normal
+    SDMMC_SPEED_MODE_NORMAL = 0,</p>
+<pre class="code-block"><code class="language-c">// SDMMC speed high speed
+SDMMC_SPEED_MODE_HIGH
+</code></pre>
+<p>} SDMMC_SPEED_MODE;
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>The enumeration lists the SDMMC speed modes supported by the PLIB</p>
+<h2><span id="description"></span>Description</h2>
+<p>The enumeration is used to identify the speed mode to set using the SDMMCx_SpeedModeSet PLIB</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

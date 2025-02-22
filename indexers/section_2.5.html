@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Front-End Controller (AFEC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Analog Front-End Controller (AFEC)</li>
+    </ol>
+</nav>
+
+<h1>Analog Front-End Controller (AFEC)</h1>
+<h1>2.5</h1>
+<p>Analog Front-End Controller (AFEC)</p>
+<p><em>Generated on: 2025-02-20 07:44:03</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F52711CB-A663-4605-8698-6063F4BF258F.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-F52711CB-A663-4605-8698-6063F4BF258F.html</a></p>
+<h1><span id="2-5-analog-front-end-controller-afec"></span>2.5 Analog Front-End Controller (AFEC)</h1>
+<p>12-bit Resolution up to 16-bit Resolution by Digital Averaging</p>
+<p>Wide Range of Power Supply Operation</p>
+<p>Selectable Single-ended or Differential Input Voltage</p>
+<p>Selectable Single or Dual Sample-and-Hold Mode</p>
+<p>Programmable Gain for Maximum Full-Scale Input Range 0–VDD</p>
+<p>Programmable Offset Per Channel</p>
+<p>Automatic Correction of Offset and Gain Errors</p>
+<p>Integrated Multiplexers Offering Up to 12 Independent Analog Inputs</p>
+<p>Individual Enable and Disable of Each Channel</p>
+<p>Hardware or Software Trigger (External trigger pin, Timer counter outputs (corresponding TIOA trigger), PWM event line)</p>
+<p>Drive of PWM Fault Input</p>
+<p>DMA Support</p>
+<p>Possibility of AFE Timings Configuration</p>
+<p>Two Sleep Modes and Conversion Sequencer (Automatic wakeup on trigger and back to sleep mode after conversions of all enabled channels, Possibility of customized channel sequence)</p>
+<ul>
+<li>12-bit Resolution up to 16-bit Resolution by Digital Averaging</li>
+<li>Wide Range of Power Supply Operation</li>
+<li>Selectable Single-ended or Differential Input Voltage</li>
+<li>Selectable Single or Dual Sample-and-Hold Mode</li>
+<li>Programmable Gain for Maximum Full-Scale Input Range 0–VDD</li>
+<li>Programmable Offset Per Channel</li>
+<li>Automatic Correction of Offset and Gain Errors</li>
+<li>Integrated Multiplexers Offering Up to 12 Independent Analog Inputs</li>
+<li>Individual Enable and Disable of Each Channel</li>
+<li>Hardware or Software Trigger (External trigger pin, Timer counter outputs (corresponding TIOA trigger), PWM event line)</li>
+<li>Drive of PWM Fault Input</li>
+<li>DMA Support</li>
+<li>Possibility of AFE Timings Configuration</li>
+<li>Two Sleep Modes and Conversion Sequencer (Automatic wakeup on trigger and back to sleep mode after conversions of all enabled channels, Possibility of customized channel sequence)</li>
+</ul>
+<h2><span id="using-the-library"></span>Using The Library</h2>
+<p>Interrupt mode:</p>
+<p>Polling mode:</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<p>/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*
+ AFEC CH0 - PB01 - Connect to DACC output PB13
+ AFEC CH5 - PC30 - connect to Vcc
+ AFEC_CH6 - PC31 - Connect to GND
+ </em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>*/</p>
+<h1>define AFEC_VREF               (3.3f)</h1>
+<h1>define DAC_COUNT_INCREMENT     (124U)  // Equivalent to 0.1V</h1>
+<h1>define DAC_COUNT_MAX           (4095U)</h1>
+<p>volatile uint16_t adc_ch0_count, adc_ch5_count, adc_ch6_count;</p>
+<p>float adc_ch0_voltage, adc_ch5_voltage, adc_ch6_voltage;</p>
+<p>volatile bool result_ready;
+/<em> Initial DAC count which is midpoint = 1.65V</em>/
+uint16_t dac_count=0x800; </p>
+<p>void switch_handler( PIO_PIN pin, uintptr_t context )
+{
+    /<em> Write next data sample </em>/
+    dac_count = dac_count + DAC_COUNT_INCREMENT;</p>
+<pre class="code-block"><code class="language-c">if (dac_count &gt; DAC_COUNT_MAX)
+        dac_count=0;
+
+DACC_DataWrite(DACC_CHANNEL_0, dac_count);
+</code></pre>
+<p>}</p>
+<p>/<em> This function is called after conversion of last channel in the user sequence </em>/
+void AFEC_EventHandler(uint32_t status, uintptr_t context)
+{
+    /<em> Read the result of 3 channels</em>/
+    adc_ch5_count = AFEC1_ChannelResultGet(CH5_VDD);
+    adc_ch6_count = AFEC1_ChannelResultGet(CH6_GND);
+    adc_ch0_count = AFEC1_ChannelResultGet(CH0_SINE_WAVE);</p>
+<pre class="code-block"><code class="language-c">result_ready = true;
+</code></pre>
+<p>}</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">PIO_PinInterruptCallbackRegister(SWITCH_PIN, &amp;switch_handler, (uintptr_t) NULL );
+PIO_PinInterruptEnable(SWITCH_PIN);
+
+/* Register callback function for AFEC end of conversion interrupt*/
+AFEC1_CallbackRegister(AFEC_EventHandler, (uintptr_t)NULL);
+
+/* Write first data sample in DAC channel 0 and channel 1*/
+DACC_DataWrite(DACC_CHANNEL_0, dac_count);
+
+/* Start the timer to trigger ADC conversion every 50 ms*/
+TC1_CH0_CompareStart();
+
+printf("\n\r---------------------------------------------------------");
+printf("\n\r                    AFEC User Sequence Demo                 ");
+printf("\n\r---------------------------------------------------------\n\r");
+printf("CH0 Count  CH0 Voltage  CH5 Count  CH5 Voltage  CH6 Count  CH6 Voltage \n\r");
+
+while ( true )
+{
+    /* Check if result is ready to be transmitted to console */
+    if (result_ready == true)
+    {
+        adc_ch5_voltage = (float)adc_ch5_count * AFEC_VREF/4095U;
+        adc_ch6_voltage = (float)adc_ch6_count * AFEC_VREF/4095U;
+        adc_ch0_voltage = (float)adc_ch0_count * AFEC_VREF/4095U;
+        printf("0x%03x      %0.2f V       0x%03x      %0.2f V       0x%03x      %0.2f V \t\r", \
+                adc_ch0_count, adc_ch0_voltage, adc_ch5_count, adc_ch5_voltage, adc_ch6_count, adc_ch6_voltage);
+
+
+        result_ready = false;
+    }
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include <stdio.h></stdio.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<h1>define AFEC_VREF               (3.3f)</h1>
+<h1>define DAC_COUNT_INCREMENT     (124U)  // equivalent to 0.1V</h1>
+<h1>define DAC_COUNT_MAX           (4095U)</h1>
+<p>uint16_t adc_count;
+float input_voltage;
+/<em> Initial value of dac count which is midpoint = 1.65 V</em>/
+uint16_t dac_count = 0x800;   </p>
+<p>void switch_handler( PIO_PIN pin, uintptr_t context )
+{
+    /<em> Write next data sample </em>/
+    dac_count = dac_count + DAC_COUNT_INCREMENT;</p>
+<pre class="code-block"><code class="language-c">if (dac_count &gt; DAC_COUNT_MAX)
+        dac_count=0;
+
+DACC_DataWrite(DACC_CHANNEL_0, dac_count);
+</code></pre>
+<p>}</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">PIO_PinInterruptCallbackRegister(SWITCH_PIN, &amp;switch_handler, (uintptr_t) NULL );
+PIO_PinInterruptEnable(SWITCH_PIN);
+
+printf("\n\r---------------------------------------------------------");
+printf("\n\r                    AFEC Demo                 ");
+printf("\n\r---------------------------------------------------------\n\r");
+printf("Press switch to change the DAC output. \r\n");
+
+SYSTICK_TimerStart();
+
+DACC_DataWrite(DACC_CHANNEL_0, dac_count);
+
+while (1)
+{
+    /* Start ADC conversion */
+    AFEC1_ConversionStart();
+
+    /* Wait till ADC conversion result is available */
+    while(!AFEC1_ChannelResultIsReady(AFEC_CH0))
+    {
+
+    };
+
+    /* Read the ADC result */
+    adc_count = AFEC1_ChannelResultGet(AFEC_CH0);
+    input_voltage = (float)adc_count * AFEC_VREF / 4095U;
+
+    printf("ADC Count = 0x%03x, ADC Input Voltage = %0.2f V \r",adc_count, input_voltage);
+
+    SYSTICK_DelayMs(500);
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Analog Front-End Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AFECx_Initialize</td>
+<td>Initializes given instance of AFEC peripheral</td>
+</tr>
+<tr>
+<td>AFECx_ChannelsEnable</td>
+<td>Enables the ADC channels</td>
+</tr>
+<tr>
+<td>AFECx_ChannelsDisable</td>
+<td>Disables the ADC channels</td>
+</tr>
+<tr>
+<td>AFECx_ChannelsInterruptEnable</td>
+<td>Enables the ADC interrupt sources</td>
+</tr>
+<tr>
+<td>AFECx_ChannelsInterruptDisable</td>
+<td>Disables the ADC interrupt sources</td>
+</tr>
+<tr>
+<td>AFECx_ConversionStart</td>
+<td>Starts the ADC conversion of all the enabled channels with the</td>
+</tr>
+<tr>
+<td>software trigger</td>
+<td></td>
+</tr>
+<tr>
+<td>AFECx_ChannelResultIsReady</td>
+<td>Returns the status of the channel conversion</td>
+</tr>
+<tr>
+<td>AFECx_ChannelResultGet</td>
+<td>Reads the conversion result of the channel</td>
+</tr>
+<tr>
+<td>AFECx_ConversionSequenceSet</td>
+<td>Sets the user sequence of the channel conversion</td>
+</tr>
+<tr>
+<td>AFECx_ChannelGainSet</td>
+<td>Writes the gain of the channel</td>
+</tr>
+<tr>
+<td>AFECx_ChannelOffsetSet</td>
+<td>Writes the channel offset</td>
+</tr>
+<tr>
+<td>AFECx_CallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AFEC_CHANNEL_NUM</td>
+<td>Enum</td>
+<td>Identifies AFEC channel number</td>
+</tr>
+<tr>
+<td>AFEC_INTERRUPT_MASK</td>
+<td>Enum</td>
+<td>Identifies channel interrupt sources mask</td>
+</tr>
+<tr>
+<td>AFEC_CHANNEL_MASK</td>
+<td>Enum</td>
+<td>Identifies AFEC channel mask</td>
+</tr>
+<tr>
+<td>AFEC_CHANNEL_GAIN</td>
+<td>Enum</td>
+<td>Identifies programmable gain setting</td>
+</tr>
+<tr>
+<td>AFEC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for</td>
+</tr>
+<tr>
+<td>the afec peripheral callback function</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AFEC_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>AFEC Callback structure</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

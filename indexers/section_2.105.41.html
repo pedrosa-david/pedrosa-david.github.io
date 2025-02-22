@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I2C SLAVE CALLBACK Typedef | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.105.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.105.html">I2C SMBUS</a></li>
+        <li class="breadcrumb-item active" aria-current="page">I2C SLAVE CALLBACK Typedef</li>
+    </ol>
+</nav>
+
+<h1>I2C SLAVE CALLBACK Typedef</h1>
+<h1>2.105.41</h1>
+<p>I2C_SLAVE_CALLBACK Typedef</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-09CA82AD-1879-4AF6-9B94-5E02E1449C27.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-09CA82AD-1879-4AF6-9B94-5E02E1449C27.html</a></p>
+<h1><span id="2-105-41-i2c-slave-callback-typedef"></span>2.105.41 I2C_SLAVE_CALLBACK Typedef</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">/* I2C slave in interrupt mode */
+typedef bool (*I2C_SLAVE_CALLBACK) (I2C_SLAVE_TRANSFER_EVENT event, uintptr_t contextHandle);</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Defines the data type and function signature for the I2C Slave callback function.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This data type defines the function signature for the I2C Slave callback function.
+                The I2C peripheral will call back the client's function with this signature to
+                report I2C slave events. The I2C clock will be stretched thereby allowing the
+                application ample time to handle the I2C event in the callback. The I2C clock is
+                released when the callback execution is complete.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>I2CSMBx_Initialize must have been called for the given I2C peripheral instance and
+                I2CSMBx_CallbackRegister must have been called to set the function to be called. The
+                callback register function should have been called before any transfer is initiated
+                by the I2C master.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>event</td>
+<td>Indicates the data transfer event for which the</td>
+</tr>
+<tr>
+<td>callback function hasbeen called.</td>
+<td></td>
+</tr>
+<tr>
+<td>contextHandle</td>
+<td>Allows the caller to provide a context value</td>
+</tr>
+<tr>
+<td>(usually a pointer to the callers context for multi-instance</td>
+<td></td>
+</tr>
+<tr>
+<td>clients).</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>event</td>
+<td>Indicates the data transfer event for which the</td>
+</tr>
+<tr>
+<td>callback function hasbeen called.</td>
+<td></td>
+</tr>
+<tr>
+<td>contextHandle</td>
+<td>Allows the caller to provide a context value</td>
+</tr>
+<tr>
+<td>(usually a pointer to the callers context for multi-instance</td>
+<td></td>
+</tr>
+<tr>
+<td>clients).</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>bool - The return value is currently ignored by the I2C PLIB. Application can
+                return true.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+bool APP_I2C_SLAVE_Callback ( I2C_SLAVE_TRANSFER_EVENT event, uintptr_t contextHandle )
+{
+    switch(event)
+    {
+        case I2C_SLAVE_TRANSFER_EVENT_ADDR_MATCH:
+        // Handle address match event
+        break;</p>
+<pre class="code-block"><code class="language-c">    case I2C_SLAVE_TRANSFER_EVENT_RX_READY:
+
+    // Read the received data byte
+    rxData = I2CSMB0_ReadByte();
+
+    break;
+    case I2C_SLAVE_TRANSFER_EVENT_TX_READY:
+
+    // Provide data to I2C master
+    I2CSMB0_WriteByte(txData);
+
+    break;
+
+    case I2C_SLAVE_TRANSFER_EVENT_STOP_BIT_RECEIVED:
+    // Handle stop bit received event
+    break;
+}
+</code></pre>
+<p>}</p>
+<p>// Register Callback function which is defined above
+I2CI2CSMB0_CallbackRegister(APP_I2C_SLAVE_Callback, 0);
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

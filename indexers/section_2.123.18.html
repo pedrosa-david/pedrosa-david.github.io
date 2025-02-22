@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UARTx WriteBufferSizeGet Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.123.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.123.html">Universal Asynchronous Receiver Transmitter (UART)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">UARTx WriteBufferSizeGet Function</li>
+    </ol>
+</nav>
+
+<h1>UARTx WriteBufferSizeGet Function</h1>
+<h1>2.123.18</h1>
+<p>UARTx_WriteBufferSizeGet Function</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E5B73894-E6C8-4CD2-9053-4206923C85FA.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E5B73894-E6C8-4CD2-9053-4206923C85FA.html</a></p>
+<h1><span id="2-123-18-uartx-writebuffersizeget-function"></span>2.123.18 UARTx_WriteBufferSizeGet Function</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> x = UART instance number </em>/</p>
+<p>/<em> Ring buffer mode </em>/
+size_t UARTx_WriteBufferSizeGet(void)
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Returns the size of the internal transmit ring buffer</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function returns the size of the transmit ring buffer, which is same as the size of
+        the transmit ring buffer configured in MCC.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>UARTx_Initialize must have been called for the associated UART instance.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>None</p>
+<h2><span id="returns"></span>Returns</h2>
+<p>The API returns the size of the transmit ring buffer. If 9-bit mode is enabled, then the return value indicates the number of 9-bit data that can be copied to the internal transmit ring buffer.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+size_t txBufferSize;</p>
+<p>txBufferSize = UART1_WriteBufferSizeGet();</p>
+<p>// Set a threshold to get notification when the transmit ring buffer is empty
+UART1_WriteThresholdSet(txBufferSize);
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

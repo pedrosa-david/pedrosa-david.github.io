@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCW BOOT FLASH WRITE PROTECT Macro | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.44.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.44.html">Flash Write Control (FCW)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">FCW BOOT FLASH WRITE PROTECT Macro</li>
+    </ol>
+</nav>
+
+<h1>FCW BOOT FLASH WRITE PROTECT Macro</h1>
+<h1>2.44.24</h1>
+<p>FCW_BOOT_FLASH_WRITE_PROTECT Macro</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-055ACEE6-C167-4C37-A1D3-1A7151A83B83.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-055ACEE6-C167-4C37-A1D3-1A7151A83B83.html</a></p>
+<h1><span id="2-44-24-fcw-boot-flash-write-protect-macro"></span>2.44.24 FCW_BOOT_FLASH_WRITE_PROTECT Macro</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> Boot Flash Page 0 Write Protect </em>/</p>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_0     (0</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 1 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_1     (1)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 2 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_2     (2)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 3 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_3     (3)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 4 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_4     (4)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 5 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_5     (5)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 6 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_6     (6)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 7 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_7     (7)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 8 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_8     (8)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 9 Write Protect */
+</code></pre>
+<h1>define   FCW_BOOT_WRITE_PROTECT_PAGE_9      (9)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 10 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_10    (10)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 11 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_11    (11)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 12 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_12    (12)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 13 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_13    (13)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page 14 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_14    (14)</h1>
+<pre class="code-block"><code class="language-c">/* Boot Flash Page15 Write Protect */
+</code></pre>
+<h1>define    FCW_BOOT_WRITE_PROTECT_PAGE_15    (15)</h1>
+<p>typedef uint32_t FCW_BOOT_FLASH_WRITE_PROTECT;
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Defines boot flash write protect page</p>
+<h2><span id="description"></span>Description</h2>
+<p>This macro defines boot flash write protect page.</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIO PortWrite Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.77.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.77.html">Parallel Input Output (PIO) Controller</a></li>
+        <li class="breadcrumb-item active" aria-current="page">PIO PortWrite Function</li>
+    </ol>
+</nav>
+
+<h1>PIO PortWrite Function</h1>
+<h1>2.77.3</h1>
+<p>PIO_PortWrite Function</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-0010B594-839E-47D7-9236-254F900A23ED.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-0010B594-839E-47D7-9236-254F900A23ED.html</a></p>
+<h1><span id="2-77-3-pio-portwrite-function"></span>2.77.3 PIO_PortWrite Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void PIO_PortWrite(PIO_PORT port, uint32_t mask, uint32_t value);</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Write the value on the masked I/O lines of the selected port.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function writes the data values driven on selected output lines of the
+selected port. Bit values in each position indicate corresponding pin
+levels.</p>
+<p>1 - Pin is driven high.</p>
+<p>0 - Pin is driven low.</p>
+<ul>
+<li>1 - Pin is driven high.</li>
+<li>0 - Pin is driven low.</li>
+</ul>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>The desired pins lines of the selected port must be setup as output(s) in MCC Pin Manager.
+        PIO_Initialize() must have been called.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>1's  Will write to corresponding IO pins.</p>
+<p>0's  Will remain unchanged. |
+| value | Value which has to be written/driven on the I/O lines of the selected port for which mask bits are '1'. Values for the corresponding mask bit '0' will be ignored.</p>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>port</td>
+<td>One of the IO ports from the enum PIO_PORT</td>
+</tr>
+<tr>
+<td>mask</td>
+<td>A 32 bit value in which positions of 0s and 1s decide which IO pins of the selected port will be written.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>port</td>
+<td>One of the IO ports from the enum PIO_PORT</td>
+</tr>
+<tr>
+<td>mask</td>
+<td>A 32 bit value in which positions of 0s and 1s decide which IO pins of the selected port will be written.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>1's  Will write to corresponding IO pins.</li>
+<li>0's  Will remain unchanged. |
+| value | Value which has to be written/driven on the I/O lines of the selected port for which mask bits are '1'. Values for the corresponding mask bit '0' will be ignored.</li>
+</ul>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">// Write binary value 0011 to the pins PC3, PC2, PC1 and PC0 respectively.
+PIO_PortWrite(PIO_PORT_C, 0x0F, 0xF563D453);</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>If the port has less than 32-bits, unimplemented pins will be ignored.  Implemented pins are Right aligned in the 32-bit value.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSU CRCCalculate Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.32.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.32.html">Device Service Unit (DSU)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DSU CRCCalculate Function</li>
+    </ol>
+</nav>
+
+<h1>DSU CRCCalculate Function</h1>
+<h1>2.32.1</h1>
+<p>DSU_CRCCalculate Function</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-D014D201-E985-4684-8938-A987DDD77D2B.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-D014D201-E985-4684-8938-A987DDD77D2B.html</a></p>
+<h1><span id="2-32-1-dsu-crccalculate-function"></span>2.32.1 DSU_CRCCalculate Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">bool DSU_CRCCalculate(uint32_t startAddress, size_t length, uint32_t crcSeed, uint32_t * crc);</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Calculates the CRC Value for the specified address range.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function uses the hardware CRC computation feature of the DSU to calculate the CRC on a memory block. The start address and the size of the memory block are specified by startAddress and the length parameters.</p>
+<p>If this is the first block, the value of the crcSeed parameter should be 0xFFFFFFFF. For calculating the CRC of non-contiguous memory blocks, the CRC result from the CRC calculation of a previous memory block can be passed as the crcSeed to the CRC calculation of the next memory block.</p>
+<p>The calculated CRC is returned in the crc parameter. This should be inverted to match standard CRC implementations. It should be kept non-inverted if used as a starting point for subsequent CRC calculations.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>None.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>startAddress</td>
+<td>the starting location of the memory block on which the CRC calculation needs to be performed. This needs to be aligned on a 4 byte boundary.</td>
+</tr>
+<tr>
+<td>length</td>
+<td>size of the memory block.</td>
+</tr>
+<tr>
+<td>crcSeed</td>
+<td>Initial crcSeed value. This should be 0xFFFFFFFF for the first block. CRC values from the previous calculations can be passed as the CRC seed for next calculation while calculating CRC of separate CRC blocks.</td>
+</tr>
+<tr>
+<td>crc</td>
+<td>pointer to the return parameter where the calculated CRC result is stored. This should be inverted to match standard CRC implementations. This should be kept non-inverted if used a starting point for subsequent CRC calculations.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>startAddress</td>
+<td>the starting location of the memory block on which the CRC calculation needs to be performed. This needs to be aligned on a 4 byte boundary.</td>
+</tr>
+<tr>
+<td>length</td>
+<td>size of the memory block.</td>
+</tr>
+<tr>
+<td>crcSeed</td>
+<td>Initial crcSeed value. This should be 0xFFFFFFFF for the first block. CRC values from the previous calculations can be passed as the CRC seed for next calculation while calculating CRC of separate CRC blocks.</td>
+</tr>
+<tr>
+<td>crc</td>
+<td>pointer to the return parameter where the calculated CRC result is stored. This should be inverted to match standard CRC implementations. This should be kept non-inverted if used a starting point for subsequent CRC calculations.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>true - The CRC was calculated successfully.</p>
+<p>false - A fault occurred while calculating the CRC.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+// Calculate the CRC of a memory block starting 0x30000 and 1024 bytes.
+bool crcStatus;
+uint32_t crcResult;
+crcstatus = DSU_CRCCalculate((uint32_t)(0x30000), 1024, 0xFFFFFFFF, &amp;crcResult);</p>
+<p>if(crcStatus == true)
+{
+    // This is the standard CRC result.
+    crcResult = ~crcResult;
+}
+```</p>
+<p>```C
+// Calculate the CRC of multiple but separate blocks. Return status is
+// ignored in this example. Note how the intermediate result is not
+// inverted but the final result is.</p>
+<p>bool crcStatus;
+uint32_t crcResult, tempResult;</p>
+<p>DSU_CRCCalculate((uint32_t)(0x30000), 1024, 0xFFFFFFFF, &amp;tempResult);
+DSU_CRCCalculate((uint32_t)(0x31000), 1024, tempResult, &amp;crcResult);</p>
+<p>crcResult = ~crcResult;
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

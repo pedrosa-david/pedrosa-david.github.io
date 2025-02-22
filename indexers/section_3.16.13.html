@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor Control Pulse-Width Modulation (MCPWM) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.16.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.16.html">PIC32MK MCA Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Motor Control Pulse-Width Modulation (MCPWM)</li>
+    </ol>
+</nav>
+
+<h1>Motor Control Pulse-Width Modulation (MCPWM)</h1>
+<h1>3.16.13</h1>
+<p>Motor Control Pulse-Width Modulation (MCPWM)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C6DC2546-9084-486E-9CA5-66C74F424060_4.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C6DC2546-9084-486E-9CA5-66C74F424060_4.html</a></p>
+<h1>3.16.13 Motor Control Pulse-Width Modulation (MCPWM)</h1>
+<p><pre class="code-block"><code class="language-c">Chopping mode (also known as Gated mode)</code></pre></p>
+<p>The PIC32MK GP/MC Family of devices support a dedicated Motor Control Pulse-Width Modulation (PWM) module with up to 12 outputs. The Motor Control PWM module consists of the following major features:</p>
+<p>Two master time base modules with special event triggers</p>
+<p>PWM module input clock prescaler</p>
+<p>Two synchronization inputs</p>
+<p>Two synchronization outputs</p>
+<p>Eight PWM generators with complimentary output pairs</p>
+<p>Four additional PWM generators with single ended outputs</p>
+<p>Period, duty cycle, phase shift and dead time minimum resolution of 1 / FSYSCLK in Edge-Aligned mode and 2 / FSYSCLK minimum resolution in Center-Aligned mode</p>
+<p>Cycle by cycle fault recovery and latched fault modes</p>
+<p>PWM time-base capture upon current limit</p>
+<p>Nine fault input pins are available for faults and current limits</p>
+<p>Programmable analog-to-digital trigger with interrupt for each PWM pair</p>
+<p>Complementary PWM outputs</p>
+<p>Push-Pull PWM outputs</p>
+<p>Redundant PWM outputs</p>
+<p>Edge-Aligned PWM mode</p>
+<p>Center-Aligned PWM mode</p>
+<p>Variable Phase PWM mode</p>
+<p>Multi-Phase PWM mode</p>
+<p>Fixed-Off Time PWM mode</p>
+<p>Current Limit PWM mode</p>
+<p>Current Reset PWM mode</p>
+<p>PWMxH and PWMxL output override control</p>
+<p>PWMxH and PWMxL output pin swapping</p>
+<p>Dead time insertion</p>
+<p>Dead time compensation</p>
+<p>Enhanced Leading-Edge Blanking (LEB)</p>
+<p>15 mA PWM pin output drive</p>
+<ul>
+<li>Two master time base modules with special event triggers</li>
+<li>PWM module input clock prescaler</li>
+<li>Two synchronization inputs</li>
+<li>Two synchronization outputs</li>
+<li>Eight PWM generators with complimentary output pairs</li>
+<li>Four additional PWM generators with single ended outputs</li>
+<li>Period, duty cycle, phase shift and dead time minimum resolution of 1 / FSYSCLK in Edge-Aligned mode and 2 / FSYSCLK minimum resolution in Center-Aligned mode</li>
+<li>Cycle by cycle fault recovery and latched fault modes</li>
+<li>PWM time-base capture upon current limit</li>
+<li>Nine fault input pins are available for faults and current limits</li>
+<li>Programmable analog-to-digital trigger with interrupt for each PWM pair</li>
+<li>Complementary PWM outputs</li>
+<li>Push-Pull PWM outputs</li>
+<li>Redundant PWM outputs</li>
+<li>Edge-Aligned PWM mode</li>
+<li>Center-Aligned PWM mode</li>
+<li>Variable Phase PWM mode</li>
+<li>Multi-Phase PWM mode</li>
+<li>Fixed-Off Time PWM mode</li>
+<li>Current Limit PWM mode</li>
+<li>Current Reset PWM mode</li>
+<li>PWMxH and PWMxL output override control</li>
+<li>PWMxH and PWMxL output pin swapping</li>
+<li>Chopping mode (also known as Gated mode)</li>
+<li>Dead time insertion</li>
+<li>Dead time compensation</li>
+<li>Enhanced Leading-Edge Blanking (LEB)</li>
+<li>15 mA PWM pin output drive</li>
+</ul>
+<h2>Using The Library</h2>
+<p>This example shows how to configure the MCPWM to generate PWM signals whose duty and period can be configured independently.</p>
+<p>```C
+/<em> Duty cycle increment value </em>/</p>
+<h1>define DUTY_INCREMENT (10U)</h1>
+<p>/<em> Save PWM period </em>/
+uint16_t period;</p>
+<p>/<em> This function is called after PWM0 counter event </em>/
+void PWM_PeriodHandler(uint32_t status, uintptr_t context)
+{
+    /<em> duty cycle values </em>/
+    static uint16_t duty0 = 0U;
+    static uint16_t duty1 = 1000U;
+    static uint16_t duty2 = 2000U;</p>
+<pre class="code-block"><code class="language-c">MCPWM_ChannelPrimaryDutySet(MCPWM_CH_1, duty0);
+MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, duty1);
+MCPWM_ChannelPrimaryDutySet(MCPWM_CH_3, duty2);
+
+/* Increment duty cycle values */
+duty0 += DUTY_INCREMENT;
+duty1 += DUTY_INCREMENT;
+duty2 += DUTY_INCREMENT;
+
+if (duty0 &gt; period)
+    duty0 = 0U;
+if (duty1 &gt; period)
+    duty1 = 0U;
+if (duty2 &gt; period)
+    duty2 = 0U;
+</code></pre>
+<p>}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">/* Register callback function for Channel 0 counter event */
+MCPWM_CallbackRegister(MCPWM_CH_1, PWM_PeriodHandler, (uintptr_t)NULL);
+
+/* Read the period */
+period = MCPWM_PrimaryPeriodGet();
+
+/* Start all synchronous channels by starting channel 0*/
+MCPWM_Start();
+
+while ( true )
+{
+    /* Maintain state machines of all polled MPLAB Harmony modules. */
+    SYS_Tasks ( );
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCPWM_Initialize</td>
+<td>Initializes given instance of MCPWM peripheral</td>
+</tr>
+<tr>
+<td>MCPWM_Start</td>
+<td>Starts the MCPWM module</td>
+</tr>
+<tr>
+<td>MCPWM_Stop</td>
+<td>Stops the given MCPWM module</td>
+</tr>
+<tr>
+<td>MCPWM_PrimaryPeriodSet</td>
+<td>Sets the period value of the primary time base</td>
+</tr>
+<tr>
+<td>MCPWM_SecondaryPeriodSet</td>
+<td>Sets the period value of the secondary time base</td>
+</tr>
+<tr>
+<td>MCPWM_PrimaryPeriodGet</td>
+<td>Reads the period value of primary time base generator</td>
+</tr>
+<tr>
+<td>MCPWM_SecondaryPeriodGet</td>
+<td>Reads the period value of secondary time base generator</td>
+</tr>
+<tr>
+<td>MCPWM_ChannelPrimaryDutySet</td>
+<td>Writes the primary duty cycle value of given MCPWM channel</td>
+</tr>
+<tr>
+<td>MCPWM_ChannelSecondaryDutySet</td>
+<td>Writes the secondary duty cycle value of given MCPWM channel</td>
+</tr>
+<tr>
+<td>MCPWM_ChannelDeadTimeSet</td>
+<td>Writes dead time values of given MCPWM channel</td>
+</tr>
+<tr>
+<td>MCPWM_ChannelPrimaryTriggerSet</td>
+<td>Writes the primary trigger compare value to trigger ADC conversion</td>
+</tr>
+<tr>
+<td>MCPWM_ChannelSecondaryTriggerSet</td>
+<td>Writes the secondary trigger compare value to trigger ADC conversion</td>
+</tr>
+<tr>
+<td>MCPWM_PrimaryEventCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>MCPWM_SecondaryEventCallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>MCPWM_CallbackRegister</td>
+<td>Registers the function to be called from interrupt</td>
+</tr>
+<tr>
+<td>MCPWM_ChannelPinsOverrideEnable</td>
+<td>Enables PWM output pins override function</td>
+</tr>
+<tr>
+<td>MCPWM_ChannelPinsOverrideDisable</td>
+<td>Disables PWM output pins override function</td>
+</tr>
+<tr>
+<td>MCPWM_ChannelPinsOwnershipEnable</td>
+<td>Sets the PWM output pins ownership to PWM generator</td>
+</tr>
+<tr>
+<td>MCPWM_ChannelPinsOwnershipDisable</td>
+<td>Sets the PWM output pins ownership to GPIO</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCPWM_CH_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the MCPWM peripheral callback function</td>
+</tr>
+<tr>
+<td>MCPWM_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the MCPWM peripheral callback function for primary event and secondary event</td>
+</tr>
+<tr>
+<td>MCPWM_CH_NUM</td>
+<td>Enum</td>
+<td>Identifies MCPWM channel number in a MCPWM peripheral</td>
+</tr>
+<tr>
+<td>MCPWM_CH_STATUS</td>
+<td>Enum</td>
+<td>Identifies MCPWM channel event status</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

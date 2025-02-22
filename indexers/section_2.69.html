@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Volatile Memory (NVM) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Non-Volatile Memory (NVM)</li>
+    </ol>
+</nav>
+
+<h1>Non-Volatile Memory (NVM)</h1>
+<h1>2.69</h1>
+<p>Non-Volatile Memory (NVM)</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-9BCBFE26-F9A1-4257-BF00-2BF6AECCC831.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-9BCBFE26-F9A1-4257-BF00-2BF6AECCC831.html</a></p>
+<h1><span id="2-69-non-volatile-memory-nvm"></span>2.69 Non-Volatile Memory (NVM)</h1>
+<p>This Plib implements software abstraction for NVM Peripheral.</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Non-Volatile Memory peripheral library provides the following
+                                interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NVM_Initialize</td>
+<td>Initializes given instance of</td>
+</tr>
+<tr>
+<td>the NVM peripheral</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_Read</td>
+<td>Reads length number of bytes</td>
+</tr>
+<tr>
+<td>from a given address in FLASH memory</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_RowWrite</td>
+<td>Writes one row of data to</td>
+</tr>
+<tr>
+<td>given NVM address</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_SingleDoubleWordWrite</td>
+<td>Writes Two Words into the</td>
+</tr>
+<tr>
+<td>Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_QuadDoubleWordWrite</td>
+<td>Writes Eight Words into the</td>
+</tr>
+<tr>
+<td>Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_DoubleWordWrite</td>
+<td>Writes two words into the</td>
+</tr>
+<tr>
+<td>Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_WordWrite</td>
+<td>Writes One word into the</td>
+</tr>
+<tr>
+<td>Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_QuadWordWrite</td>
+<td>Writes four words into the</td>
+</tr>
+<tr>
+<td>Flash</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_PageErase</td>
+<td>Erases a Page in the</td>
+</tr>
+<tr>
+<td>NVM</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_ErrorGet</td>
+<td>Returns the error state of NVM</td>
+</tr>
+<tr>
+<td>controller</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_IsBusy</td>
+<td>Returns the current status of</td>
+</tr>
+<tr>
+<td>NVM controller</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_CallbackRegister</td>
+<td>Sets the pointer to the</td>
+</tr>
+<tr>
+<td>function (and it's context) to be called when the</td>
+<td></td>
+</tr>
+<tr>
+<td>operation is complete</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_ProgramFlashSwapBank</td>
+<td>Swaps the Program Flash Bank</td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_ProgramFlashWriteProtect</td>
+<td>Protect Program Flash Memory</td>
+</tr>
+<tr>
+<td>from Writes</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_ProgramFlashWriteProtectLock</td>
+<td>Disable Writes to Program</td>
+</tr>
+<tr>
+<td>Flash Write Protect Lock register</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_BootFlashWriteProtectEnable</td>
+<td>Protect Boot Flash Memory Page</td>
+</tr>
+<tr>
+<td>from Writes</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_BootFlashWriteProtectDisable</td>
+<td>Un-Protect Boot Flash Memory</td>
+</tr>
+<tr>
+<td>Page to perform Writes</td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_BootFlashWriteProtectLock</td>
+<td>Disable Writes to Boot flash</td>
+</tr>
+<tr>
+<td>Write Protect Lock register</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NVM_ERROR</td>
+<td>Enum</td>
+<td>Defines the NVM Error</td>
+</tr>
+<tr>
+<td>Type</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_BOOT_FLASH_WRITE_PROTECT</td>
+<td>Enum</td>
+<td>Defines the Boot flash write</td>
+</tr>
+<tr>
+<td>protect pages</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_BOOT_FLASH_WRITE_PROTECT_LOCK</td>
+<td>Enum</td>
+<td>Defines the Write protect lock</td>
+</tr>
+<tr>
+<td>pages</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NVM_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and</td>
+</tr>
+<tr>
+<td>function signature for the NVM peripheral callback</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>function</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

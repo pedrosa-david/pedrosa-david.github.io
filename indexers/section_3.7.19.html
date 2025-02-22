@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Counter (RTC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.7.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.7.html">PIC32CM SG00 GC00 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Real-Time Counter (RTC)</li>
+    </ol>
+</nav>
+
+<h1>Real-Time Counter (RTC)</h1>
+<h1>3.7.19</h1>
+<p>Real-Time Counter (RTC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-625C9D52-B22D-4587-94E3-409CE1C20AE5_5.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-625C9D52-B22D-4587-94E3-409CE1C20AE5_5.html</a></p>
+<h1>3.7.19 Real-Time Counter (RTC)</h1>
+<p>The RTC module is a 32-bit counter, with a 10-bit programmable prescaler. Typically, the RTC
+      clock is run continuously, including in the device's low-power sleep modes, to track the
+      current time and date information. The RTC can be used as a source to wake up the system at a
+      scheduled time or periodically using the alarm functions. The RTC peripheral can be configured
+      to operate in the following three modes:</p>
+<p>16-bit Counter mode (or Timer mode)</p>
+<p>32-bit Counter mode (or Timer mode)</p>
+<p>Calendar mode</p>
+<p>The RTC peripheral in 16-bit or 32-bit counter mode allows for an easy integration of an
+      asynchronous counter into a user application, which is capable of operating while the device
+      is in sleep mode. The RTC peripheral in calendar mode allows for an easy integration of a real
+      time clock and calendar into a user application to track the passing of time and/or perform
+      scheduled tasks. The RTC timer has 10-bit programmable prescaler, it can generate periodic
+      events on the upper eight bits of the RTC prescaler. Table below shows the periodic event
+      frequencies for each prescaler bit using 1 kHz clock.</p>
+<p>32-bit timer mode(Mode 0)</p>
+<p>The RTC counter in 32-bit timer mode will increment until it reaches the top value of 0xFFFFFFFF, and then wrap to 0x00000000 and sets the overflow interrupt. The counter value is continuously compared with the 32-bit Compare register (COMP0), and sets the compare match interrupt when compare match occurs. If the Clear on compare match is selected, the counter is cleared when a compare match occurs. Both compare match and overflow interrupt is set on compare match. The Clear on compare match feature allow the RTC to generate periodic interrupts or events with longer periods than the prescaler events.</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Bit position</th>
+<th>Periodic Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7</td>
+<td>1 Hz</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2 Hz</td>
+</tr>
+<tr>
+<td>5</td>
+<td>4 Hz</td>
+</tr>
+<tr>
+<td>4</td>
+<td>8 Hz</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16 Hz</td>
+</tr>
+<tr>
+<td>2</td>
+<td>32 Hz</td>
+</tr>
+<tr>
+<td>1</td>
+<td>64 Hz</td>
+</tr>
+<tr>
+<td>0</td>
+<td>128 Hz</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>16-bit Counter mode (or Timer mode)</li>
+<li>32-bit Counter mode (or Timer mode)</li>
+<li>Calendar mode</li>
+</ul>
+<h2>Using The Library</h2>
+<p>The peripheral library provides polling and callback methods to
+indicate compare match or timer overflow.</p>
+<p>With polling, the application will need to continuously poll to check if the compare match has occurred or timer has overflowed</p>
+<p>With callback, the registered callback function will be called when the compare match occurs or timer overflows (Application do not have to poll continuously)</p>
+<p>Callback method</p>
+<p>This example demonstrates how to use RTC to generate periodic callback
+using clear on compare feature.</p>
+<p>```C
+/<em> This function is called after period expires </em>/
+void Timeout_Handler(RTC_TIMER32_INT_MASK intCause, uintptr_t context)
+{
+    if((intCause &amp; RTC_TIMER32_INT_MASK_CMP0) == RTC_TIMER32_INT_MASK_CMP0)
+    {
+        LED_Toggle();
+    }
+}</p>
+<p>int main(void)
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );
+    RTC_Timer32CallbackRegister(Timeout_Handler,0);
+    RTC_Timer32InterruptEnable(RTC_TIMER32_INT_MASK_CMP0);
+    RTC_Timer32Start();
+}
+```</p>
+<ul>
+<li>With polling, the application will need to continuously poll to check if the compare match has occurred or timer has overflowed</li>
+<li>With callback, the registered callback function will be called when the compare match occurs or timer overflows (Application do not have to poll continuously)</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Real-Time Counter peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>16-bit timer mode(Mode 1)</p>
+<p>The RTC counter in 16-bit timer mode will increment until it matches with 16-bit period
+        value, and then wrap to 0x0000. This sets the overflow interrupt. The counter value is
+        continuously compared with two 32-bit Compare registers (Compare 0, Compare 1), and sets the
+        respective compare match interrupt when compare match occurs. The RTC timer has 10-bit
+        programmable prescaler, it can generate periodic events on the upper eight bits of the RTC
+        prescaler. The resulting periodic frequency is from 1Hz to 128 Hz depending on the selected
+        prescaler bit position to generate periodic interrupt.</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTC_Initialize</td>
+<td>Initialize given instance of the RTC peripheral</td>
+</tr>
+<tr>
+<td>RTC_Timer32CompareHasMatched</td>
+<td>Check for 32-bit Timer Compare match</td>
+</tr>
+<tr>
+<td>RTC_Timer32Compare0HasMatched</td>
+<td>Check for 32-bit Timer Compare match</td>
+</tr>
+<tr>
+<td>RTC_Timer32Compare1HasMatched</td>
+<td>Check for 32-bit Timer Compare match</td>
+</tr>
+<tr>
+<td>RTC_Timer32CounterHasOverflowed</td>
+<td>Check if the 32-bit counter overflow</td>
+</tr>
+<tr>
+<td>RTC_Timer32Start</td>
+<td>Starts the 32-bit timer</td>
+</tr>
+<tr>
+<td>RTC_Timer32Stop</td>
+<td>Stops the 32-bit timer from counting</td>
+</tr>
+<tr>
+<td>RTC_Timer32CounterSet</td>
+<td>Set the 32-bit Timer Counter Value</td>
+</tr>
+<tr>
+<td>RTC_Timer32CompareSet</td>
+<td>Set the 32-bit timer period value</td>
+</tr>
+<tr>
+<td>RTC_Timer32Compare0Set</td>
+<td>Set the 32-bit timer period value</td>
+</tr>
+<tr>
+<td>RTC_Timer32Compare1Set</td>
+<td>Set the 32-bit timer period value</td>
+</tr>
+<tr>
+<td>RTC_Timer32PeriodGet</td>
+<td>Get 32-bit timer period Value</td>
+</tr>
+<tr>
+<td>RTC_Timer32CounterGet</td>
+<td>Get the current 32-bit counter value</td>
+</tr>
+<tr>
+<td>RTC_Timer32FrequencyGet</td>
+<td>Returns the frequency at which the 32-bit timer counter is operating</td>
+</tr>
+<tr>
+<td>RTC_Timer32InterruptEnable</td>
+<td>Enable selected RTC interrupt</td>
+</tr>
+<tr>
+<td>RTC_Timer32InterruptDisable</td>
+<td>Disable selected RTC interrupt</td>
+</tr>
+<tr>
+<td>RTC_Timer32CallbackRegister</td>
+<td>Register the callback function to be called when an 32-bit Timer Interrupt occurs</td>
+</tr>
+<tr>
+<td>RTC_Timer32TimeStampGet</td>
+<td>Get the Time stamp of Tamper Detection</td>
+</tr>
+<tr>
+<td>RTC_PeriodicIntervalHasCompleted</td>
+<td>Check if the configured periodic interval has expired</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTC_TIMER32_INT_MASK</td>
+<td>Enum</td>
+<td>Possible RTC 32-bit Timer Counter Mode Events</td>
+</tr>
+<tr>
+<td>RTC_TIMER32_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature of the RTC 32-bit Timer Counter callback function</td>
+</tr>
+<tr>
+<td>RTC_PERIODIC_INT_MASK</td>
+<td>Enum</td>
+<td>Possible Periodic Interrupt Mask</td>
+</tr>
+</tbody>
+</table>
+<h2>Using The Library</h2>
+<p>The peripheral library provides polling and callback methods to indicate compare match or period expiry.</p>
+<p>With polling, the application will need to continuously poll to check if the compare match has occurred or counter has overflowed.</p>
+<p>With callback, the registered callback function will be called when the period match or compare match occurs(his means the application do not have to poll continuously)</p>
+<p>Callback method 
+This example demonstrates how to use RTC to generate periodic callback.</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>Clock and Calendar (Mode 2)</p>
+<p>The RTC provides a full binary-coded decimal (BCD) clock that includes century (19/20), year (with leap years), month, day,hours, minutes, and seconds. The RTC can operate in 24-hour mode or in 12-hour mode with an AM/PM indicator. The RTC continues to run in the device's low-power sleep modes, to track the current time and date information. The RTC can be
+used as a source to wake up the system at a scheduled time or periodically using the alarm functions.</p>
+<p>```C
+/<em> This function is called after period expires </em>/
+void RTC_Callback(RTC_TIMER16_INT_MASK interruptCause, uintptr_t context)
+{</p>
+<pre class="code-block"><code class="language-c">if(interruptCause &amp;  RTC_TIMER16_INT_MASK_PERIOD_MATCH)
+{
+    // The period has matched.
+    LED_Toggle();
+}
+</code></pre>
+<p>}</p>
+<p>int main(void)
+{</p>
+<pre class="code-block"><code class="language-c">/* Register callback function for RTC */
+RTC_Timer16CallbackRegister(RTC_Callback, (uintptr_t)NULL);
+
+/* Enable Period Interrupt */
+RTC_Timer16InterruptEnable( RTC_TIMER16_INT_MASK_PERIOD_MATCH);
+
+/* Start RTC Timer */
+RTC_Timer16Start();
+</code></pre>
+<p>}
+```</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTC_Initialize</td>
+<td>Initialize given instance of the RTC peripheral</td>
+</tr>
+<tr>
+<td>RTC_FrequencyCorrect</td>
+<td>Calibrate for too-slow or too-fast oscillator</td>
+</tr>
+<tr>
+<td>RTC_Timer16CounterHasOverflowed</td>
+<td>Checks if the 16-bit counter has overflowed</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare0HasMatched</td>
+<td>Returns true if the 16-bit Timer Compare 0 value has matched the counter</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare1HasMatched</td>
+<td>Returns true if the 16-bit Timer Compare 1 value has matched the counter</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare2HasMatched</td>
+<td>Returns true if the 16-bit Timer Compare 2 value has matched the counter</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare3HasMatched</td>
+<td>Returns true if the 16-bit Timer Compare 3 value has matched the counter</td>
+</tr>
+<tr>
+<td>RTC_Timer16Start</td>
+<td>Starts the 16-bit timer</td>
+</tr>
+<tr>
+<td>RTC_Timer16Stop</td>
+<td>Stops the 16-bit timer from counting</td>
+</tr>
+<tr>
+<td>RTC_Timer16CounterSet</td>
+<td>Set the 16-bit Timer Counter Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16PeriodSet</td>
+<td>Set the 16-bit timer period value</td>
+</tr>
+<tr>
+<td>RTC_Timer16PeriodGet</td>
+<td>Get 16-bit timer period Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16CounterGet</td>
+<td>Get the current 16-bit counter value</td>
+</tr>
+<tr>
+<td>RTC_Timer16FrequencyGet</td>
+<td>Returns the frequency at which the 16-bit timer counter is operating</td>
+</tr>
+<tr>
+<td>RTC_Timer16InterruptEnable</td>
+<td>Enable Selected RTC interrupt</td>
+</tr>
+<tr>
+<td>RTC_Timer16InterruptDisable</td>
+<td>Disable Selected RTC Interrupt</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare0Set</td>
+<td>Set the 16-Bit Counter Compare 0 Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare1Set</td>
+<td>Set the 16-Bit Counter Compare 1 Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare2Set</td>
+<td>Set the 16-Bit Counter Compare 2 Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16Compare3Set</td>
+<td>Set the 16-Bit Counter Compare 3 Value</td>
+</tr>
+<tr>
+<td>RTC_Timer16TimeStampGet</td>
+<td>Get the Time stamp of Tamper Detection</td>
+</tr>
+<tr>
+<td>RTC_Timer16CallbackRegister</td>
+<td>Register the callback function to be called when an 16-bit Timer Interrupt occurs</td>
+</tr>
+<tr>
+<td>RTC_PeriodicIntervalHasCompleted</td>
+<td>Check if the configured periodic interval has expired</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTC_TIMER16_INT_MASK</td>
+<td>Enum</td>
+<td>Possible RTC 16-bit Timer Counter Mode Events</td>
+</tr>
+<tr>
+<td>RTC_TIMER16_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature of the RTC 16-bit Timer Counter callback function</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>With polling, the application will need to continuously poll to check if the compare match has occurred or counter has overflowed.</li>
+<li>With callback, the registered callback function will be called when the period match or compare match occurs(his means the application do not have to poll continuously)</li>
+</ul>
+<h2>Using The Library</h2>
+<p>The RTC keeps track of the current time and generates an alarm at the desired time. The RTC Alarm has six programmable fields:
+year, month, date, hours, minutes, and seconds.
+The alarm mask allows following options to generate alarm.</p>
+<p>Alarm mask to compare seconds field (SS) - Generates alarm once per minute</p>
+<p>Alarm mask to compare minutes and seconds field (MMSS) - Generates alarm once per hour</p>
+<p>Alarm mask to compare hours, minutes and seconds field (HHMMSS) - Generates alarm once per day</p>
+<p>Alarm mask to compare date, hours, minutes, and seconds field (DDHHMMSS) - Generates alarm once per month</p>
+<p>Alarm mask to compare month, date, hours, minutes and seconds (MMDDHHMMSS) - Generates alarm once per year</p>
+<p>Alarm mask to compare year, month, date, hours, minutes and seconds (YYMMDDHHMMSS) - Generates alarm on exact day and time</p>
+<p>This example demonstrates how to set the RTC time, and alarm time to generate an alarm interrupt at the desired time of the day.</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>```C
+bool alarm_triggered;</p>
+<p>void RTC_Callback(RTC_CLOCK_INT_MASK int_cause , uintptr_t  context)
+{
+    if (int_cause &amp; RTC_CLOCK_INT_MASK_ALARM)
+    {
+        alarm_triggered = true;
+        LED_Toggle();
+    }
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize System Time and Alarm Time </em>/
+    struct tm sys_time;
+    struct tm alarm_time;</p>
+<pre class="code-block"><code class="language-c">/* Register Callback */
+RTC_CallbackRegister(RTC_Callback, (uintptr_t) NULL);
+
+/* Set Time and date
+  15-01-2018 12:00:00 Monday */
+sys_time.tm_hour = 12;      /* hour [0,23] */
+sys_time.tm_sec = 00;       /* seconds [0,61] */
+sys_time.tm_min = 00;       /* minutes [0,59] */
+sys_time.tm_mon = 0;        /* month of year [0,11] */
+sys_time.tm_year = 118;     /* years since 1900 */
+sys_time.tm_mday = 15;      /* day of month [1,31] */
+sys_time.tm_wday = 1;       /* day of week [0,6] (Sunday = 0) */
+                            /* tm_yday - day of year [0,365] */
+                            /* tm_isdst - daylight savings flag */
+
+RTC_TimeSet(&amp;sys_time);
+
+/* Set Alarm Time and date. Generate alarm every day when Hour, Minute and Seconds match.
+   15-01-2018 12:00:20 Monday */
+alarm_time.tm_hour = 12;
+alarm_time.tm_sec = 20;
+alarm_time.tm_min = 00;
+alarm_time.tm_mon = 0;
+alarm_time.tm_year = 118;
+alarm_time.tm_mday = 15;
+alarm_time.tm_wday = 1;
+
+RTC_RTCCAlarmSet(&amp;alarm_time, RTC_ALARM_MASK_HHMMSS);
+
+while ( true )
+{
+    if(alarm_triggered == true)
+    {
+        printf("\n\rAlarm Triggered !!!!!!!!\n\r");
+        alarm_triggered = false;
+    }
+}
+</code></pre>
+<p>}
+```</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTC_Initialize</td>
+<td>Initialize given instance of the RTC peripheral</td>
+</tr>
+<tr>
+<td>RTC_RTCCTimeGet</td>
+<td>Gets the current time and date</td>
+</tr>
+<tr>
+<td>RTC_RTCCTimeSet</td>
+<td>Sets the Real Time Clock Calendar time and date</td>
+</tr>
+<tr>
+<td>RTC_RTCCAlarmSet</td>
+<td>Set an alarm</td>
+</tr>
+<tr>
+<td>RTC_RTCCCallbackRegister</td>
+<td>Register the callback function to be called when an RTCC Interrupt occurs</td>
+</tr>
+<tr>
+<td>RTC_BackupRegisterSet</td>
+<td>Set the value for the selected Backup Register</td>
+</tr>
+<tr>
+<td>RTC_BackupRegisterGet</td>
+<td>Get the value stored in the selected Backup Register</td>
+</tr>
+<tr>
+<td>RTC_TamperSourceGet</td>
+<td>Get the Tamper source</td>
+</tr>
+<tr>
+<td>RTC_RTCCTimeStampGet</td>
+<td>Get the Time stamp of Tamper Detection</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTC_ALARM_MASK</td>
+<td>Enum</td>
+<td>Possible RTC Alarm Mask Settings</td>
+</tr>
+<tr>
+<td>RTC_CLOCK_EVENT</td>
+<td>Enum</td>
+<td>Possible RTC RTCC Mode Events</td>
+</tr>
+<tr>
+<td>BACKUP_REGISTER</td>
+<td>Enum</td>
+<td>Possible Backup Register Mask</td>
+</tr>
+<tr>
+<td>TAMPER_CHANNEL</td>
+<td>Enum</td>
+<td>Possible Tamper Channel Mask</td>
+</tr>
+<tr>
+<td>RTC_CLOCK_INT_MASK</td>
+<td>Enum</td>
+<td>Possible RTC Clock Mode Events</td>
+</tr>
+<tr>
+<td>RTC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature of the Real Time Clock Calendar callback function</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Alarm mask to compare seconds field (SS) - Generates alarm once per minute</li>
+<li>Alarm mask to compare minutes and seconds field (MMSS) - Generates alarm once per hour</li>
+<li>Alarm mask to compare hours, minutes and seconds field (HHMMSS) - Generates alarm once per day</li>
+<li>Alarm mask to compare date, hours, minutes, and seconds field (DDHHMMSS) - Generates alarm once per month</li>
+<li>Alarm mask to compare month, date, hours, minutes and seconds (MMDDHHMMSS) - Generates alarm once per year</li>
+<li>Alarm mask to compare year, month, date, hours, minutes and seconds (YYMMDDHHMMSS) - Generates alarm on exact day and time</li>
+</ul>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

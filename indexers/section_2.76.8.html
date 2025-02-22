@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDECx QDECStatusGet Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.76.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.76.html">Quadrature Decoder (PDEC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">PDECx QDECStatusGet Function</li>
+    </ol>
+</nav>
+
+<h1>PDECx QDECStatusGet Function</h1>
+<h1>2.76.8</h1>
+<p>PDECx_QDECStatusGet Function</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E182A98E-CFD8-4C83-BADE-46817D595FDD.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E182A98E-CFD8-4C83-BADE-46817D595FDD.html</a></p>
+<h1><span id="2-76-8-pdecx-qdecstatusget-function"></span>2.76.8 PDECx_QDECStatusGet Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">PDEC_QDEC_STATUS PDECx_QDECStatusGet (void) // x is instance of the peripheral and it is applicable only for devices having multiple instances of the peripheral.</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Identifies status of the quadrature interrupts</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function returns the status of the interrupts that occur in quadrature mode.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>PDECx_QDECInitialize must have been called first.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>None</p>
+<h2><span id="returns"></span>Returns</h2>
+<p>PDEC_QDEC_STATUS - status of the quadrature interrupts</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">PDEC_QDEC_STATUS status;
+status = PDEC_QDECStatusGet();</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>This function is applicable only for quadrature mode.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

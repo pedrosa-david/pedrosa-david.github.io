@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMAC ChainTransferSetup Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.30.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.30.html">Direct Memory Access Controller (DMAC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DMAC ChainTransferSetup Function</li>
+    </ol>
+</nav>
+
+<h1>DMAC ChainTransferSetup Function</h1>
+<h1>2.30.4</h1>
+<p>DMAC_ChainTransferSetup Function</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-70BEE481-BCAC-4A16-A4CC-0FD3EDAF0781.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-70BEE481-BCAC-4A16-A4CC-0FD3EDAF0781.html</a></p>
+<h1><span id="2-30-4-dmac-chaintransfersetup-function"></span>2.30.4 DMAC_ChainTransferSetup Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">bool DMAC_ChainTransferSetup( DMAC_CHANNEL channel, const void *srcAddr,
+size_t srcSize, const void *destAddr, size_t destSize, size_t cellSize);</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Setup a DMA channel for chain transfer</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function sets up a DMA channel for chain mode of transfer. The actual
+transfer doesn't start by using this function.</p>
+<p>In chained mode, more than one DMA channels are linked to each other.
+DMAC_ChainTransferSetup API should be used to setup all the chained channels
+except the first channel of the chain. First channel of the chain should be
+setup and enabled using DMAC_ChannelTransfer API. Once the first channel
+transfer is completed, next channel of the chain is automatically enabled
+and based on its setup, it completes the transfer and chain continues.</p>
+<p>If callback is registered for any of the channel which is part of the chain,
+callback function will be called when the transfer of corresponding channel
+completes. The callback function will be called with a DMAC_TRANSFER_COMPLETE
+event if the transfer was processed successfully and a DMAC_TRANSFER_ERROR
+event if the transfer was not processed successfully.</p>
+<p>When already a transfer is in progress, this API will return false indicating
+that transfer setup is not accepted.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>DMAC should have been initialized by calling the DMAC_Initialize.</p>
+<p>Channels chaining order should be appropriately configured in MCC</p>
+<p>configuration tree</p>
+<ul>
+<li>DMAC should have been initialized by calling the DMAC_Initialize.</li>
+<li>Channels chaining order should be appropriately configured in MCC</li>
+</ul>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DMAC_CHANNEL channel</td>
+<td>DMA channel to be setup</td>
+</tr>
+<tr>
+<td>srcAddr</td>
+<td>pointer to source data</td>
+</tr>
+<tr>
+<td>srcSize</td>
+<td>Size of the source</td>
+</tr>
+<tr>
+<td>destAddr</td>
+<td>pointer to where data is to be moved to</td>
+</tr>
+<tr>
+<td>destSize</td>
+<td>Size of the destination</td>
+</tr>
+<tr>
+<td>cellSize</td>
+<td>Size of the cell</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DMAC_CHANNEL channel</td>
+<td>DMA channel to be setup</td>
+</tr>
+<tr>
+<td>srcAddr</td>
+<td>pointer to source data</td>
+</tr>
+<tr>
+<td>srcSize</td>
+<td>Size of the source</td>
+</tr>
+<tr>
+<td>destAddr</td>
+<td>pointer to where data is to be moved to</td>
+</tr>
+<tr>
+<td>destSize</td>
+<td>Size of the destination</td>
+</tr>
+<tr>
+<td>cellSize</td>
+<td>Size of the cell</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<ul>
+<li>
+<p>true - If setup request is accepted.</p>
+</li>
+<li>
+<p>false - If previous transfer is in progress and the setup request is rejected.</p>
+</li>
+</ul>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+// Transfer 10 bytes of data to UART TX using DMAC channel 1
+uint8_t buf1[10] = {0,1,2,3,4,5,6,7,8,9};
+uint8_t buf2[10] = {10,11,12,13,14,15,16,17,18,19};
+    void <em>srcAddr = (uint8_t </em>) buf1;
+    void <em>destAddr = (uin8_t</em>) &amp;SPI1BUF
+    size_t size = 10;</p>
+<pre class="code-block"><code class="language-c">// setup channel 2, it should be configured in MCC to be chained after channel 1
+DMAC_ChainTransferSetup(DMAC_CHANNEL_2, (void *)&amp;buf2, size, destAddr, 1, 1)
+// setup and enable channel 1, once its transfer completes, channel 2 will be automatically enabled
+DMAC_ChannelTransfer(DMAC_CHANNEL_1, (void *)&amp;buf1, size, destAddr, 1, 1)
+</code></pre>
+<p>```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARM MMU V7A | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.31.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.31.html">SAM A7G5 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ARM MMU V7A</li>
+    </ol>
+</nav>
+
+<h1>ARM MMU V7A</h1>
+<h1>3.31.11</h1>
+<p>ARM MMU V7A</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-39B5B605-8CCC-4588-8122-F3B4CDBC4382_2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-39B5B605-8CCC-4588-8122-F3B4CDBC4382_2.html</a></p>
+<h1>3.31.11 ARM MMU V7A</h1>
+<p>The MMU works with the L1 and L2 memory system to translate virtual addresses to physical addresses. It also controls accesses to and from external memory.
+The ARM v7 Virtual Memory System Architecture (VMSA) features include the following:</p>
+<p>Page table entries that support:</p>
+<p>16 Mbyte supersections. The processor supports supersections that consist of 16 Mbyte blocks of memory.</p>
+<p>1 Mbyte sections</p>
+<p>64 Kbyte large pages</p>
+<p>4 Kbyte small pages</p>
+<p>16 access domains</p>
+<p>Global and application-specific identifiers to remove the requirement for context switch TLB flushes.</p>
+<p>Extended permissions checking capability.</p>
+<p>TLB maintenance and configuration operations are controlled through a dedicated coprocessor, CP15, integrated with the core. This coprocessor provides a standard mechanism for configuring the L1 memory system.</p>
+<ul>
+<li>
+<p>Page table entries that support:</p>
+<pre class="code-block"><code class="language-c">    16 Mbyte supersections. The processor supports supersections that consist of 16 Mbyte blocks of memory.
+
+    1 Mbyte sections
+
+    64 Kbyte large pages
+
+    4 Kbyte small pages
+
+    16 access domains
+</code></pre>
+<ul>
+<li>16 Mbyte supersections. The processor supports supersections that consist of 16 Mbyte blocks of memory.</li>
+<li>1 Mbyte sections</li>
+<li>64 Kbyte large pages</li>
+<li>4 Kbyte small pages</li>
+<li>16 access domains</li>
+<li>Global and application-specific identifiers to remove the requirement for context switch TLB flushes.</li>
+<li>Extended permissions checking capability.</li>
+</ul>
+</li>
+<li>
+<p>16 Mbyte supersections. The processor supports supersections that consist of 16 Mbyte blocks of memory.</p>
+</li>
+<li>1 Mbyte sections</li>
+<li>64 Kbyte large pages</li>
+<li>4 Kbyte small pages</li>
+<li>16 access domains</li>
+</ul>
+<h2>Using The Library</h2>
+<p>This Plib Initializes MMU with a flat address map (e.g. physical and virtual addresses are the same) and enable MMU and caches
+by invoking MMU_Initialize() in the system initialization.</p>
+<h2>Library Interface</h2>
+<p>ARM MMU V7A peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MMU_Initialize</td>
+<td>Initialize and enable MMU</td>
+</tr>
+<tr>
+<td>icache_InvalidateAll</td>
+<td>Invalidate instruction cache</td>
+</tr>
+<tr>
+<td>icache_Enable</td>
+<td>Enable instruction cache</td>
+</tr>
+<tr>
+<td>icache_Disable</td>
+<td>Disable instruction cache</td>
+</tr>
+<tr>
+<td>dcache_InvalidateAll</td>
+<td>Invalidate Data Cache</td>
+</tr>
+<tr>
+<td>dcache_CleanAll</td>
+<td>Clean Data Cache</td>
+</tr>
+<tr>
+<td>dcache_CleanInvalidateAll</td>
+<td>Clean and Invalidate Data Cache</td>
+</tr>
+<tr>
+<td>dcache_InvalidateByAddr</td>
+<td>Invalidate Data Cache by address</td>
+</tr>
+<tr>
+<td>dcache_CleanByAddr</td>
+<td>Clean Data Cache by address</td>
+</tr>
+<tr>
+<td>dcache_CleanInvalidateByAddr</td>
+<td>Clean Data Cache by address</td>
+</tr>
+<tr>
+<td>dcache_Enable</td>
+<td>Enable data cache</td>
+</tr>
+<tr>
+<td>dcache_Disable</td>
+<td>Disable data cache</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

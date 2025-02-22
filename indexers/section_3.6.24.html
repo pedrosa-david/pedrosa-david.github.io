@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply Controller (SUPC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.6.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.6.html">PIC32CM MC00 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Supply Controller (SUPC)</li>
+    </ol>
+</nav>
+
+<h1>Supply Controller (SUPC)</h1>
+<h1>3.6.24</h1>
+<p>Supply Controller (SUPC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-AAAC8BBD-7233-44E8-B92D-3601258E5A03_3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-AAAC8BBD-7233-44E8-B92D-3601258E5A03_3.html</a></p>
+<h1>3.6.24 Supply Controller (SUPC)</h1>
+<p>The Supply Controller (SUPC) manages the voltage reference and power
+supply of the device.</p>
+<p>The SUPC controls the voltage regulators for the core (VDDCORE) domain.
+It sets the voltage regulators according to the sleep modes, or the
+user configuration.</p>
+<p>The SUPC embeds two Brown-Out Detectors. BODVDD monitors the voltage
+applied to the device (VDD) and BODCORE monitors the internal voltage
+to the core (VDDCORE). The BOD can monitor the supply voltage
+continuously (continuous mode) or periodically (sampling mode).</p>
+<p>The SUPC generates also a selectable reference voltage and a voltage
+dependent on the temperature which can be used by analog modules like
+the ADC, SDADC or DAC.</p>
+<h2>Using The Library</h2>
+<p>The VDD Brown-Out Detector (BODVDD) is able to monitor the VDD supply
+and compares the voltage with the brown-out threshold level . When VDD
+crosses below the brown-out threshold level, the BODVDD can generate
+either an interrupt or a Reset. Brown out interrupt enables user to
+save critical data to prepare the system for a power-down.</p>
+<p>Callback method</p>
+<p>This example demonstrates how to get callback on brown-out detection to
+save critical work.</p>
+<p>```C
+MY_APP_OBJ myAppObj;</p>
+<p>void BOD_EventHandler(uintptr_t context)
+{
+    // The context was set to an application specific object.
+    // It is now retrievable easily in the event handler.
+    MY_APP_OBJ myAppObj = (MY_APP_OBJ *) context;</p>
+<pre class="code-block"><code class="language-c">// Brown-out interrupt occurred. Save critical data.
+</code></pre>
+<p>}</p>
+<p>int main(void)
+{
+    /<em> Register callback function </em>/
+    SUPC_BODVDDCallbackRegister(BOD_EventHandler, (uintptr_t)&amp;myAppObj);</p>
+<pre class="code-block"><code class="language-c">while(true)
+{
+
+}
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Supply Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SUPC_Initialize</td>
+<td>Initializes the SUPC peripheral</td>
+</tr>
+<tr>
+<td>SUPC_SelectVoltageRegulator</td>
+<td>Selects the main voltage regulator</td>
+</tr>
+<tr>
+<td>SUPC_SetOutputPin</td>
+<td>Sets a specific output pin (OUTx) to logic HIGH</td>
+</tr>
+<tr>
+<td>SUPC_ClearOutputPin</td>
+<td>Clears a specific output pin (OUTx) to logic LOW</td>
+</tr>
+<tr>
+<td>SUPC_BODVDDCallbackRegister</td>
+<td>Registers the function to be called when a Brown Out Event has occurred</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SUPC_OUTPIN</td>
+<td>Enum</td>
+<td>Identifies the output pins of SUPC peripheral</td>
+</tr>
+<tr>
+<td>SUPC_VREGSEL</td>
+<td>Enum</td>
+<td>Identifies the Main Voltage Regulators</td>
+</tr>
+<tr>
+<td>SUPC_BODVDD_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the SUPC peripheral callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nested Vectored Interrupt Controller (NVIC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.10.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.10.html">PIC32CX-BZ6 and PIC32WM BZ6204 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Nested Vectored Interrupt Controller (NVIC)</li>
+    </ol>
+</nav>
+
+<h1>Nested Vectored Interrupt Controller (NVIC)</h1>
+<h1>3.10.16</h1>
+<p>Nested Vectored Interrupt Controller (NVIC)</p>
+<p><em>Generated on: 2025-02-19 08:42:43</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2833A0A8-966F-4EFF-9B84-902406639298_9.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-2833A0A8-966F-4EFF-9B84-902406639298_9.html</a></p>
+<h1>3.10.16 Nested Vectored Interrupt Controller (NVIC)</h1>
+<p>The Nested Vectored Interrupt Controller (NVIC) supports:</p>
+<p>Tightly coupled interrupt controller provides low interrupt latency</p>
+<p>An implementation-defined number of interrupts, in the range 1-240 interrupts</p>
+<p>A programmable priority level for each interrupt. A higher level corresponds to a lower priority, so level 0 is the highest interrupt priority.</p>
+<p>Supports Vectored interrupt where each interrupt has its own vector stored in a vector table</p>
+<p>Relocatable Vector table defines the entry address of the processor exceptions and the peripheral interrupts to automatically service the required exception or interrupt</p>
+<p>Non-Maskable Interrupt</p>
+<p>Software interrupt generation</p>
+<p>The processor automatically stacks its state on exception entry and unstacks this state on exception exit, with no instruction overhead. This provides low latency exception handling.</p>
+<p>The example code below demonstrates how to Disable global interrupts and then restore based on saved state.</p>
+<p>```C
+bool intState = NVIC_INT_Disable();</p>
+<p>NVIC_INT_Restore(intState);
+```</p>
+<ul>
+<li>Tightly coupled interrupt controller provides low interrupt latency</li>
+<li>An implementation-defined number of interrupts, in the range 1-240 interrupts</li>
+<li>A programmable priority level for each interrupt. A higher level corresponds to a lower priority, so level 0 is the highest interrupt priority.</li>
+<li>Supports Vectored interrupt where each interrupt has its own vector stored in a vector table</li>
+<li>Relocatable Vector table defines the entry address of the processor exceptions and the peripheral interrupts to automatically service the required exception or interrupt</li>
+<li>Non-Maskable Interrupt</li>
+<li>Software interrupt generation</li>
+<li>The processor automatically stacks its state on exception entry and unstacks this state on exception exit, with no instruction overhead. This provides low latency exception handling.</li>
+</ul>
+<h2>Using The Library</h2>
+<p>The NVIC peripheral library initializes interrupt controller as configured by the user in the MCC. The user can enable interrupt, configure priority and specify the interrupt vector name.</p>
+<h2>Library Interface</h2>
+<p>Nested Vectored Interrupt Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NVIC_Initialize</td>
+<td>Initializes interrupt controller (NVIC) module of the device</td>
+</tr>
+<tr>
+<td>NVIC_INT_Enable</td>
+<td>Enables all global interrupts</td>
+</tr>
+<tr>
+<td>NVIC_INT_Disable</td>
+<td>Disables all global interrupts and returns PRIMASK bit status</td>
+</tr>
+<tr>
+<td>NVIC_INT_Restore</td>
+<td>Enables or Disables all global interrupts based on PRIMASK bit state</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

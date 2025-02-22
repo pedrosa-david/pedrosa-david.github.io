@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTC Timer16Compare3Set Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.93.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.93.html">Real-time Clock (RTC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">RTC Timer16Compare3Set Function</li>
+    </ol>
+</nav>
+
+<h1>RTC Timer16Compare3Set Function</h1>
+<h1>2.93.45</h1>
+<p>RTC_Timer16Compare3Set Function</p>
+<p><em>Generated on: 2025-02-20 07:44:05</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-1AC8EE13-6B45-46B2-9133-D966257104D5.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-1AC8EE13-6B45-46B2-9133-D966257104D5.html</a></p>
+<h1><span id="2-93-45-rtc-timer16compare3set-function"></span>2.93.45 RTC_Timer16Compare3Set Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void RTC_Timer16Compare3Set ( uint16_t comparisionValue )</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Set the 16-Bit Counter Compare 3 Value.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function will set the Counter Compare 3 Value. The module will compare the counter against this value and will signal a match when the counter equals the compare value. If the library was configured for interrupt mode, the Compare 3 event is enabled and if a valid callback is registered, the library will call the registered callback function with the RTC_TIMER16_INT_MASK_COMP3 event. The RTC_Timer16Compare3HasMatched() function will return true when the match occurs.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>RTC_Initialize, RTC_Timer16Start must have been called for the associated RTC instance. The module should have configured for 16-bit Timer Counter operation.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>None.</p>
+<h2><span id="returns"></span>Returns</h2>
+<p>16-bit compare value compares with the current counter value.</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">// Refer to the description of the RTC_Timer16Compare3HasMatched()
+// function for example usage of the RTC_Timer16Compare3Set() function.</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

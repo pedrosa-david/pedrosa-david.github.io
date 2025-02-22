@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Access Memory (RAM) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.21.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.21.html">PIC32MX 1XX 2XX 5XX Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Random Access Memory (RAM)</li>
+    </ol>
+</nav>
+
+<h1>Random Access Memory (RAM)</h1>
+<h1>3.21.15</h1>
+<p>Random Access Memory (RAM)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-19B883C8-5397-437B-BB32-928E23AA7A29_16.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-19B883C8-5397-437B-BB32-928E23AA7A29_16.html</a></p>
+<h1>3.21.15 Random Access Memory (RAM)</h1>
+<p>The Random Access Memory (RAM) module provides an interface to perform write and read on the device's Internal SRAM or External DRAM memory locations</p>
+<h2>Using The Library</h2>
+<p>The Internal SRAM or External DRAM memory locations can be read/written using the simple memcpy based Read and Write API's.</p>
+<p>This PLIB is mainly used by Memory Driver when configured with File system for treating RAM as a media to store files.</p>
+<p>The example code below demonstrates how to write and read from RAM location.</p>
+<p>```C
+uint8_t buffer[256];</p>
+<p>RAM_Write( (uint32_t *) buffer, 256, 0x20000000);</p>
+<p>RAM_Read( (uint32_t *) buffer, 256, 0x20000000);
+```</p>
+<h2>Library Interface</h2>
+<p>Random Access Memory peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Injects a single-bit fault at a specified RAM address.</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAM_Read</td>
+<td>Reads length number of bytes from a given address in RAM</td>
+</tr>
+<tr>
+<td>RAM_Write</td>
+<td>Write length number of bytes to a given address in RAM</td>
+</tr>
+<tr>
+<td>RAM_IsBusy</td>
+<td>Returns the current status of RAM</td>
+</tr>
+<tr>
+<td>RAM_ECC_StatusGet</td>
+<td>Returns the current ECC status for the RAM.</td>
+</tr>
+<tr>
+<td>RAM_ECC_SingleBitFaultInject</td>
+<td>Injects a single-bit fault at a specified RAM address.</td>
+</tr>
+<tr>
+<td>RAM_ECC_InterruptHandler</td>
+<td>Handles RAM ECC interrupts</td>
+</tr>
+<tr>
+<td>RAM_ECC_Initialize</td>
+<td>Enables ECC error detection interrupts for the RAM module.</td>
+</tr>
+<tr>
+<td>RAM_ECC_FaultEnable</td>
+<td>Enables fault injection for ECC in RAM.</td>
+</tr>
+<tr>
+<td>RAM_ECC_FaultDisable</td>
+<td>Disables fault injection for ECC in RAM.</td>
+</tr>
+<tr>
+<td>RAM_ECC_FaultCaptureSyndromeGet</td>
+<td>Returns the ECC fault syndrome value.</td>
+</tr>
+<tr>
+<td>RAM_ECC_FaultCaptureParityGet</td>
+<td>Returns the parity of the captured ECC fault.</td>
+</tr>
+<tr>
+<td>RAM_ECC_FaultCaptureAddrGet</td>
+<td>Returns the address of the captured ECC fault.</td>
+</tr>
+<tr>
+<td>RAM_ECC_Enable</td>
+<td>Enable the ECC functionality for the RAM.</td>
+</tr>
+<tr>
+<td>RAM_ECC_DoubleBitFaultInject</td>
+<td>Injects a double-bit fault at specified address.</td>
+</tr>
+<tr>
+<td>RAM_ECC_Disable</td>
+<td>Disable the ECC functionality for the RAM.</td>
+</tr>
+<tr>
+<td>RAM_ECC_CallbackRegister</td>
+<td>Enable the ECC functionality for the RAM.</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

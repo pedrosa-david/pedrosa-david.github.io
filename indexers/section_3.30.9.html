@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller Area Network (MCAN) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.30.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.30.html">SAM A5D2 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Controller Area Network (MCAN)</li>
+    </ol>
+</nav>
+
+<h1>Controller Area Network (MCAN)</h1>
+<h1>3.30.9</h1>
+<p>Controller Area Network (MCAN)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FE4048B2-547B-4753-A6AD-63A3D937288F_2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-FE4048B2-547B-4753-A6AD-63A3D937288F_2.html</a></p>
+<h1>3.30.9 Controller Area Network (MCAN)</h1>
+<p>The Controller Area Network (MCAN) performs communication according to
+ISO 11898-1:2015 and to Bosch CAN-FD specification. Additional
+transceiver hardware is required for connection to the physical layer.</p>
+<p>All functions concerning the handling of messages are implemented by
+the Rx Handler and the Tx Handler. The Rx Handler manages message
+acceptance filtering, the transfer of received messages from the CAN
+core to the Message RAM, as well as providing receive message status
+information. The Tx Handler is responsible for the transfer of transmit
+messages from the Message RAM to the CAN core, as well as providing
+transmit status information. Acceptance filtering is implemented by a
+combination of up to 128 filter elements, where each element can be
+configured as a range, as a bit mask, or as a dedicated ID filter.</p>
+<p>Using The Library</p>
+<p>The MCAN library supports the Normal and CAN-FD modes. The MCAN Normal
+or CAN-FD mode can transfer message in a polling or an interrupt mode.</p>
+<p>MCAN Message RAM Configuration</p>
+<p>Allocate MCAN Message RAM configuration in contiguous non-cacheable
+buffer in the application.</p>
+<p>For example in SAME70, uint8_t
+Mcan1MessageRAM[MCAN1_MESSAGE_RAM_CONFIG_SIZE]
+      attribute((aligned
+(32)))attribute((space(data), section (".ram_nocache")));</p>
+<p>For example in SAMA5D2, uint8_t
+Mcan0MessageRAM[MCAN0_MESSAGE_RAM_CONFIG_SIZE]
+      attribute((aligned
+(32))) attribute((section(".region_nocache")))</p>
+<p>If cache is enabled then non-cacheable section "ram_nocache" or
+"region_nocache" should be added in linker script (if non-cacheable
+\section is not present in linker script).</p>
+<p>MCAN polling mode:</p>
+<p>MCAN interrupt mode:</p>
+<p>Library Interface</p>
+<p>Controller Area Network peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<p>uint8_t Mcan1MessageRAM[MCAN1_MESSAGE_RAM_CONFIG_SIZE] <strong>attribute</strong>((aligned (32)))<strong>attribute</strong>((space(data), section (".ram_nocache")));</p>
+<p>/<em> Standard identifier id[28:18]</em>/</p>
+<h1>define WRITE_ID(id) (id &lt;&lt; 18)</h1>
+<h1>define READ_ID(id)  (id &gt;&gt; 18)</h1>
+<p>static uint32_t status = 0;
+static uint8_t loop_count = 0;
+static uint8_t user_input = 0;</p>
+<p>static uint8_t txFiFo[MCAN1_TX_FIFO_BUFFER_SIZE];
+static uint8_t rxFiFo0[MCAN1_RX_FIFO0_SIZE];
+static uint8_t rxFiFo1[MCAN1_RX_FIFO1_SIZE];
+static uint8_t rxBuffer[MCAN1_RX_BUFFER_SIZE];</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Local functions
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>/<em> Message Length to Data length code </em>/
+static uint8_t MCANLengthToDlcGet(uint8_t length)
+{
+    uint8_t dlc = 0;</p>
+<pre class="code-block"><code class="language-c">if (length &lt;= 8U)
+{
+    dlc = length;
+}
+else if (length &lt;= 12U)
+{
+    dlc = 0x9U;
+}
+else if (length &lt;= 16U)
+{
+    dlc = 0xAU;
+}
+else if (length &lt;= 20U)
+{
+    dlc = 0xBU;
+}
+else if (length &lt;= 24U)
+{
+    dlc = 0xCU;
+}
+else if (length &lt;= 32U)
+{
+    dlc = 0xDU;
+}
+else if (length &lt;= 48U)
+{
+    dlc = 0xEU;
+}
+else
+{
+    dlc = 0xFU;
+}
+return dlc;
+</code></pre>
+<p>}</p>
+<p>/<em> Data length code to Message Length </em>/
+static uint8_t MCANDlcToLengthGet(uint8_t dlc)
+{
+    uint8_t msgLength[] = {0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 12U, 16U, 20U, 24U, 32U, 48U, 64U};
+    return msgLength[dlc];
+}</p>
+<p>/<em> Menu </em>/
+static void display_menu(void)
+{
+    printf("Menu :\r\n"
+           "  -- Select the action:\r\n"
+           "  0: Send FD standard message with ID: 0x45A and 64 byte data 0 to 63. \r\n"
+           "  1: Send FD standard message with ID: 0x469 and 64 byte data 128 to 191. \r\n"
+           "  2: Send FD extended message with ID: 0x100000A5 and 64 byte data 0 to 63. \r\n"
+           "  3: Send FD extended message with ID: 0x10000096 and 64 byte data 128 to 191. \r\n"
+           "  4: Send normal standard message with ID: 0x469 and 8 byte data 0 to 7. \r\n"
+           "  m: Display menu \r\n\r\n");
+}</p>
+<p>/<em> Print Rx Message </em>/
+static void print_message(uint8_t numberOfMessage, MCAN_RX_BUFFER *rxBuf, uint8_t rxBufLen, uint8_t rxFifoBuf)
+{
+    uint8_t length = 0;
+    uint8_t msgLength = 0;
+    uint32_t id = 0;</p>
+<pre class="code-block"><code class="language-c">if (rxFifoBuf == 0)
+    printf(" Rx FIFO0 :");
+else if (rxFifoBuf == 1)
+    printf(" Rx FIFO1 :");
+else if (rxFifoBuf == 2)
+    printf(" Rx Buffer :");
+
+for (uint8_t count = 0; count &lt; numberOfMessage; count++)
+{
+    /* Print message to Console */
+    printf(" New Message Received\r\n");
+    id = rxBuf-&gt;xtd ? rxBuf-&gt;id : READ_ID(rxBuf-&gt;id);
+    msgLength = MCANDlcToLengthGet(rxBuf-&gt;dlc);
+    length = msgLength;
+    printf(" Message - ID : 0x%x Length : 0x%x ", (unsigned int)id, (unsigned int)msgLength);
+    printf("Message : ");
+    while(length)
+    {
+        printf("0x%x ", rxBuf-&gt;data[msgLength - length--]);
+    }
+    printf("\r\n");
+    rxBuf += rxBufLen;
+}
+</code></pre>
+<p>}</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>int main ( void )
+{
+    MCAN_TX_BUFFER *txBuffer = NULL;
+    uint8_t        bufferNumber = 0;
+    uint8_t        numberOfMessage = 0;</p>
+<pre class="code-block"><code class="language-c">/* Initialize all modules */
+SYS_Initialize ( NULL );
+
+printf(" ------------------------------ \r\n");
+printf("            MCAN FD Demo          \r\n");
+printf(" ------------------------------ \r\n");
+
+/* Set Message RAM Configuration */
+MCAN1_MessageRAMConfigSet(Mcan1MessageRAM);
+
+display_menu();
+
+while ( true )
+{
+    /* Rx Buffers */
+    if (MCAN1_InterruptGet(MCAN_INTERRUPT_DRX_MASK))
+    {    
+        MCAN1_InterruptClear(MCAN_INTERRUPT_DRX_MASK);
+
+        /* Check MCAN Status */
+        status = MCAN1_ErrorGet();
+
+        if (((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_NONE) || ((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_LEC_NO_CHANGE))
+        {
+            if (MCAN1_RxBufferNumberGet(&amp;bufferNumber))
+            {
+                memset(rxBuffer, 0x00, MCAN1_RX_BUFFER_ELEMENT_SIZE);
+                if (MCAN1_MessageReceive(bufferNumber, (MCAN_RX_BUFFER *)rxBuffer) == true)
+                {
+                    print_message(1, (MCAN_RX_BUFFER *)rxBuffer, MCAN1_RX_BUFFER_ELEMENT_SIZE, 2);
+                }
+                else
+                {
+                    printf(" Error in received message\r\n");
+                }
+            }
+        }
+        else
+        {
+            printf(" Error in received message\r\n");
+        }
+    }
+
+    /* Rx FIFO0 */
+    if (MCAN1_InterruptGet(MCAN_INTERRUPT_RF0N_MASK))
+    {    
+        MCAN1_InterruptClear(MCAN_INTERRUPT_RF0N_MASK);
+
+        /* Check MCAN Status */
+        status = MCAN1_ErrorGet();
+
+        if (((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_NONE) || ((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_LEC_NO_CHANGE))
+        {
+            numberOfMessage = MCAN1_RxFifoFillLevelGet(MCAN_RX_FIFO_0);
+            if (numberOfMessage != 0)
+            {
+                memset(rxFiFo0, 0x00, (numberOfMessage * MCAN1_RX_FIFO0_ELEMENT_SIZE));
+                if (MCAN1_MessageReceiveFifo(MCAN_RX_FIFO_0, numberOfMessage, (MCAN_RX_BUFFER *)rxFiFo0) == true)
+                {
+                    print_message(numberOfMessage, (MCAN_RX_BUFFER *)rxFiFo0, MCAN1_RX_FIFO0_ELEMENT_SIZE, 0);
+                }
+                else
+                {
+                    printf(" Error in received message\r\n");
+                }
+            }
+        }
+        else
+        {
+            printf(" Error in received message\r\n");
+        }
+    }
+
+    /* Rx FIFO1 */
+    if (MCAN1_InterruptGet(MCAN_INTERRUPT_RF1N_MASK))
+    {    
+        MCAN1_InterruptClear(MCAN_INTERRUPT_RF1N_MASK);
+
+        /* Check MCAN Status */
+        status = MCAN1_ErrorGet();
+
+        if (((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_NONE) || ((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_LEC_NO_CHANGE))
+        {
+            numberOfMessage = MCAN1_RxFifoFillLevelGet(MCAN_RX_FIFO_1);
+            if (numberOfMessage != 0)
+            {
+                memset(rxFiFo1, 0x00, (numberOfMessage * MCAN1_RX_FIFO1_ELEMENT_SIZE));
+                if (MCAN1_MessageReceiveFifo(MCAN_RX_FIFO_1, numberOfMessage, (MCAN_RX_BUFFER *)rxFiFo1) == true)
+                {
+                    print_message(numberOfMessage, (MCAN_RX_BUFFER *)rxFiFo1, MCAN1_RX_FIFO1_ELEMENT_SIZE, 1);
+                }
+                else
+                {
+                    printf(" Error in received message\r\n");
+                }
+            }
+        }
+        else
+        {
+            printf(" Error in received message\r\n");
+        }
+    }
+
+    /* User input */
+    if (USART1_ReceiverIsReady() == false)
+    {
+        continue;
+    }
+    user_input = (uint8_t)USART1_ReadByte();
+
+    switch (user_input)
+    {
+        case '0':
+            memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+            txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+            txBuffer-&gt;id = WRITE_ID(0x45A);
+            txBuffer-&gt;dlc = MCANLengthToDlcGet(64);
+            txBuffer-&gt;fdf = 1;
+            txBuffer-&gt;brs = 1;
+            for (loop_count = 0; loop_count &lt; 64; loop_count++){
+                txBuffer-&gt;data[loop_count] = loop_count;
+            }                
+            printf("  0: Send FD standard message with ID: 0x45A and 64 byte data 0 to 63.\r\n");
+            if (MCAN1_MessageTransmitFifo(1, txBuffer) == true)
+            {    
+                printf(" Success \r\n");
+            }
+            else
+            {
+                printf(" Failed \r\n");
+            }             
+            break;  
+        case '1':
+            memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+            txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+            txBuffer-&gt;id = WRITE_ID(0x469);
+            txBuffer-&gt;dlc = MCANLengthToDlcGet(64);
+            txBuffer-&gt;fdf = 1;
+            txBuffer-&gt;brs = 1;
+            for (loop_count = 128; loop_count &lt; 192; loop_count++){
+                txBuffer-&gt;data[loop_count - 128] = loop_count;
+            }                
+            printf("  1: Send FD standard message with ID: 0x469 and 64 byte data 128 to 191.\r\n");
+            if (MCAN1_MessageTransmitFifo(1, txBuffer) == true)
+            {    
+                printf(" Success \r\n");
+            }
+            else
+            {
+                printf(" Failed \r\n");
+            }    
+            break;
+        case '2': 
+            memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+            txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+            txBuffer-&gt;id = 0x100000A5;
+            txBuffer-&gt;dlc = MCANLengthToDlcGet(64);
+            txBuffer-&gt;xtd = 1;
+            txBuffer-&gt;fdf = 1;
+            txBuffer-&gt;brs = 1;
+            for (loop_count = 0; loop_count &lt; 64; loop_count++){
+                txBuffer-&gt;data[loop_count] = loop_count;
+            }
+            printf("  2: Send FD extended message with ID: 0x100000A5 and 64 byte data 0 to 63.\r\n");
+            if (MCAN1_MessageTransmitFifo(1, txBuffer) == true)
+            {    
+                printf(" Success \r\n");
+            }
+            else
+            {
+                printf(" Failed \r\n");
+            }             
+            break;
+        case '3':
+            memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+            txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+            txBuffer-&gt;id = 0x10000096;
+            txBuffer-&gt;dlc = MCANLengthToDlcGet(64);
+            txBuffer-&gt;xtd = 1;
+            txBuffer-&gt;fdf = 1;
+            txBuffer-&gt;brs = 1;
+            for (loop_count = 128; loop_count &lt; 192; loop_count++){
+                txBuffer-&gt;data[loop_count - 128] = loop_count;
+            }
+            printf("  3: Send FD extended message with ID: 0x10000096 and 64 byte data 128 to 191.\r\n");
+            if (MCAN1_MessageTransmitFifo(1, txBuffer) == true)
+            {    
+                printf(" Success \r\n");
+            }
+            else
+            {
+                printf(" Failed \r\n");
+            }             
+            break;
+
+        case '4':
+            memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+            txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+            txBuffer-&gt;id = WRITE_ID(0x469);
+            txBuffer-&gt;dlc = 8;
+            for (loop_count = 0; loop_count &lt; 8; loop_count++){
+                txBuffer-&gt;data[loop_count] = loop_count;
+            }                
+            printf("  4: Send normal standard message with ID: 0x469 and 8 byte data 0 to 7.\r\n");
+            if (MCAN1_MessageTransmitFifo(1, txBuffer) == true)
+            {    
+                printf(" Success \r\n");
+            }
+            else
+            {
+                printf(" Failed \r\n");
+            }             
+            break;
+
+        case 'm':
+        case 'M':
+            display_menu();
+            break;
+
+        default:
+            printf(" Invalid Input \r\n");
+            break;
+    }  
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<p>uint8_t Mcan1MessageRAM[MCAN1_MESSAGE_RAM_CONFIG_SIZE] <strong>attribute</strong>((aligned (32)))<strong>attribute</strong>((space(data), section (".ram_nocache")));</p>
+<p>/<em> Standard identifier id[28:18]</em>/</p>
+<h1>define WRITE_ID(id) (id &lt;&lt; 18)</h1>
+<h1>define READ_ID(id)  (id &gt;&gt; 18)</h1>
+<p>/<em> Application's state machine enum </em>/
+typedef enum
+{
+    APP_STATE_MCAN_RECEIVE,
+    APP_STATE_MCAN_TRANSMIT,
+    APP_STATE_MCAN_IDLE,
+    APP_STATE_MCAN_XFER_SUCCESSFUL,
+    APP_STATE_MCAN_XFER_ERROR,
+    APP_STATE_MCAN_USER_INPUT
+} APP_STATES;</p>
+<p>/<em> Variable to save Tx/Rx transfer status and context </em>/
+static uint32_t status = 0;
+static uint32_t xferContext = 0;
+/<em> Variable to save Tx/Rx message </em>/
+static uint8_t loop_count = 0;
+static uint8_t user_input = 0;
+/<em> Variable to save application state </em>/
+volatile static APP_STATES state = APP_STATE_MCAN_USER_INPUT;</p>
+<p>static uint8_t txFiFo[MCAN1_TX_FIFO_BUFFER_SIZE];
+static uint8_t rxFiFo0[MCAN1_RX_FIFO0_SIZE];
+static uint8_t rxFiFo1[MCAN1_RX_FIFO1_SIZE];
+static uint8_t rxBuffer[MCAN1_RX_BUFFER_SIZE];</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Local functions
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>/<em> Message Length to Data length code </em>/
+static uint8_t MCANLengthToDlcGet(uint8_t length)
+{
+    uint8_t dlc = 0;</p>
+<pre class="code-block"><code class="language-c">if (length &lt;= 8U)
+{
+    dlc = length;
+}
+else if (length &lt;= 12U)
+{
+    dlc = 0x9U;
+}
+else if (length &lt;= 16U)
+{
+    dlc = 0xAU;
+}
+else if (length &lt;= 20U)
+{
+    dlc = 0xBU;
+}
+else if (length &lt;= 24U)
+{
+    dlc = 0xCU;
+}
+else if (length &lt;= 32U)
+{
+    dlc = 0xDU;
+}
+else if (length &lt;= 48U)
+{
+    dlc = 0xEU;
+}
+else
+{
+    dlc = 0xFU;
+}
+return dlc;
+</code></pre>
+<p>}</p>
+<p>/<em> Data length code to Message Length </em>/
+static uint8_t MCANDlcToLengthGet(uint8_t dlc)
+{
+    uint8_t msgLength[] = {0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 12U, 16U, 20U, 24U, 32U, 48U, 64U};
+    return msgLength[dlc];
+}</p>
+<p>/<em> Menu </em>/
+static void display_menu(void)
+{
+    printf("Menu :\r\n"
+           "  -- Select the action:\r\n"
+           "  0: Send FD standard message with ID: 0x45A and 64 byte data 0 to 63. \r\n"
+           "  1: Send FD standard message with ID: 0x469 and 64 byte data 128 to 191. \r\n"
+           "  2: Send FD extended message with ID: 0x100000A5 and 64 byte data 0 to 63. \r\n"
+           "  3: Send FD extended message with ID: 0x10000096 and 64 byte data 128 to 191. \r\n"
+           "  4: Send normal standard message with ID: 0x469 and 8 byte data 0 to 7. \r\n"
+           "  m: Display menu \r\n\r\n");
+}</p>
+<p>/<em> Print Rx Message </em>/
+static void print_message(uint8_t numberOfMessage, MCAN_RX_BUFFER *rxBuf, uint8_t rxBufLen, uint8_t rxFifoBuf)
+{
+    uint8_t length = 0;
+    uint8_t msgLength = 0;
+    uint32_t id = 0;</p>
+<pre class="code-block"><code class="language-c">if (rxFifoBuf == 0)
+    printf(" Rx FIFO0 :");
+else if (rxFifoBuf == 1)
+    printf(" Rx FIFO1 :");
+else if (rxFifoBuf == 2)
+    printf(" Rx Buffer :");
+
+for (uint8_t count = 0; count &lt; numberOfMessage; count++)
+{
+    /* Print message to Console */
+    printf(" New Message Received\r\n");
+    id = rxBuf-&gt;xtd ? rxBuf-&gt;id : READ_ID(rxBuf-&gt;id);
+    msgLength = MCANDlcToLengthGet(rxBuf-&gt;dlc);
+    length = msgLength;
+    printf(" Message - Timestamp : 0x%x ID : 0x%x Length : 0x%x ", (unsigned int)rxBuf-&gt;rxts, (unsigned int)id, (unsigned int)msgLength);
+    printf("Message : ");
+    while(length)
+    {
+        printf("0x%x ", rxBuf-&gt;data[msgLength - length--]);
+    }
+    printf("\r\n");
+    rxBuf += rxBufLen;
+}
+</code></pre>
+<p>}</p>
+<p>/<em> This function will be called by MCAN PLIB when transfer is completed from Tx FIFO </em>/
+void APP_MCAN_TxFifoCallback(uintptr_t context)
+{
+    xferContext = context;</p>
+<pre class="code-block"><code class="language-c">/* Check MCAN Status */
+status = MCAN1_ErrorGet();
+
+if (((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_NONE) || ((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_LEC_NO_CHANGE))
+{
+    switch ((APP_STATES)context)
+    {
+        case APP_STATE_MCAN_TRANSMIT:
+        {
+            state = APP_STATE_MCAN_XFER_SUCCESSFUL;
+            break;
+        }
+        default:
+            break;
+    }
+}
+else
+{
+    state = APP_STATE_MCAN_XFER_ERROR;
+}
+</code></pre>
+<p>}</p>
+<p>/<em> This function will be called by MCAN PLIB when Message received in Rx Buffer </em>/
+void APP_MCAN_RxBufferCallback(uint8_t bufferNumber, uintptr_t context)
+{
+    xferContext = context;</p>
+<pre class="code-block"><code class="language-c">/* Check MCAN Status */
+status = MCAN1_ErrorGet();
+
+if (((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_NONE) || ((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_LEC_NO_CHANGE))
+{
+    switch ((APP_STATES)context)
+    {
+        case APP_STATE_MCAN_RECEIVE:
+        {
+            memset(rxBuffer, 0x00, MCAN1_RX_BUFFER_ELEMENT_SIZE);
+            if (MCAN1_MessageReceive(bufferNumber, (MCAN_RX_BUFFER *)rxBuffer) == true)
+            {
+                print_message(1, (MCAN_RX_BUFFER *)rxBuffer, MCAN1_RX_BUFFER_ELEMENT_SIZE, 2);
+                state = APP_STATE_MCAN_XFER_SUCCESSFUL;
+            }
+            else
+            {
+                state = APP_STATE_MCAN_XFER_ERROR;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+else
+{
+    state = APP_STATE_MCAN_XFER_ERROR;
+}
+</code></pre>
+<p>}</p>
+<p>/<em> This function will be called by MCAN PLIB when Message received in Rx FIFO0 </em>/
+void APP_MCAN_RxFifo0Callback(uint8_t numberOfMessage, uintptr_t context)
+{
+    xferContext = context;</p>
+<pre class="code-block"><code class="language-c">/* Check MCAN Status */
+status = MCAN1_ErrorGet();
+
+if (((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_NONE) || ((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_LEC_NO_CHANGE))
+{
+    switch ((APP_STATES)context)
+    {
+        case APP_STATE_MCAN_RECEIVE:
+        {
+            memset(rxFiFo0, 0x00, (numberOfMessage * MCAN1_RX_FIFO0_ELEMENT_SIZE));
+            if (MCAN1_MessageReceiveFifo(MCAN_RX_FIFO_0, numberOfMessage, (MCAN_RX_BUFFER *)rxFiFo0) == true)
+            {
+                print_message(numberOfMessage, (MCAN_RX_BUFFER *)rxFiFo0, MCAN1_RX_FIFO0_ELEMENT_SIZE, 0);
+                state = APP_STATE_MCAN_XFER_SUCCESSFUL;
+            }
+            else
+            {
+                state = APP_STATE_MCAN_XFER_ERROR;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+else
+{
+    state = APP_STATE_MCAN_XFER_ERROR;
+}
+</code></pre>
+<p>}</p>
+<p>/<em> This function will be called by MCAN PLIB when Message received in Rx FIFO1 </em>/
+void APP_MCAN_RxFifo1Callback(uint8_t numberOfMessage, uintptr_t context)
+{
+    xferContext = context;</p>
+<pre class="code-block"><code class="language-c">/* Check MCAN Status */
+status = MCAN1_ErrorGet();
+
+if (((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_NONE) || ((status &amp; MCAN_PSR_LEC_Msk) == MCAN_ERROR_LEC_NO_CHANGE))
+{
+    switch ((APP_STATES)context)
+    {
+        case APP_STATE_MCAN_RECEIVE:
+        {
+            memset(rxFiFo1, 0x00, (numberOfMessage * MCAN1_RX_FIFO1_ELEMENT_SIZE));
+            if (MCAN1_MessageReceiveFifo(MCAN_RX_FIFO_1, numberOfMessage, (MCAN_RX_BUFFER *)rxFiFo1) == true)
+            {
+                print_message(numberOfMessage, (MCAN_RX_BUFFER *)rxFiFo1, MCAN1_RX_FIFO1_ELEMENT_SIZE, 1);
+                state = APP_STATE_MCAN_XFER_SUCCESSFUL;
+            }
+            else
+            {
+                state = APP_STATE_MCAN_XFER_ERROR;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+else
+{
+    state = APP_STATE_MCAN_XFER_ERROR;
+}
+</code></pre>
+<p>}</p>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong></p>
+<p>int main ( void )
+{
+    MCAN_TX_BUFFER *txBuffer = NULL;</p>
+<pre class="code-block"><code class="language-c">/* Initialize all modules */
+SYS_Initialize ( NULL );
+
+printf(" ------------------------------ \r\n");
+printf("        MCAN FD Demo            \r\n");
+printf(" ------------------------------ \r\n");
+
+/* Set Message RAM Configuration */
+MCAN1_MessageRAMConfigSet(Mcan1MessageRAM);
+
+MCAN1_RxFifoCallbackRegister(MCAN_RX_FIFO_0, APP_MCAN_RxFifo0Callback, APP_STATE_MCAN_RECEIVE);
+MCAN1_RxFifoCallbackRegister(MCAN_RX_FIFO_1, APP_MCAN_RxFifo1Callback, APP_STATE_MCAN_RECEIVE);
+MCAN1_RxBuffersCallbackRegister(APP_MCAN_RxBufferCallback, APP_STATE_MCAN_RECEIVE);
+
+display_menu();
+
+while ( true )
+{
+    if (state == APP_STATE_MCAN_USER_INPUT)
+    {
+        /* Read user input */
+        scanf("%c", (char *) &amp;user_input);
+
+        switch (user_input)
+        {
+            case '0':
+                memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+                txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+                txBuffer-&gt;id = WRITE_ID(0x45A);
+                txBuffer-&gt;dlc = MCANLengthToDlcGet(64);
+                txBuffer-&gt;fdf = 1;
+                txBuffer-&gt;brs = 1;
+                for (loop_count = 0; loop_count &lt; 64; loop_count++){
+                    txBuffer-&gt;data[loop_count] = loop_count;
+                }                
+                printf("  0: Send FD standard message with ID: 0x45A and 64 byte data 0 to 63.\r\n");
+                MCAN1_TxFifoCallbackRegister( APP_MCAN_TxFifoCallback, (uintptr_t)APP_STATE_MCAN_TRANSMIT );
+                state = APP_STATE_MCAN_IDLE;
+                if (MCAN1_MessageTransmitFifo(1, txBuffer) == false)
+                {
+                    printf(" Failed \r\n");
+                }             
+                break;
+            case '1':
+                memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+                txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+                txBuffer-&gt;id = WRITE_ID(0x469);
+                txBuffer-&gt;dlc = MCANLengthToDlcGet(64);
+                txBuffer-&gt;fdf = 1;
+                txBuffer-&gt;brs = 1;
+                for (loop_count = 128; loop_count &lt; 192; loop_count++){
+                    txBuffer-&gt;data[loop_count - 128] = loop_count;
+                }                
+                printf("  1: Send FD standard message with ID: 0x469 and 64 byte data 128 to 191.\r\n");
+                MCAN1_TxFifoCallbackRegister( APP_MCAN_TxFifoCallback, (uintptr_t)APP_STATE_MCAN_TRANSMIT );
+                state = APP_STATE_MCAN_IDLE;
+                if (MCAN1_MessageTransmitFifo(1, txBuffer) == false)
+                {
+                    printf(" Failed \r\n");
+                }             
+                break;
+            case '2':
+                memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+                txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+                txBuffer-&gt;id = 0x100000A5;
+                txBuffer-&gt;dlc = MCANLengthToDlcGet(64);
+                txBuffer-&gt;xtd = 1;
+                txBuffer-&gt;fdf = 1;
+                txBuffer-&gt;brs = 1;
+                for (loop_count = 0; loop_count &lt; 64; loop_count++){
+                    txBuffer-&gt;data[loop_count] = loop_count;
+                }
+                printf("  2: Send FD extended message with ID: 0x100000A5 and 64 byte data 0 to 63.\r\n");
+                MCAN1_TxFifoCallbackRegister( APP_MCAN_TxFifoCallback, (uintptr_t)APP_STATE_MCAN_TRANSMIT );
+                state = APP_STATE_MCAN_IDLE;
+                if (MCAN1_MessageTransmitFifo(1, txBuffer) == false)
+                {
+                    printf(" Failed \r\n");
+                }
+                break;
+            case '3':
+                memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+                txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+                txBuffer-&gt;id = 0x10000096;
+                txBuffer-&gt;dlc = MCANLengthToDlcGet(64);
+                txBuffer-&gt;xtd = 1;
+                txBuffer-&gt;fdf = 1;
+                txBuffer-&gt;brs = 1;
+                for (loop_count = 128; loop_count &lt; 192; loop_count++){
+                    txBuffer-&gt;data[loop_count - 128] = loop_count;
+                }
+                printf("  3: Send FD extended message with ID: 0x10000096 and 64 byte data 128 to 191.\r\n");
+                MCAN1_TxFifoCallbackRegister( APP_MCAN_TxFifoCallback, (uintptr_t)APP_STATE_MCAN_TRANSMIT );
+                state = APP_STATE_MCAN_IDLE;
+                if (MCAN1_MessageTransmitFifo(1, txBuffer) == false)
+                {
+                    printf(" Failed \r\n");
+                }
+                break;
+            case '4':
+                memset(txFiFo, 0x00, MCAN1_TX_FIFO_BUFFER_ELEMENT_SIZE);
+                txBuffer = (MCAN_TX_BUFFER *)txFiFo;
+                txBuffer-&gt;id = WRITE_ID(0x469);
+                txBuffer-&gt;dlc = 8;
+                for (loop_count = 0; loop_count &lt; 8; loop_count++){
+                    txBuffer-&gt;data[loop_count] = loop_count;
+                }                
+                printf("  4: Send normal standard message with ID: 0x469 and 8 byte data 0 to 7.\r\n");
+                MCAN1_TxFifoCallbackRegister( APP_MCAN_TxFifoCallback, (uintptr_t)APP_STATE_MCAN_TRANSMIT );
+                state = APP_STATE_MCAN_IDLE;
+                if (MCAN1_MessageTransmitFifo(1, txBuffer) == false)
+                {
+                    printf(" Failed \r\n");
+                }             
+                break;
+            case 'm':
+            case 'M':
+                display_menu();
+                break;
+
+            default:
+                printf(" Invalid Input \r\n");
+                break;
+        }
+    }
+
+    /* Check the application's current state. */
+    switch (state)
+    {
+        case APP_STATE_MCAN_IDLE:
+        {
+            /* Application can do other task here */
+            break;
+        }
+        case APP_STATE_MCAN_XFER_SUCCESSFUL:
+        {
+            if ((APP_STATES)xferContext == APP_STATE_MCAN_TRANSMIT)
+            {
+                printf(" Success\r\n");
+            }                
+            state = APP_STATE_MCAN_USER_INPUT;
+            break;
+        }
+        case APP_STATE_MCAN_XFER_ERROR:
+        {
+            if ((APP_STATES)xferContext == APP_STATE_MCAN_RECEIVE)
+            {
+                printf(" Error in received message\r\n");
+            }
+            else
+            {
+                printf(" Failed\r\n");
+            }
+            state = APP_STATE_MCAN_USER_INPUT;
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCANx_Initialize</td>
+<td>Initializes given instance of the MCAN peripheral</td>
+</tr>
+<tr>
+<td>MCANx_MessageTransmit</td>
+<td>Transmits a message into CAN bus from the specific Tx buffer</td>
+</tr>
+<tr>
+<td>MCANx_MessageTransmitFifo</td>
+<td>Transmit multiple messages into CAN bus from Tx FIFO</td>
+</tr>
+<tr>
+<td>MCANx_TxFifoFreeLevelGet</td>
+<td>Returns Tx FIFO Free Level</td>
+</tr>
+<tr>
+<td>MCANx_TxBufferIsBusy</td>
+<td>Check if Transmission request is pending for the specific Tx buffer</td>
+</tr>
+<tr>
+<td>MCANx_TxEventFifoRead</td>
+<td>Read Tx Event FIFO for the transmitted messages</td>
+</tr>
+<tr>
+<td>MCANx_TxEventFifoFillLevelGet</td>
+<td>Returns Tx Event FIFO Fill Level</td>
+</tr>
+<tr>
+<td>MCANx_MessageReceive</td>
+<td>Read a message from the specific Rx Buffer</td>
+</tr>
+<tr>
+<td>MCANx_RxBufferNumberGet</td>
+<td>Get Rx Buffer Number</td>
+</tr>
+<tr>
+<td>MCANx_MessageReceiveFifo</td>
+<td>Read messages from Rx FIFO0/FIFO1</td>
+</tr>
+<tr>
+<td>MCANx_RxFifoFillLevelGet</td>
+<td>Returns Rx FIFO0/FIFO1 Fill Level</td>
+</tr>
+<tr>
+<td>MCANx_ErrorGet</td>
+<td>Returns the error during transfer</td>
+</tr>
+<tr>
+<td>MCANx_ErrorCountGet</td>
+<td>Returns the transmit and receive error count during transfer</td>
+</tr>
+<tr>
+<td>MCANx_InterruptGet</td>
+<td>Returns the Interrupt status</td>
+</tr>
+<tr>
+<td>MCANx_InterruptClear</td>
+<td>Clears Interrupt status</td>
+</tr>
+<tr>
+<td>MCANx_MessageRAMConfigSet</td>
+<td>Set the Message RAM Configuration</td>
+</tr>
+<tr>
+<td>MCANx_StandardFilterElementSet</td>
+<td>Set a standard filter element configuration</td>
+</tr>
+<tr>
+<td>MCANx_StandardFilterElementGet</td>
+<td>Get a standard filter element configuration</td>
+</tr>
+<tr>
+<td>MCANx_ExtendedFilterElementSet</td>
+<td>Set a Extended filter element configuration</td>
+</tr>
+<tr>
+<td>MCANx_ExtendedFilterElementGet</td>
+<td>Get a Extended filter element configuration</td>
+</tr>
+<tr>
+<td>MCANx_SleepModeEnter</td>
+<td>Puts the MCAN Peripheral in sleep mode (clock stop request)</td>
+</tr>
+<tr>
+<td>MCANx_SleepModeExit</td>
+<td>Exits MCAN peripheral from sleep mode (clock stop request)</td>
+</tr>
+<tr>
+<td>MCANx_TxBuffersCallbackRegister</td>
+<td>Sets the pointer to the function (and it is contextHandle) to be</td>
+</tr>
+<tr>
+<td>called when the given MCAN's Tx transfer events occur</td>
+<td></td>
+</tr>
+<tr>
+<td>MCANx_TxFifoCallbackRegister</td>
+<td>Sets the pointer to the function (and it is contextHandle) to be</td>
+</tr>
+<tr>
+<td>called when the given MCAN's Tx transfer events occur</td>
+<td></td>
+</tr>
+<tr>
+<td>MCANx_TxEventFifoCallbackRegister</td>
+<td>Sets the pointer to the function (and it is contextHandle) to be</td>
+</tr>
+<tr>
+<td>called when the given MCAN's Tx transfer events occur</td>
+<td></td>
+</tr>
+<tr>
+<td>MCANx_RxBuffersCallbackRegister</td>
+<td>Sets the pointer to the function (and it is contextHandle) to be</td>
+</tr>
+<tr>
+<td>called when the given MCAN's Rx transfer events occur</td>
+<td></td>
+</tr>
+<tr>
+<td>MCANx_RxFifoCallbackRegister</td>
+<td>Sets the pointer to the function (and it is contextHandle) to be</td>
+</tr>
+<tr>
+<td>called when the given MCAN's Rx transfer events occur</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCAN_ERROR_NONE</td>
+<td>Macro</td>
+<td>MCAN Error None</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_LEC_STUFF</td>
+<td>Macro</td>
+<td>MCAN Error LEC_STUFF</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_LEC_ACK</td>
+<td>Macro</td>
+<td>MCAN Error LEC_ACK</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_LEC_BIT1</td>
+<td>Macro</td>
+<td>MCAN Error LEC_BIT1</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_LEC_BIT0</td>
+<td>Macro</td>
+<td>MCAN Error LEC_BIT0</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_LEC_FORM</td>
+<td>Macro</td>
+<td>MCAN Error LEC_FORM</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_LEC_CRC</td>
+<td>Macro</td>
+<td>MCAN Error LEC_CRC</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_LEC_NO_CHANGE</td>
+<td>Macro</td>
+<td>MCAN Error LEC_NO_CHANGE</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_WARNING_STATUS</td>
+<td>Macro</td>
+<td>MCAN Error WARNING_STATUS</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_PASSIVE</td>
+<td>Macro</td>
+<td>MCAN Error PASSIVE</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_BUS_OFF</td>
+<td>Macro</td>
+<td>MCAN Error BUS_OFF</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_DLEC_STUFF</td>
+<td>Macro</td>
+<td>MCAN Error DLEC_STUFF</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_DLEC_ACK</td>
+<td>Macro</td>
+<td>MCAN Error DLEC_ACK</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_DLEC_BIT1</td>
+<td>Macro</td>
+<td>MCAN Error DLEC_BIT1</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_DLEC_BIT0</td>
+<td>Macro</td>
+<td>MCAN Error DLEC_BIT0</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_DLEC_FORM</td>
+<td>Macro</td>
+<td>MCAN Error DLEC_FORM</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_DLEC_CRC</td>
+<td>Macro</td>
+<td>MCAN Error DLEC_CRC</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_DLEC_NO_CHANGE</td>
+<td>Macro</td>
+<td>MCAN Error DLEC_NO_CHANGE</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_PROTOCOL_EXCEPTION_EVENT</td>
+<td>Macro</td>
+<td>MCAN Error PROTOCOL_EXCEPTION_EVENT</td>
+</tr>
+<tr>
+<td>MCAN_ERROR_INVALID</td>
+<td>Macro</td>
+<td>MCAN Error Invalid</td>
+</tr>
+<tr>
+<td>MCAN_RX_FIFO_NUM</td>
+<td>Enum</td>
+<td>MCAN Rx FIFO Number</td>
+</tr>
+<tr>
+<td>MCAN_INTERRUPT_MASK</td>
+<td>Enum</td>
+<td>MCAN Interrupt Mask</td>
+</tr>
+<tr>
+<td>MCAN_ERROR</td>
+<td>Typedef</td>
+<td>MCAN Transfer Error data type</td>
+</tr>
+<tr>
+<td>MCAN_TX_FIFO_CALLBACK</td>
+<td>Typedef</td>
+<td>MCAN Callback Function Pointer for Tx FIFO</td>
+</tr>
+<tr>
+<td>MCAN_TXRX_BUFFERS_CALLBACK</td>
+<td>Typedef</td>
+<td>MCAN Callback Function Pointer for TX/RX Buffers</td>
+</tr>
+<tr>
+<td>MCAN_TX_EVENT_FIFO_CALLBACK</td>
+<td>Typedef</td>
+<td>MCAN Callback Function Pointer for Tx Event FIFO</td>
+</tr>
+<tr>
+<td>MCAN_RX_FIFO_CALLBACK</td>
+<td>Typedef</td>
+<td>MCAN Callback Function Pointer for Rx FIFO0/FIFO1</td>
+</tr>
+<tr>
+<td>MCAN_MSG_RAM_CONFIG</td>
+<td>Struct</td>
+<td>MCAN Message RAM Configuration structure</td>
+</tr>
+<tr>
+<td>MCAN_RX_BUFFER</td>
+<td>Struct</td>
+<td>MCAN Rx Buffer and FIFO Element Structure</td>
+</tr>
+<tr>
+<td>MCAN_TX_BUFFER</td>
+<td>Struct</td>
+<td>MCAN Tx Buffer Element Structure</td>
+</tr>
+<tr>
+<td>MCAN_TX_EVENT_FIFO</td>
+<td>Struct</td>
+<td>MCAN Tx Event FIFO Element Structure</td>
+</tr>
+<tr>
+<td>MCAN_TX_FIFO_CALLBACK_OBJ</td>
+<td>Struct</td>
+<td>MCAN transfer event callback structure for Tx FIFO</td>
+</tr>
+<tr>
+<td>MCAN_TXRX_BUFFERS_CALLBACK_OBJ</td>
+<td>Struct</td>
+<td>MCAN transfer event callback structure for Tx/Rx Buffers</td>
+</tr>
+<tr>
+<td>MCAN_TX_EVENT_FIFO_CALLBACK_OBJ</td>
+<td>Struct</td>
+<td>MCAN transfer event callback structure for Tx Event FIFO</td>
+</tr>
+<tr>
+<td>MCAN_RX_FIFO_CALLBACK_OBJ</td>
+<td>Struct</td>
+<td>MCAN transfer event callback structure for Rx FIFO0/FIFO1</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

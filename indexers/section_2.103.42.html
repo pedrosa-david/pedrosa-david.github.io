@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USART LIN MASTER CMD Enum | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.103.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.103.html">Serial Communication Interface (SERCOM)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">USART LIN MASTER CMD Enum</li>
+    </ol>
+</nav>
+
+<h1>USART LIN MASTER CMD Enum</h1>
+<h1>2.103.42</h1>
+<p>USART_LIN_MASTER_CMD Enum</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-662C0886-68CA-424A-A0BD-01B41F69F090.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-662C0886-68CA-424A-A0BD-01B41F69F090.html</a></p>
+<h1><span id="2-103-42-usart-lin-master-cmd-enum"></span>2.103.42 USART_LIN_MASTER_CMD Enum</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> Blocking, non-blocking and ring buffer mode </em>/</p>
+<p>typedef enum
+{
+    USART_LIN_MASTER_CMD_NONE = SERCOM_USART_INT_CTRLB_LINCMD_NONE,</p>
+<pre class="code-block"><code class="language-c">USART_LIN_MASTER_CMD_SOFTWARE_CONTROLLED = SERCOM_USART_INT_CTRLB_LINCMD_SOFTWARE_CONTROL_TRANSMIT_CMD,
+
+USART_LIN_MASTER_CMD_AUTO_TRANSMIT = SERCOM_USART_INT_CTRLB_LINCMD_AUTO_TRANSMIT_CMD
+</code></pre>
+<p>} USART_LIN_MASTER_CMD;
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Defines the enumeration constants for the LIN Master commands.</p>
+<h2><span id="description"></span>Description</h2>
+<p>Defines the enumeration constants for the LIN Master commands. This may be used in the SERCOMx_USART_LIN_CommandSet API to set the LIN master command.</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>This API is only available when LIN master mode is available on the device.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

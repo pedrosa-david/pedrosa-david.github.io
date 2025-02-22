@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watchdog Timer (WDT) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.26.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.26.html">PIC32MZ EF Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Watchdog Timer (WDT)</li>
+    </ol>
+</nav>
+
+<h1>Watchdog Timer (WDT)</h1>
+<h1>3.26.28</h1>
+<p>Watchdog Timer (WDT)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-33B5F56A-C1EA-469B-90F7-34B12D08FE6B_12.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-33B5F56A-C1EA-469B-90F7-34B12D08FE6B_12.html</a></p>
+<h1>3.26.28 Watchdog Timer (WDT)</h1>
+<p>The Watchdog timer (WDT) is designed to give an added level of safety in critical systems, to ensure a system reset is triggered in the case of a deadlock or other software malfunction that prevents normal device operation.</p>
+<p>It operates from the internal Low-Power Oscillator (LPRC) clock source. Various WDT time-out periods can be selected using the WDT postscaler. The WDT can also be used to wake the device from Sleep or Idle mode.</p>
+<p>The following are some of the key features of the WDT module:</p>
+<p>Configuration or software controlled</p>
+<p>User-configurable time-out period</p>
+<p>Can wake the device from Sleep or Idle</p>
+<ul>
+<li>Configuration or software controlled</li>
+<li>User-configurable time-out period</li>
+<li>Can wake the device from Sleep or Idle</li>
+</ul>
+<h2>Using The Library</h2>
+<p>The Watchdog Timer (WDT) runs independent of the rest of the system, causing system resets whenever it times out. However, the application software should ensure that the timeout never occurs by resetting the WDT periodically as long as the software is in a known healthy state.</p>
+<p>If the system hangs or program execution is corrupted, the WDT will not receive its periodic reset, and will eventually time out and cause a
+system reset.</p>
+<p>In many systems, there is an obvious upper boundary to the amount of time each iteration of the main application loop can be expected to run, before a malfunction can be assumed (either due to a deadlock waiting on hardware or software, or due to other means).</p>
+<p>When the Watchdog is configured with a timeout period equal to this upper boundary, a malfunction in the system will force a full system reset to allow for a graceful recovery.</p>
+<p>Window Mode</p>
+<p>In many system, there is also lower boundary to the amount of time each iteration of the main application loop can be expected to run. To guard
+against a system failure resetting the Watchdog in a tight loop (or a failure in the system application causing the main loop to run faster
+than expected) a "Window" mode can be enabled to disallow resetting of the Watchdog counter before a certain period of time. If the Watchdog is not reset after the window opens but not before the Watchdog expires, the system will reset.</p>
+<p>Here is an example code to enable watchdog timer and keep clearing at regular intervals</p>
+<p>```C
+WDT_Enable();</p>
+<p>while ( true )
+{
+    // Application Code</p>
+<pre class="code-block"><code class="language-c">WDT_Clear();
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>Watchdog Timer peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WDT_Enable</td>
+<td>Enables the WDT peripheral</td>
+</tr>
+<tr>
+<td>WDT_Disable</td>
+<td>Disables the WDT peripheral</td>
+</tr>
+<tr>
+<td>WDT_WindowEnable</td>
+<td>Enables the WDT window mode</td>
+</tr>
+<tr>
+<td>WDT_WindowDisable</td>
+<td>Disables the WDT window mode</td>
+</tr>
+<tr>
+<td>WDT_Clear</td>
+<td>Restarts the WDT counter</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

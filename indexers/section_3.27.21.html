@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serial Quad Interface (SQI) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.27.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.27.html">PIC32MZ W1 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Serial Quad Interface (SQI)</li>
+    </ol>
+</nav>
+
+<h1>Serial Quad Interface (SQI)</h1>
+<h1>3.27.21</h1>
+<p>Serial Quad Interface (SQI)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-44F3805B-2212-41F0-81E1-4CC4B21E8BF9.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-44F3805B-2212-41F0-81E1-4CC4B21E8BF9.html</a></p>
+<h1>3.27.21 Serial Quad Interface (SQI)</h1>
+<p>The SQI module is a synchronous serial interface that provides access to serial Flash memories and other serial devices. The SQI module supports Single Lane (identical to SPI), Dual Lane, and Quad Lane
+interface modes.</p>
+<p>The SQI peripheral library operates in two transfer modes:</p>
+<p>DMA Mode:</p>
+<p>DMA mode is a higher throughput data transfer mode, where the internal SQI DMA engine off-loads the Host processor by using predefined Buffer Descriptors for data transfers</p>
+<p>Each Buffer Descriptor can handle up to 256Bytes of data and multiple descriptors can be chained to support larger portions of data transfers</p>
+<p>Four words cumulatively are called a Buffer Descriptor (BD), and are part of the transmit and receive structure</p>
+<p>Individually, a Buffer Descriptor describes an area within the Host memory where data is waiting to be transmitted from or received into</p>
+<p>Host software creates a single or linked list of Buffer Descriptors based on the buffer size and places them in the system memory</p>
+<p>This is the Default mode set during SQIx_Initialize()</p>
+<p>The SQI module supports two data flow modes: SPI Mode 0 and Mode 3. DMA transfer mode can use any of the data flow modes as desired by the application.</p>
+<ul>
+<li>
+<p>DMA Mode:</p>
+<pre class="code-block"><code class="language-c">    DMA mode is a higher throughput data transfer mode, where the internal SQI DMA engine off-loads the Host processor by using predefined Buffer Descriptors for data transfers
+
+    Each Buffer Descriptor can handle up to 256Bytes of data and multiple descriptors can be chained to support larger portions of data transfers
+
+    Four words cumulatively are called a Buffer Descriptor (BD), and are part of the transmit and receive structure
+
+    Individually, a Buffer Descriptor describes an area within the Host memory where data is waiting to be transmitted from or received into
+
+    Host software creates a single or linked list of Buffer Descriptors based on the buffer size and places them in the system memory
+
+    This is the Default mode set during SQIx_Initialize()
+</code></pre>
+<ul>
+<li>DMA mode is a higher throughput data transfer mode, where the internal SQI DMA engine off-loads the Host processor by using predefined Buffer Descriptors for data transfers</li>
+<li>Each Buffer Descriptor can handle up to 256Bytes of data and multiple descriptors can be chained to support larger portions of data transfers</li>
+<li>Four words cumulatively are called a Buffer Descriptor (BD), and are part of the transmit and receive structure</li>
+<li>Individually, a Buffer Descriptor describes an area within the Host memory where data is waiting to be transmitted from or received into</li>
+<li>Host software creates a single or linked list of Buffer Descriptors based on the buffer size and places them in the system memory</li>
+<li>This is the Default mode set during SQIx_Initialize()</li>
+</ul>
+</li>
+<li>
+<p>DMA mode is a higher throughput data transfer mode, where the internal SQI DMA engine off-loads the Host processor by using predefined Buffer Descriptors for data transfers</p>
+</li>
+<li>Each Buffer Descriptor can handle up to 256Bytes of data and multiple descriptors can be chained to support larger portions of data transfers</li>
+<li>Four words cumulatively are called a Buffer Descriptor (BD), and are part of the transmit and receive structure</li>
+<li>Individually, a Buffer Descriptor describes an area within the Host memory where data is waiting to be transmitted from or received into</li>
+<li>Host software creates a single or linked list of Buffer Descriptors based on the buffer size and places them in the system memory</li>
+<li>This is the Default mode set during SQIx_Initialize()</li>
+</ul>
+<h2>Using The Library</h2>
+<p><pre class="code-block"><code class="language-c">Sending commands (ERASE, Write Enable, etc..)</code></pre></p>
+<p>The SQI Peripheral Library operates in DMA mode to interface with the SQI based Serial Flash Memories operating in Single-bit SPI, Dual SPI, and Quad SPI.</p>
+<p>The SQI peripheral library is by default configured to interrupt mode. Use SQIx_RegisterCallback() function to receive event on transfer completion.</p>
+<p>The SQI Peripheral library provides non-Blocking API's, which can be used to perform the following functionalities on the SQI Slave device.</p>
+<p>Start a DMA Transfer</p>
+<p>sqi_dma_desc_t data type needs to filled to send a transfer request to the slave device</p>
+<p>The transfer request can be</p>
+<p>Reading/Writing status registers</p>
+<p>Writing to the Serial flash memory</p>
+<p>Reading from the serial flash memory</p>
+<p>Here is an example code to read data from SQI memory with DMA desciptor chaining</p>
+<p>```C</p>
+<h1>define PAGE_SIZE                   (256U)</h1>
+<h1>define SECTOR_SIZE                 (4096U)</h1>
+<p>//Erase, Write and Read 80KBytes of memory</p>
+<h1>define SECTORS_TO_EWR              (20U)</h1>
+<h1>define BUFFER_SIZE                 (SECTOR_SIZE * SECTORS_TO_EWR)</h1>
+<h1>define MIN_DMA_BUFFER_LEN          (CACHE_LINE_SIZE)</h1>
+<h1>define CMD_DESC_NUMBER             5</h1>
+<h1>define BUFF_DESC_NUMBER            (BUFFER_SIZE / PAGE_SIZE)</h1>
+<h1>define MEM_START_ADDRESS           (0x0U)</h1>
+<h1>define SST26VF_HS_READ             0x0B</h1>
+<p>volatile bool xfer_done = false;</p>
+<p>uint8_t CACHE_ALIGN readData[BUFFER_SIZE];</p>
+<p>uint8_t CACHE_ALIGN sqi_cmd_hsr[MIN_DMA_BUFFER_LEN];
+uint8_t CACHE_ALIGN sqi_cmd_dummy[MIN_DMA_BUFFER_LEN];</p>
+<p>sqi_dma_desc_t CACHE_ALIGN sqiCmdDesc[CMD_DESC_NUMBER];
+sqi_dma_desc_t CACHE_ALIGN sqiBufDesc[BUFF_DESC_NUMBER];</p>
+<p>static void APP_EventHandler(uintptr_t context)
+{
+    xfer_done = true;
+}</p>
+<p>void APP_Read( void <em>rx_data, uint32_t rx_data_length, uint32_t address )
+{
+    uint32_t pendingBytes   = rx_data_length;
+    uint8_t </em>readBuffer     = (uint8_t *)rx_data;
+    uint32_t numBytes       = 0;
+    uint32_t i              = 0;</p>
+<pre class="code-block"><code class="language-c">xfer_done = false;
+
+// Construct parameters to issue SST26 high speed read command
+sqi_cmd_hsr[0] = SST26VF_HS_READ;
+sqi_cmd_hsr[1] = (0xff &amp; (address&gt;&gt;16));
+sqi_cmd_hsr[2] = (0xff &amp; (address&gt;&gt;8));
+sqi_cmd_hsr[3] = (0xff &amp; (address&gt;&gt;0));
+sqi_cmd_hsr[4] = 0;
+
+// SQI Read: High Speed Read command (0x0B), 3 byte address, and 1 byte mode 
+// Chip Select remains asserted after the transfer
+
+sqiCmdDesc[0].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(5) | SQI_BDCTRL_MODE_QUAD_LANE |
+                                SQI_BDCTRL_SQICS_CS1 | SQI_BDCTRL_DESCEN);
+
+sqiCmdDesc[0].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&amp;sqi_cmd_hsr);
+sqiCmdDesc[0].bd_stat       = 0;
+sqiCmdDesc[0].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&amp;sqiCmdDesc[1]);
+
+// SQI Read: 2 byte dummy read 
+// Chip Select remains asserted after the transfer
+
+sqiCmdDesc[1].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(2) | SQI_BDCTRL_MODE_QUAD_LANE |
+                                SQI_BDCTRL_SQICS_CS1 | SQI_BDCTRL_DESCEN);
+
+sqiCmdDesc[1].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&amp;sqi_cmd_dummy);
+sqiCmdDesc[1].bd_stat       = 0;
+sqiCmdDesc[1].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&amp;sqiBufDesc[0]);
+
+// SQI Read: Reads the values from the memory 
+// Create Descriptor chain. Enable packet interrupt.
+// Chip Select is de-asserted after the transfer
+
+for (i = 0; (i &lt; BUFF_DESC_NUMBER) &amp;&amp; (pendingBytes &gt; 0); i++)
+{
+    if (pendingBytes &gt; PAGE_SIZE)
+    {
+        numBytes = PAGE_SIZE;
+    }
+    else
+    {
+        numBytes = pendingBytes;
+    }
+
+    sqiBufDesc[i].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(numBytes) | SQI_BDCTRL_PKTINTEN |
+                                    SQI_BDCTRL_MODE_QUAD_LANE | SQI_BDCTRL_DIR_READ |
+                                    SQI_BDCTRL_SQICS_CS1 | SQI_BDCTRL_DESCEN);
+
+    sqiBufDesc[i].bd_bufaddr    = (uint32_t *)KVA_TO_PA(readBuffer);
+    sqiBufDesc[i].bd_stat       = 0;
+    sqiBufDesc[i].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&amp;sqiBufDesc[i+1]);
+
+    pendingBytes    -= numBytes;
+    readBuffer      += numBytes;
+}
+
+// The last descriptor must indicate the end of the descriptor list and last packaet
+sqiBufDesc[i-1].bd_ctrl         |= (SQI_BDCTRL_LASTPKT | SQI_BDCTRL_LASTBD |
+                                    SQI_BDCTRL_DEASSERT);
+
+sqiBufDesc[i-1].bd_nxtptr       = 0x00000000;
+
+// Initialize the root buffer descriptor 
+SQI1_DMA_Transfer((sqi_dma_desc_t *)KVA_TO_PA(&amp;sqiBufDesc[0]));
+
+// Wait for transfer to complete
+while(xferDone == false);
+</code></pre>
+<p>}</p>
+<p>void main()
+{
+    // Other calls ..
+    SQI1_RegisterCallback(APP_EventHandler, (uintptr_t)NULL);</p>
+<pre class="code-block"><code class="language-c">APP_Read((uint32_t *)readBuffer, BUFFER_SIZE, MEM_START_ADDRESS);
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>
+<p>Start a DMA Transfer</p>
+<pre class="code-block"><code class="language-c">        sqi_dma_desc_t data type needs to filled to send a transfer request to the slave device
+
+      The transfer request can be
+
+          Sending commands (ERASE, Write Enable, etc..)
+
+          Reading/Writing status registers
+
+          Writing to the Serial flash memory
+
+          Reading from the serial flash memory
+</code></pre>
+<ul>
+<li>sqi_dma_desc_t data type needs to filled to send a transfer request to the slave device</li>
+<li>The transfer request can be<pre class="code-block"><code class="language-c">      Sending commands (ERASE, Write Enable, etc..)
+
+      Reading/Writing status registers
+
+      Writing to the Serial flash memory
+
+      Reading from the serial flash memory
+</code></pre>
+<ul>
+<li>Sending commands (ERASE, Write Enable, etc..)</li>
+<li>Reading/Writing status registers</li>
+<li>Writing to the Serial flash memory</li>
+<li>Reading from the serial flash memory</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>sqi_dma_desc_t data type needs to filled to send a transfer request to the slave device</p>
+</li>
+<li>
+<p>The transfer request can be</p>
+<pre class="code-block"><code class="language-c">          Sending commands (ERASE, Write Enable, etc..)
+
+          Reading/Writing status registers
+
+          Writing to the Serial flash memory
+
+          Reading from the serial flash memory
+</code></pre>
+<ul>
+<li>Sending commands (ERASE, Write Enable, etc..)</li>
+<li>Reading/Writing status registers</li>
+<li>Writing to the Serial flash memory</li>
+<li>Reading from the serial flash memory</li>
+</ul>
+</li>
+<li>
+<p>Sending commands (ERASE, Write Enable, etc..)</p>
+</li>
+<li>Reading/Writing status registers</li>
+<li>Writing to the Serial flash memory</li>
+<li>Reading from the serial flash memory</li>
+</ul>
+<h2>Library Interface</h2>
+<p>SQI peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQIx_Initialize</td>
+<td>Initializes given instance of the SQI peripheral</td>
+</tr>
+<tr>
+<td>SQIx_DMASetup</td>
+<td>Sets up SQI peripheral to DMA mode</td>
+</tr>
+<tr>
+<td>SQIx_DMATransfer</td>
+<td>Starts a DMA transfer to the SQI slave device</td>
+</tr>
+<tr>
+<td>SQIx_RegisterCallback</td>
+<td>Sets the pointer to the function (and it's context) to be called when the operation is complete</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQI_EVENT_HANDLER</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the SQI peripheral event handler function</td>
+</tr>
+<tr>
+<td>SQI_LANE_MODE</td>
+<td>Enum</td>
+<td>Defines the data type to specify the type of lane</td>
+</tr>
+<tr>
+<td>sqi_dma_desc_t</td>
+<td>Struct</td>
+<td>Defines the data type for the SQI DMA based transfer</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

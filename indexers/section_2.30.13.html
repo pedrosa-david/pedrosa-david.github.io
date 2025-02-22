@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMAC ChannelLinkedListTransfer Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.30.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.30.html">Direct Memory Access Controller (DMAC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DMAC ChannelLinkedListTransfer Function</li>
+    </ol>
+</nav>
+
+<h1>DMAC ChannelLinkedListTransfer Function</h1>
+<h1>2.30.13</h1>
+<p>DMAC_ChannelLinkedListTransfer Function</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-B4D3CECC-077D-4F90-8868-B711D1D3A7C3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-B4D3CECC-077D-4F90-8868-B711D1D3A7C3.html</a></p>
+<h1><span id="2-30-13-dmac-channellinkedlisttransfer-function"></span>2.30.13 DMAC_ChannelLinkedListTransfer Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">bool DMAC_ChannelLinkedListTransfer ( DMAC_CHANNEL channel,
+dmacdescriptor_registers_t * channelDesc );</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>The function submit a list of DMA transfers.</p>
+<h2><span id="description"></span>Description</h2>
+<p>The function will submit a list of DMA transfers. The DMA channel will
+process all transfers in the list. The transfers will be processed in the
+order in which they added to the list. Each transfer in the list is
+specified by a DmacDescriptor type descriptor. The list is formed by linking
+of the descriptors. While processing each descriptor in the linked list, the
+DMA transfer settings will be updated based on the settings contained in the
+descriptor.</p>
+<p>It is possible to link the last descriptor in the list to the first
+descriptor. This results in an continuous transfer sequence. Such type of
+circular linked descriptor list are useful in audio applications. The DMAC
+module will generate a callback for each transfer in the descriptor list.
+The application must keep track of transfer being completed and should only
+modify the descriptors which have been processed.</p>
+<p>The application must submit the entire list while calling the function. Adding or inserting
+        of descriptors to a submitted list is not supported. The application can change the transfer
+        parameters such as transfer beat size, source and address increment step size. This will
+        override the transfer setting defined in MCC.</p>
+<p>The BLOCKACT field of the last DMA transfer descriptor in the descriptor
+linked list should be set to the value 0x0 i.e. this should be set to
+disable the channel when the last transfer has been completed. Setting this
+field to any other value will interfere with the operation of the DMAC
+peripheral library.</p>
+<p>When already a transfer is in progress, this API will return false indicating
+that transfer request is not accepted.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>DMAC should have been initialized by calling DMAC_Initialize. The Transfer Linked Option in
+        MCC should have been enabled.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>channel</td>
+<td>The DMAC channel on which the transfer needs to scheduled.</td>
+</tr>
+<tr>
+<td>channelDesc</td>
+<td>A pointer to a linked list of DmacDescriptor type descriptor chain. Each of the descriptors must be placed at a 128-bit aligned SRAM address. If these descriptors belong to an array of descriptors, then configuring the starting address of the array at a 128-bit aligned address will ensure that all descriptors of the array starts at 128-bit aligned address, because the size of each descriptor is 128-bits.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>channel</td>
+<td>The DMAC channel on which the transfer needs to scheduled.</td>
+</tr>
+<tr>
+<td>channelDesc</td>
+<td>A pointer to a linked list of DmacDescriptor type descriptor chain. Each of the descriptors must be placed at a 128-bit aligned SRAM address. If these descriptors belong to an array of descriptors, then configuring the starting address of the array at a 128-bit aligned address will ensure that all descriptors of the array starts at 128-bit aligned address, because the size of each descriptor is 128-bits.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<ul>
+<li>
+<p>True - If transfer request is accepted.</p>
+</li>
+<li>
+<p>False - If previous transfer is in progress and the request is rejected.</p>
+</li>
+</ul>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">// Process a transfer list called transferList. Refer to the DMAC PLIB demo
+// application example for more details on usage.
+if (DMAC_ChannelLinkedListTransfer(DMAC_CHANNEL_0, transferList) == true)
+{
+    // do something else
+}
+else
+{
+    // try again?
+}</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

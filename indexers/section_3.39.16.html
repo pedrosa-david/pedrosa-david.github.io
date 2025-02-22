@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply Controller (SUPC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.39.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.39.html">SAM G55 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Supply Controller (SUPC)</li>
+    </ol>
+</nav>
+
+<h1>Supply Controller (SUPC)</h1>
+<h1>3.39.16</h1>
+<p>Supply Controller (SUPC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5DFBC93A-4BC4-4662-B47A-8A532C2C21B5_2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-5DFBC93A-4BC4-4662-B47A-8A532C2C21B5_2.html</a></p>
+<h1>3.39.16 Supply Controller (SUPC)</h1>
+<p>The Supply Controller (SUPC) controls the supply voltages of the
+system. The SUPC also generates the slow</p>
+<p>clock by selecting either the low-power RC oscillator or the low-power
+crystal oscillator.</p>
+<h2>Using The Library</h2>
+<p>SUPC Peripheral library provides API's and they can be used to perform
+below functionalities.</p>
+<p>To put the device either in Sleep, Backup or Wait mode.</p>
+<p>To read and write the General Purpose Backup Register (GPBR).</p>
+<p>Generate supply monitor callback to save critical data to prepare the system for a power down. Supply monitor can generate interrupt or Reset the device when supply voltage crosses below the specified threshold level.</p>
+<p>The examples shows the code to enter sleep, backup and wait mode.</p>
+<p><pre class="code-block"><code class="language-c">while(1)
+{
+    switch(cmd)
+    {
+        case SLEEP_MODE:
+        {
+            SUPC_SleepModeEnter();
+            break;
+        }
+        case WAIT_MODE:
+        {
+            SUPC_WaitModeEnter(PMC_FSMR_FLPM_FLASH_DEEP_POWERDOWN, WAITMODE_WKUP_WKUP7);
+            break;
+        }
+        case BACKUP_MODE:
+        {
+            SUPC_BackupModeEnter();
+            break;
+        }
+    }
+}</code></pre></p>
+<ul>
+<li>To put the device either in Sleep, Backup or Wait mode.</li>
+<li>To read and write the General Purpose Backup Register (GPBR).</li>
+<li>Generate supply monitor callback to save critical data to prepare the system for a power down. Supply monitor can generate interrupt or Reset the device when supply voltage crosses below the specified threshold level.</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Supply Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SUPC_Initialize</td>
+<td>Initializes SUPC x module of the device</td>
+</tr>
+<tr>
+<td>SUPC_SleepModeEnter</td>
+<td>Puts the device into Sleep mode</td>
+</tr>
+<tr>
+<td>SUPC_WaitModeEnter</td>
+<td>Puts the device into Wait mode</td>
+</tr>
+<tr>
+<td>SUPC_BackupModeEnter</td>
+<td>Puts the device into Backup mode</td>
+</tr>
+<tr>
+<td>SUPC_GPBRRead</td>
+<td>Reads the data from General Purpose Backup Register(GPBR)</td>
+</tr>
+<tr>
+<td>SUPC_GPBRWrite</td>
+<td>Writes data to the General Purpose Backup Register(GPBR)</td>
+</tr>
+<tr>
+<td>SUPC_CallbackRegister</td>
+<td>Allows application to register callback with PLIB</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WAITMODE_WKUP_SOURCE</td>
+<td>Enum</td>
+<td>Identifies the wakeup input source</td>
+</tr>
+<tr>
+<td>WAITMODE_FLASH_STATE</td>
+<td>Enum</td>
+<td>Identifies Flash Low-power mode</td>
+</tr>
+<tr>
+<td>SUPC_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a SUPC callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

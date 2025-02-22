@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quad Serial Peripheral Interface (QSPI) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.45.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.45.html">SAM RH71 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Quad Serial Peripheral Interface (QSPI)</li>
+    </ol>
+</nav>
+
+<h1>Quad Serial Peripheral Interface (QSPI)</h1>
+<h1>3.45.12</h1>
+<p>Quad Serial Peripheral Interface (QSPI)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C2190631-B6F5-4CD7-B6DB-5267DC280E90_4.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C2190631-B6F5-4CD7-B6DB-5267DC280E90_4.html</a></p>
+<h1>3.45.12 Quad Serial Peripheral Interface (QSPI)</h1>
+<p>The Quad SPI Interface (QSPI) is a synchronous serial data link that provides communication with external devices in Master mode. It is similar to SPI protocol except that it has additional data lines.</p>
+<p>The QSPI can be used in normal SPI mode or in Serial Memory mode to connect to external Flash memories. The normal SPI has four communication lines: Chip Select, Clock, MOSI, and MISO. For QSPI, additional data lines are available. The command/data/address are sent through single, dual or quad IO based on the mode selected.</p>
+<p>As data is sent over multiple lines, it helps in increasing bandwidth compared to a standard SPI transfer. With the support of the Quad SPI protocol, the QSPI allows the system to use high-performance serial Flash memories which are small and inexpensive, in place of larger and more expensive parallel Flash memories.</p>
+<p>The QSPI allows the system to execute code directly from a serial Flash memory (XIP) without code shadowing to RAM. The serial Flash memory
+mapping is seen in the system as other memories such as SRAM, and FLASH memory.</p>
+<h2>Using The Library</h2>
+<p>The QSPI Peripheral Library operates in Serial Memory Mode or SPI Mode to interface with the QSPI based Serial Flash Memories operating in
+Single-bit SPI, Dual SPI, and Quad SPI.</p>
+<p>The QSPI Peripheral library provides non-Blocking API's, which can be used to perform the following functionalities on the QSPI Slave device.</p>
+<p>Send a command</p>
+<p>qspi_command_xfer_t data type needs to filled to send a command
+to the slave device</p>
+<p>Register read/write</p>
+<p>qspi_register_xfer_t data type needs to be filled to read data
+from a register or to write data to a register.</p>
+<p>Memory read/write</p>
+<p>qspi_memory_xfer_t data type needs to be filled to read data from
+flash memory or to write data to the FLASH memory.</p>
+<p>Here is an example code to read data from SST26 QSPI flash memory using QSPI peripheral</p>
+<p>```C</p>
+<h1>define SST26_HIGH_SPEED_READ 0x0B</h1>
+<p>static qspi_memory_xfer_t qspi_memory_xfer;
+static uint32_t buffer[256];
+uint32_t address = 0x0</p>
+<p>memset((void *)&amp;qspi_memory_xfer, 0, sizeof(qspi_memory_xfer_t));</p>
+<p>// Read memory location starting from address 0x0
+qspi_memory_xfer.instruction = SST26_HIGH_SPEED_READ;</p>
+<p>// Use QAUD SPI Lane
+qspi_memory_xfer.width = QUAD_CMD;
+qspi_memory_xfer.dummy_cycles = 6;</p>
+<p>if (QSPI0_MemoryRead(&amp;qspi_memory_xfer, buffer, sizeof(buffer), address) == false)
+{
+    // Handle Error
+}
+```</p>
+<ul>
+<li>
+<p>Send a command</p>
+<pre class="code-block"><code class="language-c">      qspi_command_xfer_t data type needs to filled to send a command
+</code></pre>
+<p>to the slave device
+- qspi_command_xfer_t data type needs to filled to send a command
+to the slave device
+- Register read/write</p>
+<pre class="code-block"><code class="language-c">      qspi_register_xfer_t data type needs to be filled to read data
+</code></pre>
+<p>from a register or to write data to a register.
+- qspi_register_xfer_t data type needs to be filled to read data
+from a register or to write data to a register.
+- Memory read/write</p>
+<pre class="code-block"><code class="language-c">      qspi_memory_xfer_t data type needs to be filled to read data from
+</code></pre>
+<p>flash memory or to write data to the FLASH memory.
+- qspi_memory_xfer_t data type needs to be filled to read data from
+flash memory or to write data to the FLASH memory.</p>
+</li>
+<li>
+<p>qspi_command_xfer_t data type needs to filled to send a command
+to the slave device</p>
+</li>
+<li>
+<p>qspi_register_xfer_t data type needs to be filled to read data
+from a register or to write data to a register.</p>
+</li>
+<li>
+<p>qspi_memory_xfer_t data type needs to be filled to read data from
+flash memory or to write data to the FLASH memory.</p>
+</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Quad Serial Peripheral Interface peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>QSPI Mode:</p>
+<p>SPI Mode:</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QSPIx_Initialize</td>
+<td>Initializes given instance of the QSPI peripheral</td>
+</tr>
+<tr>
+<td>QSPIx_CommandWrite</td>
+<td>Writes command to QSPI slave device</td>
+</tr>
+<tr>
+<td>QSPIx_RegisterRead</td>
+<td>Reads particular register of QSPI slave device</td>
+</tr>
+<tr>
+<td>QSPIx_RegisterWrite</td>
+<td>Writes to particular register of QSPI slave device</td>
+</tr>
+<tr>
+<td>QSPIx_MemoryRead</td>
+<td>Reads from the specified address of the serial flash device</td>
+</tr>
+<tr>
+<td>QSPIx_MemoryWrite</td>
+<td>Writes to the specified address of the serial flash device</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QSPIx_Initialize</td>
+<td>Initializes given instance of the QSPI peripheral</td>
+</tr>
+<tr>
+<td>QSPIx_TransferSetup</td>
+<td>Setup QSPI operational parameters as desired by the client.</td>
+</tr>
+<tr>
+<td>QSPIx_WriteRead</td>
+<td>Write and Read data on QSPI peripheral.</td>
+</tr>
+<tr>
+<td>QSPIx_Write</td>
+<td>Write data on QSPI peripheral.</td>
+</tr>
+<tr>
+<td>QSPIx_Read</td>
+<td>Read data on QSPI peripheral.</td>
+</tr>
+<tr>
+<td>QSPIx_IsBusy</td>
+<td>Returns transfer status of QSPI peripheral.</td>
+</tr>
+<tr>
+<td>QSPIx_CallbackRegister</td>
+<td>Allows application to register callback with PLIB.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QSPI_ADDRESS_LENGTH</td>
+<td>Enum</td>
+<td>Defines the data type to specify address length</td>
+</tr>
+<tr>
+<td>QSPI_LANE_WIDTH</td>
+<td>Enum</td>
+<td>Defines the data type to specify lane width</td>
+</tr>
+<tr>
+<td>QSPI_OPTION_LENGTH</td>
+<td>Enum</td>
+<td>Defines the data type to specify option length</td>
+</tr>
+<tr>
+<td>QSPI_CLOCK_PHASE</td>
+<td>Enum</td>
+<td>Identifies QSPI Clock Phase Options</td>
+</tr>
+<tr>
+<td>QSPI_CLOCK_POLARITY</td>
+<td>Enum</td>
+<td>Identifies QSPI Clock Polarity Options</td>
+</tr>
+<tr>
+<td>QSPI_DATA_BITS</td>
+<td>Enum</td>
+<td>Identifies SPI bits per transfer</td>
+</tr>
+<tr>
+<td>QSPI_TRANSFER_SETUP</td>
+<td>Struct</td>
+<td>Identifies the setup parameters which can be changed dynamically</td>
+</tr>
+<tr>
+<td>qspi_command_xfer_t</td>
+<td>Struct</td>
+<td>Defines the data type for the QSPI commands transfer</td>
+</tr>
+<tr>
+<td>qspi_register_xfer_t</td>
+<td>Struct</td>
+<td>Defines the data type for the QSPI register data transfer</td>
+</tr>
+<tr>
+<td>qspi_memory_xfer_t</td>
+<td>Struct</td>
+<td>Defines the data type for the QSPI memory transfer</td>
+</tr>
+<tr>
+<td>QSPI_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a Callback function. This is used in SPI mode only</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extensible DMA Controller (XDMAC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.37.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.37.html">SAM E70 S70 V70 V71 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Extensible DMA Controller (XDMAC)</li>
+    </ol>
+</nav>
+
+<h1>Extensible DMA Controller (XDMAC)</h1>
+<h1>3.37.29</h1>
+<p>Extensible DMA Controller (XDMAC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-4DAFB84B-D4AB-4B3D-8B00-BADD67C6A946_5.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-4DAFB84B-D4AB-4B3D-8B00-BADD67C6A946_5.html</a></p>
+<h1>3.37.29 Extensible DMA Controller (XDMAC)</h1>
+<p>The DMA Controller (XDMAC) can transfer data between memories and
+peripherals, and thus off-load these tasks from the CPU. It enables
+high data transfer rates with minimum CPU intervention, and frees up
+CPU time. With access to all peripherals, the DMAC can handle automatic
+transfer of data between communication modules. The XDMAC has several
+DMA channels and each channel is fully programmable and provides both
+peripheral, or memory-to-memory transfers.</p>
+<h2>Using The Library</h2>
+<p>The XDMA controller requires a source address, destination address and
+transfer count to initiate the transfer. It transfers data on each DMA
+trigger and decrements the transfer count. The DMA generates completion
+interrupt to notify the CPU at the end of the DMA transfer.</p>
+<p>The user can use either the callback mechanism or the polling mechanism
+to determine DMA completion.</p>
+<p>With polling, the application will need to continuously poll to
+check if the DMA has completed the transfer.</p>
+<p>With callback, the registered callback function will be called when
+the transfer is completed. This means the application do not have to
+poll continuously.</p>
+<p>Callback method</p>
+<p>This following example demonstrates a DMA transfer with callback.</p>
+<p>Polling method</p>
+<p>The following example demonstrates a DMA transfer with polling.</p>
+<p>```C</p>
+<h1>define USART1_TRANSMIT_ADDRESS     (&amp;USART1_REGS-&gt;US_THR)</h1>
+<p>uint8_t txBuffer[] = "Hello World!";</p>
+<p>void XDMAC_Callback(XDMAC_TRANSFER_EVENT status, uintptr_t context)
+{
+      if(status == XDMAC_TRANSFER_COMPLETE)
+      {
+           // Transfer is completed.
+      }
+}</p>
+<p>int main ( void )
+{
+      SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">  XDMAC_ChannelCallbackRegister(XDMAC_CHANNEL_0, XDMAC_Callback, 0);
+
+  XDMAC_ChannelTransfer(XDMAC_CHANNEL_0, txBuffer, (const void *)USART1_TRANSMIT_ADDRESS, sizeof(txBuffer));
+</code></pre>
+<p>}
+```</p>
+<p>```C</p>
+<h1>define USART1_TRANSMIT_ADDRESS     (&amp;USART1_REGS-&gt;US_THR)</h1>
+<p>uint8_t txBuffer[] = "Hello World!";</p>
+<p>int main ( void )
+{
+      SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">  XDMAC_ChannelTransfer(XDMAC_CHANNEL_0, txBuffer, (const void *)USART1_TRANSMIT_ADDRESS, sizeof(txBuffer));
+
+  while(XDMAC_ChannelIsBusy(XDMAC_CHANNEL_0));
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>With polling, the application will need to continuously poll to
+check if the DMA has completed the transfer.</li>
+<li>With callback, the registered callback function will be called when
+the transfer is completed. This means the application do not have to
+poll continuously.</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Extensible DMA Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XDMAC_Initialize</td>
+<td>Initializes the XDMAC controller of the device</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelCallbackRegister</td>
+<td>This function allows a XDMAC PLIB client to set an event handler</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelTransfer</td>
+<td>Adds a data transfer to a XDMAC channel and enables the channel to start data transfer</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelLinkedListTransfer</td>
+<td>Sets up a multi-block data transfer on a specified XDMAC channel using linked list feature</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelIsBusy</td>
+<td>Returns the busy status of a specific XDMAC Channel</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelTransferStatusGet</td>
+<td>Returns the XDMAC channel's transfer status</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelDisable</td>
+<td>Disables the specified channel</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelSettingsGet</td>
+<td>Returns the channel settings of a specific XDMAC Channel</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelSettingsSet</td>
+<td>Sets the channel settings of a specific XDMAC Channel</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelBlockLengthSet</td>
+<td>Sets the channel Block Length of a specific XDMAC Channel</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelSuspend</td>
+<td>This function Suspends the DMA channel</td>
+</tr>
+<tr>
+<td>XDMAC_ChannelResume</td>
+<td>This function Resumes the DMA channel</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XDMAC_CHANNEL</td>
+<td>Enum</td>
+<td>Lists the set of channels available for data transfer using DMAC</td>
+</tr>
+<tr>
+<td>XDMAC_TRANSFER_EVENT</td>
+<td>Enum</td>
+<td>Enumeration of possible DMAC transfer events</td>
+</tr>
+<tr>
+<td>XDMAC_CHANNEL_CALLBACK</td>
+<td>Typedef</td>
+<td>Pointer to a DMAC Transfer Event handler function</td>
+</tr>
+<tr>
+<td>XDMAC_CHANNEL_CONFIG</td>
+<td>Typedef</td>
+<td>DMAC Block Transfer Control configuration value</td>
+</tr>
+<tr>
+<td>XDMAC_DESCRIPTOR_CONTROL</td>
+<td>Union</td>
+<td>Defines the descriptor control for linked list operation</td>
+</tr>
+<tr>
+<td>XDMAC_DESCRIPTOR_VIEW_0</td>
+<td>Struct</td>
+<td>Defines the descriptor view 0 available for master transfer</td>
+</tr>
+<tr>
+<td>XDMAC_DESCRIPTOR_VIEW_1</td>
+<td>Struct</td>
+<td>Defines the descriptor view 1 available for master transfer</td>
+</tr>
+<tr>
+<td>XDMAC_DESCRIPTOR_VIEW_2</td>
+<td>Struct</td>
+<td>Defines the descriptor view 2 available for master transfer</td>
+</tr>
+<tr>
+<td>XDMAC_DESCRIPTOR_VIEW_3</td>
+<td>Struct</td>
+<td>Defines the descriptor view 3 available for master transfer</td>
+</tr>
+<tr>
+<td>XDMAC_MICRO_BLOCK_CONTROL</td>
+<td>Struct</td>
+<td>Defines the control parameters for linked list operation</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

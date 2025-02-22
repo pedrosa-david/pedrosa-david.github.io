@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QSPIx Write Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.87.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.87.html">Quad Serial Peripheral Interface (QSPI)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">QSPIx Write Function</li>
+    </ol>
+</nav>
+
+<h1>QSPIx Write Function</h1>
+<h1>2.87.9</h1>
+<p>QSPIx_Write Function</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E78236B0-B650-4F47-88AD-744B7DE004C1.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-E78236B0-B650-4F47-88AD-744B7DE004C1.html</a></p>
+<h1><span id="2-87-9-qspix-write-function"></span>2.87.9 QSPIx_Write Function</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+// x - Instance of the QSPI peripheral</p>
+<p>bool QSPIx_Write(void* pTransmitData, size_t txSize);
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Write data on QSPI peripheral. This is used in SPI mode only.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function should be used to write "txSize" number of bytes on QSPI module. Data pointed by pTransmitData is transmitted.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>The QSPIx_Initialize function must have been called.  Callback has to be registered using QSPIx_CallbackRegister API if the peripheral instance has been configured in Interrupt mode and transfer completion status needs to be communicated back to application via callback.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*pTransmitData</td>
+<td>Pointer to the data which has to be transmitted. if it isNULL, that means only data receiving is expected. For 9 to 15bit mode, data should be right aligned in the 16 bit memory location.</td>
+</tr>
+<tr>
+<td>txSize</td>
+<td>Number of bytes to be transmitted. Always, size should begiven in terms of bytes. For example, if 5 16-bit data are to be transmitted, the transmit size should be 10 bytes.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*pTransmitData</td>
+<td>Pointer to the data which has to be transmitted. if it isNULL, that means only data receiving is expected. For 9 to 15bit mode, data should be right aligned in the 16 bit memory location.</td>
+</tr>
+<tr>
+<td>txSize</td>
+<td>Number of bytes to be transmitted. Always, size should begiven in terms of bytes. For example, if 5 16-bit data are to be transmitted, the transmit size should be 10 bytes.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>In Blocking mode:</p>
+<p>API returns True once the transfer is complete. It returns False if txSize parameter is 0 and transmit data pointer is NULL.</p>
+<p>In interrupt mode:</p>
+<p>If previous buffer request is not completed and a new transfer request comes, then this API will reject the new request and will return "False".</p>
+<p>Also, Same as blocking mode, It returns False if txSize parameter is 0 and transmit data pointer is NULL.</p>
+<ul>
+<li>
+<p>In Blocking mode:</p>
+<pre class="code-block"><code class="language-c">      API returns True once the transfer is complete. It returns False if txSize parameter is 0 and transmit data pointer is NULL.
+</code></pre>
+<ul>
+<li>API returns True once the transfer is complete. It returns False if txSize parameter is 0 and transmit data pointer is NULL.</li>
+<li>In interrupt mode:<pre class="code-block"><code class="language-c">  If previous buffer request is not completed and a new transfer request comes, then this API will reject the new request and will return "False".
+
+  Also, Same as blocking mode, It returns False if txSize parameter is 0 and transmit data pointer is NULL.
+</code></pre>
+<ul>
+<li>If previous buffer request is not completed and a new transfer request comes, then this API will reject the new request and will return "False".</li>
+<li>Also, Same as blocking mode, It returns False if txSize parameter is 0 and transmit data pointer is NULL.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>API returns True once the transfer is complete. It returns False if txSize parameter is 0 and transmit data pointer is NULL.</p>
+</li>
+<li>
+<p>If previous buffer request is not completed and a new transfer request comes, then this API will reject the new request and will return "False".</p>
+</li>
+<li>Also, Same as blocking mode, It returns False if txSize parameter is 0 and transmit data pointer is NULL.</li>
+</ul>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+uint8_t txBuffer[4];
+size_t txSize = 4;
+bool reqAccepted;</p>
+<p>reqAccepted = QSPI0_Write(&amp;txBuffer, txSize);
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>Non-blocking interrupt mode configuration implementation of this function will be used by Harmony driver implementation APIs.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

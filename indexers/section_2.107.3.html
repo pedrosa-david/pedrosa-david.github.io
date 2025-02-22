@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPIx WriteRead Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.107.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.107.html">Serial Peripheral Interface (SPI)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">SPIx WriteRead Function</li>
+    </ol>
+</nav>
+
+<h1>SPIx WriteRead Function</h1>
+<h1>2.107.3</h1>
+<p>SPIx_WriteRead Function</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-7223BAE2-AEA7-407C-9893-EB5B529BBC3B.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-7223BAE2-AEA7-407C-9893-EB5B529BBC3B.html</a></p>
+<h1><span id="2-107-3-spix-writeread-function"></span>2.107.3 SPIx_WriteRead Function</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> x = SPI instance number </em>/</p>
+<p>/<em> SPI master mode </em>/</p>
+<p>bool SPIx_WriteRead ( void<em> pTransmitData, size_t txSize, void</em> pReceiveData, size_t rxSize)
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Write and Read data on SPI peripheral.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function transmits "txSize" number of bytes and receives "rxSize" number of bytes on SPI module. Data pointed by pTransmitData is transmitted and received data is saved in the location pointed by pReceiveData. The function will transfer the maximum of "txSize" or "rxSize" data units towards completion.</p>
+<p>When interrupt is disabled, this function will be blocking in nature. In this mode, the function will not return until all the requested data is transferred. The function returns true after transferring all the data. This indicates that the operation has been completed.</p>
+<p>When interrupt is enabled, the function will be non-blocking in nature. The function returns immediately. The data transfer process continues in the peripheral interrupt. The application specified transmit and receive buffer are owned by the library until the data transfer is complete and should not be modified by the application till the transfer is complete. Only one transfer is allowed at any time. The Application can use a callback function or a polling function to check for completion of the transfer. If a callback is required, this should be registered prior to calling the SPIx_WriteRead function. The application can use the SPIx_IsBusy to poll for completion.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>The SPIx_Initialize function must have been called. If the peripheral instance has been configured for Interrupt mode and transfer completion status needs to be communicated back to application via callback, a callback should have been registered using SPIx_CallbackRegister function.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pTransmitData</td>
+<td>Pointer to the data which has to be transmitted. In a case where only data reception is required, this pointer can be set to NULL. The size of this buffer should be txSize.</td>
+</tr>
+<tr>
+<td>txSize</td>
+<td>Number of bytes to be transmitted. This value is the byte size of the buffer irrespective of 8/16/32 bit transfer mode.</td>
+</tr>
+<tr>
+<td>pReceiveData</td>
+<td>Pointer to the location where the received data has to be stored. It is user's responsibility to ensure that this location has sufficient memory to store rxSize amount of data. In a case where only data transmission is required, this pointer can be set to NULL.</td>
+</tr>
+<tr>
+<td>rxSize</td>
+<td>Number of bytes to be received. rxSize must be sum of txSize plus the number of bytes to receive. For example, if 3 bytes are transmitted and 10 bytes are to be received, then the rxSize must be 13. This value is the byte size of the buffer irrespective of 8/16/32 bit transfer mode.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pTransmitData</td>
+<td>Pointer to the data which has to be transmitted. In a case where only data reception is required, this pointer can be set to NULL. The size of this buffer should be txSize.</td>
+</tr>
+<tr>
+<td>txSize</td>
+<td>Number of bytes to be transmitted. This value is the byte size of the buffer irrespective of 8/16/32 bit transfer mode.</td>
+</tr>
+<tr>
+<td>pReceiveData</td>
+<td>Pointer to the location where the received data has to be stored. It is user's responsibility to ensure that this location has sufficient memory to store rxSize amount of data. In a case where only data transmission is required, this pointer can be set to NULL.</td>
+</tr>
+<tr>
+<td>rxSize</td>
+<td>Number of bytes to be received. rxSize must be sum of txSize plus the number of bytes to receive. For example, if 3 bytes are transmitted and 10 bytes are to be received, then the rxSize must be 13. This value is the byte size of the buffer irrespective of 8/16/32 bit transfer mode.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>true - If configured for blocking mode, the function has received and transmitted the requested number of bytes. If configured for non-blocking mode, the request was accepted successfully and will be processed in the interrupt.</p>
+<p>false - If both pTransmitData and pReceiveData are NULL, or if both txSize and rxSize are 0 or if txSize is non-zero but the pTransmitData is set to NULL or rxSize is non-zero but pReceiveData is NULL. In non-blocking mode, the function returns false if there is an on-going data transfer at the time of calling the function.</p>
+<h2><span id="example"></span>Example</h2>
+<p>Non-blocking mode</p>
+<p>Blocking mode</p>
+<p>```C
+// The following code snippet shows an example using the
+// SPIx_WriteRead() function in interrupt mode operation using the
+// callback function.</p>
+<p>uint8_t txBuffer[4];
+uint8_t rxBuffer[10];
+size_t txSize = 4;
+size_t rxSize = 10;</p>
+<p>void APP_SPITransferHandler(uintptr_t context)
+{
+    //Transfer was completed without error, do something else now.
+}</p>
+<p>SPI1_Initialize();
+SPI1_CallbackRegister(&amp;APP_SPITransferHandler, (uintptr_t)NULL);
+if(SPI1_WriteRead(&amp;txBuffer, txSize, &amp;rxBuffer, rxSize))
+{
+    // request got accepted
+}
+else
+{
+    // request didn't get accepted, try again later with correct arguments
+}
+```</p>
+<p>```C
+// The following code snippet shows non-interrupt or blocking mode
+// operation.</p>
+<p>uint8_t txBuffer[4];
+uint8_t rxBuffer[10];
+size_t txSize = 4;
+size_t rxSize = 10;</p>
+<p>SPI1_Initialize();</p>
+<p>// This function call will block.
+SPI1_WriteRead(&amp;txBuffer, txSize, &amp;rxBuffer, rxSize);
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

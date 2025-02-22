@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERCOM I2C SLAVE CALLBACK Typedef | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.103.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.103.html">Serial Communication Interface (SERCOM)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">SERCOM I2C SLAVE CALLBACK Typedef</li>
+    </ol>
+</nav>
+
+<h1>SERCOM I2C SLAVE CALLBACK Typedef</h1>
+<h1>2.103.96</h1>
+<p>SERCOM_I2C_SLAVE_CALLBACK Typedef</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-ACC44785-33C2-4871-8AD1-69D43E718C00.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-ACC44785-33C2-4871-8AD1-69D43E718C00.html</a></p>
+<h1><span id="2-103-96-sercom-i2c-slave-callback-typedef"></span>2.103.96 SERCOM_I2C_SLAVE_CALLBACK Typedef</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> x = SERCOM instance number </em>/</p>
+<p>/<em> I2C slave in interrupt mode </em>/</p>
+<p>typedef bool (*SERCOM_I2C_SLAVE_CALLBACK) ( SERCOM_I2C_SLAVE_TRANSFER_EVENT event, uintptr_t contextHandle );
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Defines the data type and function signature for the SERCOM I2C Slave callback function</p>
+<h2><span id="description"></span>Description</h2>
+<p>This data type defines the function signature for the SERCOM I2C Slave callback function. The SERCOM I2C peripheral will call back the client's function with this signature to report SERCOM I2C slave events.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>SERCOMx_I2C_Initialize must have been called for the given SERCOM I2C peripheral instance and SERCOMx_I2C_CallbackRegister must have been called to set the function to be called. The callback register function should have been called before a transfer is initiated.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>event</td>
+<td>Indicates the data transfer event for which the callback function hasbeen called.</td>
+</tr>
+<tr>
+<td>contextHandle</td>
+<td>Allows the caller to provide a context value (usually a pointerto the callers context for multi-instance clients).</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>event</td>
+<td>Indicates the data transfer event for which the callback function hasbeen called.</td>
+</tr>
+<tr>
+<td>contextHandle</td>
+<td>Allows the caller to provide a context value (usually a pointerto the callers context for multi-instance clients).</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>bool - The return value indicates to the SERCOM PLIB, whether to send ACK or NAK to the I2C master. The return value is valid only during the address match event or when the I2C slave is receiving data from the I2C master (SERCOM_I2C_SLAVE_TRANSFER_EVENT_RX_READY); that is during the I2C master write operation. The return value is ignored by the PLIB when the I2C slave is providing data to the I2C master (SERCOM_I2C_SLAVE_TRANSFER_EVENT_TX_READY); that is during the I2C master read operation.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+bool APP_SERCOM_I2C_Callback ( SERCOM_I2C_SLAVE_TRANSFER_EVENT event, uintptr_t contextHandle )
+{
+    switch(event)
+    {
+        case SERCOM_I2C_SLAVE_TRANSFER_EVENT_ADDR_MATCH:</p>
+<pre class="code-block"><code class="language-c">    // Handle address match event
+
+    break;
+
+    case SERCOM_I2C_SLAVE_TRANSFER_EVENT_RX_READY:
+
+    // I2C master is writing to data to I2C slave.
+    // Read the received data byte.
+
+    rxData = SERCOM0_I2C_ReadByte();
+
+    break;
+    case SERCOM_I2C_SLAVE_TRANSFER_EVENT_TX_READY:
+
+    // I2C master is reading data from I2C slave.
+    // Provide data to I2C master.
+
+    SERCOM0_I2C_WriteByte(txData);
+
+    break;
+
+    case SERCOM_I2C_SLAVE_TRANSFER_EVENT_STOP_BIT_RECEIVED:
+
+    // Handle stop bit received event
+
+    break;
+}
+</code></pre>
+<p>}</p>
+<p>// Register Callback function which is defined above
+SERCOM0_I2C_CallbackRegister(APP_SERCOM_I2C_Callback, 0);
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVMCTRL BankSwap Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.70.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.70.html">Non-Volatile Memory Controller (NVMCTRL)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">NVMCTRL BankSwap Function</li>
+    </ol>
+</nav>
+
+<h1>NVMCTRL BankSwap Function</h1>
+<h1>2.70.18</h1>
+<p>NVMCTRL_BankSwap Function</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-6FC524CA-0EFF-4408-A740-7DDE15F2E817.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-6FC524CA-0EFF-4408-A740-7DDE15F2E817.html</a></p>
+<h1><span id="2-70-18-nvmctrl-bankswap-function"></span>2.70.18 NVMCTRL_BankSwap Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void NVMCTRL_BankSwap( void )</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Swaps NVM Banks.</p>
+<h2><span id="description"></span>Description</h2>
+<p>Executes the BKSWRST command to peform NVM Bank switching and then to reset the device. This function is used when each bank contains its own complete application code. Code running in one bank can receive new firmware and program it to the other bank. After programming the new firmware, the code can perform a bank switch to boot to the new firmware.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>Each bank must contain its own complete application code.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>None</p>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">NVMCTRL_BankSwap();</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

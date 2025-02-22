@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERCOMx USART Write Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.103.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.103.html">Serial Communication Interface (SERCOM)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">SERCOMx USART Write Function</li>
+    </ol>
+</nav>
+
+<h1>SERCOMx USART Write Function</h1>
+<h1>2.103.3</h1>
+<p>SERCOMx_USART_Write Function</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3AFA5A2E-E55B-4CF1-8283-062BC4EA67C3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3AFA5A2E-E55B-4CF1-8283-062BC4EA67C3.html</a></p>
+<h1><span id="2-103-3-sercomx-usart-write-function"></span>2.103.3 SERCOMx_USART_Write Function</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> x = SERCOM instance number </em>/</p>
+<p>/<em> Blocking and non-blocking mode </em>/</p>
+<p>bool SERCOMx_USART_Write( void* buffer, const size_t size )</p>
+<p>/<em> Ring buffer mode </em>/</p>
+<p>size_t SERCOMx_USART_Write(uint8_t* buffer, const size_t size )
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Submits a write buffer to the given USART peripheral to transfer</p>
+<h2><span id="description"></span>Description</h2>
+<p>Blocking mode</p>
+<p>This function submits a write buffer to be transmitted by the USART peripheral. The API blocks until the requested bytes are transmitted out.</p>
+<p>Non-blocking mode</p>
+<p>This function submits a write buffer to be transmitted by the USART peripheral. A call to this function submits the buffer and the size to the peripheral library, initiates the transfer and returns immediately. The transfer then takes place from the peripheral interrupt. The transfer completion status can either be checked through the callback mechanism or by calling the SERCOMx_USART_WriteIsBusy() function.</p>
+<p>Ring buffer mode</p>
+<p>This function submits a write buffer to the SERCOM_USART peripheral to transfer. The data
+        to be transmitted is deep copied into the SERCOM_USART peripheral's transmit ring buffer.
+        The size of this buffer is configurable in MCC. Since, the data is deep copied into the
+        transmit buffer, it allows the use of local variables/buffers. This function call is always
+        non-blocking. If notifications are enabled and a callback is registered, a callback is given
+        when the threshold condition is met.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>SERCOMx_USART_Initialize must have been called for the associated USART instance.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>buffer</td>
+<td>Pointer to the user buffer. This contains the data to be</td>
+</tr>
+<tr>
+<td>transferred.</td>
+<td></td>
+</tr>
+<tr>
+<td>size</td>
+<td>Number of bytes to be transferred. If 9-bit mode is enabled, then</td>
+</tr>
+<tr>
+<td>the size is specified in terms of number of 9 bit data. For example, if 5 9-bit data</td>
+<td></td>
+</tr>
+<tr>
+<td>are being transmitted, then the size must be specified as 5.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>buffer</td>
+<td>Pointer to the user buffer. This contains the data to be</td>
+</tr>
+<tr>
+<td>transferred.</td>
+<td></td>
+</tr>
+<tr>
+<td>size</td>
+<td>Number of bytes to be transferred. If 9-bit mode is enabled, then</td>
+</tr>
+<tr>
+<td>the size is specified in terms of number of 9 bit data. For example, if 5 9-bit data</td>
+<td></td>
+</tr>
+<tr>
+<td>are being transmitted, then the size must be specified as 5.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>Blocking mode</p>
+<p>true -Specified number of bytes were transferred successfully or if the size requested is 0</p>
+<p>false - Arguments are not valid</p>
+<p>Non-blocking mode</p>
+<p>true - Request was placed successfully (in interrupt mode) or if the specified number of bytes were transferred or if the size requested is 0</p>
+<p>false - Arguments are not valid or if the peripheral is busy with another request.</p>
+<p>Ring buffer mode</p>
+<p>The API returns the number of bytes actually copied. Depending on the space available in the transmit buffer, the number of bytes copied may be less than or equal to the requested size. Application must retry by calling this API again if the return value is less than the number of bytes requested. Application can also use the SERCOMx_USART_WriteFreeBufferCountGet API to determine the free space available in the transmit buffer before calling this API. Application can also choose to register for event notification to get notified when there is sufficient free space (using the SERCOMx_USART_WriteThresholdSet API) in the transmit buffer.</p>
+<h2><span id="example"></span>Example</h2>
+<p>Blocking mode</p>
+<p>Non-blocking mode</p>
+<p>Ring buffer mode</p>
+<p>```C
+char myData[] = {"hello"};</p>
+<p>// This API blocks until the requested bytes are transmitted out
+SERCOM0_USART_Write(&amp;myData, sizeof(myData));
+```</p>
+<p>```C
+char myData[] = {"hello"};</p>
+<p>// The below API submits the request and returns immediately. Application can poll the status of the transfer either by calling the FLEXCOMx_USART_WriteIsBusy API or can get notified by registering a callback.
+SERCOM0_USART_Write(&amp;myData, sizeof(myData));
+```</p>
+<p>```C
+size_t nBytesCopied;
+uint8_t txBuffer[50];
+uint32_t nBytes;</p>
+<p>// Check if there is any free space is available in the transmit buffer
+if (SERCOM0_USART_WriteFreeBufferCountGet() &gt; 0)
+{
+    nBytesCopied = SERCOM0_USART_Write((uint8_t*)txBuffer, nBytes);</p>
+<pre class="code-block"><code class="language-c">if (nBytesCopied != nBytes)
+{
+    //The transmit buffer is full. Try after some time.
+}
+</code></pre>
+<p>}
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTC Timer32CounterHasOverflowed Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.93.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.93.html">Real-time Clock (RTC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">RTC Timer32CounterHasOverflowed Function</li>
+    </ol>
+</nav>
+
+<h1>RTC Timer32CounterHasOverflowed Function</h1>
+<h1>2.93.14</h1>
+<p>RTC_Timer32CounterHasOverflowed Function</p>
+<p><em>Generated on: 2025-02-20 07:44:05</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-82B8BC97-7E31-4F2F-9F85-297991507227.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-82B8BC97-7E31-4F2F-9F85-297991507227.html</a></p>
+<h1><span id="2-93-14-rtc-timer32counterhasoverflowed-function"></span>2.93.14 RTC_Timer32CounterHasOverflowed Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">bool RTC_Timer32CounterHasOverflowed ( void )</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Check if the 32-bit counter overflow.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function will return true if the 32-bit counter has overflowed. An overflow occurs when the counter values transitions from 0xFFFFFFFF to 0x0. This function can be used to validate the timer count when using the timer counter as a counter. Calling the function will clear the internal overflow flags if these flags were set at the time of calling the function.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>RTC_Initialize, RTC_Timer32Start must have been called for the associated RTC instance. The RTC peripheral should have been configured in 32-bit Timer Counter mode.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>None.</p>
+<h2><span id="returns"></span>Returns</h2>
+<p>true - Counter has overflowed.</p>
+<p>false - Counter not overflowed.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+uint32_t cycles = 0;
+RTC_Initialize();</p>
+<p>// Clear the period set as we want to operate as a counter.
+RTC_Timer32CompareSet(0);
+RTC_Timer32CounterSet(0);
+RTC_Timer32Start();</p>
+<p>// This is the task who execution duration needs to be measured.
+SomeTask();</p>
+<p>RTC_Timer32Stop();
+if(!RTC_Timer32CounterHasOverflowed())
+{
+    // cycles will contains the execution time of SomeTask() in terms of
+    // timer count.
+    cycles = RTC_Timer32CounterGet();
+}
+else
+{
+    // Timer overflowed. Handle this differently.
+}
+```</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

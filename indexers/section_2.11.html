@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Capture and Compare Timer | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Input Capture and Compare Timer</li>
+    </ol>
+</nav>
+
+<h1>Input Capture and Compare Timer</h1>
+<h1>2.11</h1>
+<p>Input Capture and Compare Timer</p>
+<p><em>Generated on: 2025-02-20 07:44:01</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-DBAD7456-416E-437F-A4CC-8A09A8241A91.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-DBAD7456-416E-437F-A4CC-8A09A8241A91.html</a></p>
+<h1><span id="2-11-input-capture-and-compare-timer"></span>2.11 Input Capture and Compare Timer</h1>
+<p>The Input Capture and Compare Timers block contains a 32-bit timer running at the main system
+      clock frequency. The timer is free-running and is associated with six 32-bit capture registers
+      and two compare registers. Each capture register can record the value of the free-running
+      timer based on a programmable edge of its associated input pin. An interrupt can be generated
+      for each capture register each time it acquires a new timer value. The timer can also generate
+      an interrupt when it automatically resets and can additionally generate two more interrupts
+      when the timer matches the value in either of two 32-bit compare registers.</p>
+<h2><span id="using-the-library"></span>Using the Library</h2>
+<p>```C
+volatile uint32_t capTimerCnt = 0;
+volatile uint32_t diffCnt = 0;
+volatile bool capInterrupt = false;
+uint32_t freq = 0;</p>
+<p>void cct_capture_callback(uintptr_t context)
+{
+    uint32_t timerCnt = CCT_FreeRunningTimerGet();
+    if (timerCnt &gt; capTimerCnt)
+    {
+        diffCnt = timerCnt - capTimerCnt;
+    }
+    else
+    {
+        diffCnt = (0xFFFFFFFF - capTimerCnt) + timerCnt;
+    }
+    capTimerCnt = timerCnt;
+    capInterrupt = true;
+}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">printf("\n\r---------------------------------------------------------");
+printf("\n\r                    CCT Capture Demo                     ");
+printf("\n\r---------------------------------------------------------\n\r");
+
+CCT_Capture0CallbackRegister(cct_capture_callback, 0);
+
+CCT_FreeRunningTimerStart();
+
+PWM0_Start();
+
+while ( true )
+{
+    if (capInterrupt == true)
+    {
+        freq = CCT_FrequencyGet()/diffCnt;
+        printf("Frequency : %ld Hz\r\n", freq);
+        capInterrupt = false;
+    }
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Input Capture and Compare Timer peripheral library provides the following
+                interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CCT_Initialize</td>
+<td>Initializes given instance of CCT peripheral.</td>
+</tr>
+<tr>
+<td>CCT_CaptureChannelxGet</td>
+<td>Returns the free running timer counter value at the time of the</td>
+</tr>
+<tr>
+<td>channel's capture edge event occurred</td>
+<td></td>
+</tr>
+<tr>
+<td>CCT_CapturexCallbackRegister</td>
+<td>Allows application to register a callback with for the CCT</td>
+</tr>
+<tr>
+<td>capture channel</td>
+<td></td>
+</tr>
+<tr>
+<td>CCT_CompareChannelxDisable</td>
+<td>Disables compare channel</td>
+</tr>
+<tr>
+<td>CCT_CompareChannelxEnable</td>
+<td>Enables compare channel</td>
+</tr>
+<tr>
+<td>CCT_CompareChannelxInterruptDisable</td>
+<td>Disables compare channel interrupt</td>
+</tr>
+<tr>
+<td>CCT_CompareChannelxInterruptEnable</td>
+<td>Enables compare channel interrupt</td>
+</tr>
+<tr>
+<td>CCT_CompareChannelxOutputClear</td>
+<td>Sets the compare channel output low state</td>
+</tr>
+<tr>
+<td>CCT_CompareChannelxOutputSet</td>
+<td>Sets the compare channel output high state</td>
+</tr>
+<tr>
+<td>CCT_CompareChannelxPeriodGet</td>
+<td>Returns the compare period value</td>
+</tr>
+<tr>
+<td>CCT_CompareChannelxPeriodSet</td>
+<td>Sets the compare period value</td>
+</tr>
+<tr>
+<td>CCT_ComparexCallbackRegister</td>
+<td>Allows application to register a callback with for the CCT</td>
+</tr>
+<tr>
+<td>compare channel</td>
+<td></td>
+</tr>
+<tr>
+<td>CCT_CounterOverflowCallbackRegister</td>
+<td>Allows application to register a callback with the PLIB</td>
+</tr>
+<tr>
+<td>CCT_FreeRunningTimerGet</td>
+<td>Returns the current value of the free running timer</td>
+</tr>
+<tr>
+<td>counter</td>
+<td></td>
+</tr>
+<tr>
+<td>CCT_FreeRunningTimerReset</td>
+<td>Stops the free running timer and resets the internal counter to</td>
+</tr>
+<tr>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td>CCT_FreeRunningTimerSet</td>
+<td>Sets the value of the free running timer counter</td>
+</tr>
+<tr>
+<td>CCT_FreeRunningTimerStart</td>
+<td>Starts the free running timer</td>
+</tr>
+<tr>
+<td>CCT_FreeRunningTimerStop</td>
+<td>Stops the free running timer</td>
+</tr>
+<tr>
+<td>CCT_FreqDivSet</td>
+<td>Sets the divisor value for the free running timer source</td>
+</tr>
+<tr>
+<td>clock</td>
+<td></td>
+</tr>
+<tr>
+<td>CCT_FrequencyGet</td>
+<td>Returns the frequency of the clock source of free running</td>
+</tr>
+<tr>
+<td>timer</td>
+<td></td>
+</tr>
+<tr>
+<td>CCT_TimerActivate</td>
+<td>Activates the CCT timer block</td>
+</tr>
+<tr>
+<td>CCT_TimerDeActivate</td>
+<td>De-activates the CCT timer block</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CCT_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the CCT</td>
+</tr>
+<tr>
+<td>peripheral callback function.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

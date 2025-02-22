@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog-to-Digital Converter (ADC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.12.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.12.html">PIC32CZ-CA Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Analog-to-Digital Converter (ADC)</li>
+    </ol>
+</nav>
+
+<h1>Analog-to-Digital Converter (ADC)</h1>
+<h1>3.12.1</h1>
+<p>Analog-to-Digital Converter (ADC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-784193EA-6AB6-4602-A474-68CEE7809996_3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-784193EA-6AB6-4602-A474-68CEE7809996_3.html</a></p>
+<h1>3.12.1 Analog-to-Digital Converter (ADC)</h1>
+<p>Up to 12-bit resolution of the numerical output, signed or unsigned</p>
+<p>Signed outputs left- or right-adjusted</p>
+<p>Up to 5.14 Msps conversion rate per channel</p>
+<p>Up to 4 Shared Analog ADC SAR cores (bound by limited CSR and pin-out resources) for an aggregate conversion rate of 20.5 Msps per entire ADC module by performing up to 4 conversions simultaneously</p>
+<p>Up to 64 analog inputs (maximum of 16 channels per core).</p>
+<p>Single-ended and/or differential inputs on a per channel basis for all channels.</p>
+<p>Up to 16 trigger sources, off-chip hardware or on-chip hardware or software generated</p>
+<p>Edge or level active triggering modes, to generate single conversions or bursts of conversions</p>
+<p>A scan trigger per each shared Analog ADC SAR Core to start a scan cycle which can individually include or not any of the analog inputs assigned to that Analog ADC SAR Core</p>
+<p>Up to 4 scan cycles running simultaneously</p>
+<p>Any channel can select any of the 16 trigger sources or the scan trigger as its own trigger</p>
+<p>The scan trigger itself can select any of the 16 trigger sources as its own source Programmable sampling time, individual for each shared Analog ADC SAR Core</p>
+<p>Each analog input / channel output register can be read from an general dedicated APB output register (user writes the CORDYID and CHRDYID then reads the CHRDYDATA register).</p>
+<ul>
+<li>Up to 12-bit resolution of the numerical output, signed or unsigned</li>
+<li>Signed outputs left- or right-adjusted</li>
+<li>Up to 5.14 Msps conversion rate per channel</li>
+<li>Up to 4 Shared Analog ADC SAR cores (bound by limited CSR and pin-out resources) for an aggregate conversion rate of 20.5 Msps per entire ADC module by performing up to 4 conversions simultaneously</li>
+<li>Up to 64 analog inputs (maximum of 16 channels per core).</li>
+<li>Single-ended and/or differential inputs on a per channel basis for all channels.</li>
+<li>Up to 16 trigger sources, off-chip hardware or on-chip hardware or software generated</li>
+<li>Edge or level active triggering modes, to generate single conversions or bursts of conversions</li>
+<li>A scan trigger per each shared Analog ADC SAR Core to start a scan cycle which can individually include or not any of the analog inputs assigned to that Analog ADC SAR Core</li>
+<li>Up to 4 scan cycles running simultaneously</li>
+<li>Any channel can select any of the 16 trigger sources or the scan trigger as its own trigger</li>
+<li>The scan trigger itself can select any of the 16 trigger sources as its own source Programmable sampling time, individual for each shared Analog ADC SAR Core</li>
+<li>Each analog input / channel output register can be read from an general dedicated APB output register (user writes the CORDYID and CHRDYID then reads the CHRDYDATA register).</li>
+</ul>
+<h2>Using The Library</h2>
+<p>Interrupt mode:</p>
+<p>Polling mode:</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<h1>define ADC_VREF                             (3.3f)</h1>
+<p>volatile uint32_t adc_data[3];
+volatile bool adc_sequence_done = false;
+volatile bool adc_ch2_done = false;
+float adc_inp_vol;
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+void ADC_EventHandler(ADC_CORE_INT status, uintptr_t context)
+{
+    /<em> ADC1_CH0 and ADC1_CH1 are configured for scan trigger </em>/
+    if (status &amp; ADC_CORE_INT_EOSRDY)
+    {              <br/>
+        adc_data[0] = ADC_ResultGet(ADC_CORE_NUM1, ADC_CH0);</p>
+<pre class="code-block"><code class="language-c">    adc_data[1] = ADC_ResultGet(ADC_CORE_NUM1, ADC_CH1);
+
+    adc_sequence_done = true;
+}
+/* ADC1_CH2 is configured for Global (Edge) Software trigger */
+if (status &amp; ADC_CORE_INT_CHRDY_2)
+{
+    adc_data[2] = ADC_ResultGet(ADC_CORE_NUM1, ADC_CH2);
+
+    adc_ch2_done = true;
+}
+</code></pre>
+<p>}</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">printf("\r\n *********************************************** \r\n");
+printf("\r\n           ADC INTERRUPT DEMO \r\n");
+printf("\r\n *********************************************** \r\n");
+
+ADC_CORE1CallbackRegister(ADC_EventHandler, 0);    
+RTC_Timer32Start();
+
+while ( true )
+{
+    if (SWITCH_Get() == 0)
+    {
+        // Wait for switch release
+        while (SWITCH_Get() == 0);
+
+        ADC_GlobalEdgeConversionStart();
+    }
+
+    if (adc_sequence_done == true) 
+    {
+        adc_sequence_done = false;
+
+        adc_inp_vol = (uint16_t)adc_data[0] * ADC_VREF / 4095U;
+
+        printf("\r\n ADC1_AIN0: ADC Count: 0x%03x, ADC Input Voltage = %d.%02d V \r\n", 
+                (uint16_t)adc_data[0], (int)adc_inp_vol, (int)((adc_inp_vol - (int)adc_inp_vol)*100.0));
+
+        adc_inp_vol = (uint16_t)adc_data[1] * ADC_VREF / 4095U;
+
+        printf("\r\n ADC1_AIN1: ADC Count: 0x%03x, ADC Input Voltage = %d.%02d V \r\n", 
+                (uint16_t)adc_data[1], (int)adc_inp_vol, (int)((adc_inp_vol - (int)adc_inp_vol)*100.0));
+    }       
+    if (adc_ch2_done == true)
+    {
+        adc_ch2_done = false;
+
+        adc_inp_vol = (uint16_t)adc_data[2] * ADC_VREF / 4095U;
+
+        printf("\r\n ADC1_AIN2: ADC Count: 0x%03x, ADC Input Voltage = %d.%02d V \r\n", 
+                (uint16_t)adc_data[2], (int)adc_inp_vol, (int)((adc_inp_vol - (int)adc_inp_vol)*100.0));
+    }
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<p>```C</p>
+<h1>include <stddef.h>                     // Defines NULL</stddef.h></h1>
+<h1>include <stdbool.h>                    // Defines true</stdbool.h></h1>
+<h1>include <stdlib.h>                     // Defines EXIT_FAILURE</stdlib.h></h1>
+<h1>include "definitions.h"                // SYS function prototypes</h1>
+<h1>define ADC_VREF                             (3.3f)</h1>
+<p>// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// Section: Main Entry Point
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+// <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>
+uint32_t adc_data;
+float adc_inp_vol;</p>
+<p>int main ( void )
+{
+    /<em> Initialize all modules </em>/
+    SYS_Initialize ( NULL );</p>
+<pre class="code-block"><code class="language-c">while ( true )
+{
+    ADC_GlobalEdgeConversionStart();
+
+    while (ADC_ChannelResultIsReady(ADC_CORE_NUM1, ADC_CH0) == false);
+
+    adc_data = ADC_ResultGet(ADC_CORE_NUM1, ADC_CH0);
+
+    adc_inp_vol = (uint16_t)adc_data * ADC_VREF / 4095U;
+
+    printf("ADC1_AIN0: ADC Count: 0x%03x, ADC Input Voltage = %d.%02d V\r", 
+        (uint16_t)adc_data, (int)adc_inp_vol, (int)((adc_inp_vol - (int)adc_inp_vol)*100.0));
+}
+
+/* Execution should not come here during normal operation */
+
+return ( EXIT_FAILURE );
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>ADC Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADCx_Initialize</td>
+<td>Initializes given instance of ADC peripheral</td>
+</tr>
+<tr>
+<td>ADCx_Enable</td>
+<td>Enables the ADC module</td>
+</tr>
+<tr>
+<td>ADCx_Disable</td>
+<td>Disables the ADC module</td>
+</tr>
+<tr>
+<td>ADC_CompareEnable</td>
+<td>Enables digital comparisons for the given channel on the specified ADC core</td>
+</tr>
+<tr>
+<td>ADC_CompareDisable</td>
+<td>Disables digital comparisons for the given channel on the specified ADC core</td>
+</tr>
+<tr>
+<td>ADC_CompareWinThresholdSet</td>
+<td>Configures the low and high threshold values for the comparator on the specified ADC core</td>
+</tr>
+<tr>
+<td>ADC_CompareWinModeSet</td>
+<td>Configures the low and high threshold values for the comparator on the specified ADC core</td>
+</tr>
+<tr>
+<td>ADC_GlobalInterruptsStatusGet</td>
+<td>Returns the global interrupt status</td>
+</tr>
+<tr>
+<td>ADC_CoreInterruptsEnable</td>
+<td>Enables the specified ADC core's interrupt</td>
+</tr>
+<tr>
+<td>ADC_CoreInterruptsDisable</td>
+<td>Disable the specified ADC core's interrupts</td>
+</tr>
+<tr>
+<td>ADC_CoreInterruptsStatusGet</td>
+<td>Returns the specified ADC core's interrupt status</td>
+</tr>
+<tr>
+<td>ADC_CoreInterruptsStatusClear</td>
+<td>Clears the specified ADC core's interrupt status</td>
+</tr>
+<tr>
+<td>ADC_GlobalEdgeConversionStart</td>
+<td>Generates global edge trigger and starts conversion on channels configured with Global edge as the trigger source</td>
+</tr>
+<tr>
+<td>ADC_GlobalLevelConversionStart</td>
+<td>Starts global level trigger and starts conversion on channels configured with Global level as the trigger source</td>
+</tr>
+<tr>
+<td>ADC_GlobalLevelConversionStop</td>
+<td>Stops global level trigger and stops conversion on channels configured with Global level as the trigger source</td>
+</tr>
+<tr>
+<td>ADC_SyncTriggerEnable</td>
+<td>Enables sync trigger defined by CTRLC.CNT value</td>
+</tr>
+<tr>
+<td>ADC_SyncTriggerDisable</td>
+<td>Disables sync trigger</td>
+</tr>
+<tr>
+<td>ADC_SyncTriggerCounterSet</td>
+<td>Configures the value of CTRLC.CNT register</td>
+</tr>
+<tr>
+<td>ADC_SoftwareControlledConversionEnable</td>
+<td>Enables software controlled conversion on the specified ADC core's channel</td>
+</tr>
+<tr>
+<td>ADC_ChannelSamplingStart</td>
+<td>Enables the Analog Mux Input and starts sampling on the ADC core and channel that was specified using the ADC_SoftwareControlledConversionEnable() API</td>
+</tr>
+<tr>
+<td>ADC_ChannelSamplingStop</td>
+<td>Stops sampling on the ADC core and channel that was specified using the ADC_SoftwareControlledConversionEnable() API</td>
+</tr>
+<tr>
+<td>ADC_ChannelConversionStart</td>
+<td>Starts conversion on the ADC core and channel that was specified using the ADC_SoftwareControlledConversionEnable() API</td>
+</tr>
+<tr>
+<td>ADC_ChannelResultIsReady</td>
+<td>Indicates whether ADC conversion is complete on the specified ADC core's channel</td>
+</tr>
+<tr>
+<td>ADC_EOSStatusGet</td>
+<td>Indicates whether End of scan interrupt flag is set on the specified ADC core</td>
+</tr>
+<tr>
+<td>ADC_ResultGet</td>
+<td>Returns the ADC conversion value for the specified ADC core channel</td>
+</tr>
+<tr>
+<td>ADC_FIFORead</td>
+<td>Returns a single ADC conversion value from the ADC FIFO</td>
+</tr>
+<tr>
+<td>ADC_FIFOBufferRead</td>
+<td>Returns multiple ADC conversion values from the ADC FIFO</td>
+</tr>
+<tr>
+<td>ADC_GlobalCallbackRegister</td>
+<td>Registers the global callback function</td>
+</tr>
+<tr>
+<td>ADC_COREnCallbackRegister</td>
+<td>Registers the ADC core specific callback function</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADC_CORE_INT_CMPHIT</td>
+<td>Macro</td>
+<td>Identifies ADC core interrupt status</td>
+</tr>
+<tr>
+<td>ADC_FIFO_CORID_GET</td>
+<td>Macro</td>
+<td>Returns the ADC core id in the ADC FIFO data</td>
+</tr>
+<tr>
+<td>ADC_FIFO_DATA_GET</td>
+<td>Macro</td>
+<td>Returns the ADC conversion resunt from the ADC FIFO data</td>
+</tr>
+<tr>
+<td>ADC_FIFO_CHNID_GET</td>
+<td>Macro</td>
+<td>Returns the ADC channel id in the ADC FIFO data</td>
+</tr>
+<tr>
+<td>ADC_FIFO_CNT_GET</td>
+<td>Macro</td>
+<td>Returns the current number of entries present in the ADC FIFO</td>
+</tr>
+<tr>
+<td>ADC_GLOBAL_INT_CRRDY1</td>
+<td>Macro</td>
+<td>Identifies ADC global interrupt status</td>
+</tr>
+<tr>
+<td>ADC_CHANNEL_NUM</td>
+<td>Enum</td>
+<td>Identifies ADC channel number</td>
+</tr>
+<tr>
+<td>ADC_CORE_NUM</td>
+<td>Enum</td>
+<td>Identifies ADC core</td>
+</tr>
+<tr>
+<td>ADC_CORE_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the adc peripheral core callback function</td>
+</tr>
+<tr>
+<td>ADC_GLOBAL_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the function pointer data type and function signature for the adc peripheral global callback function</td>
+</tr>
+<tr>
+<td>ADC_CORE_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>ADC Core events Callback structure</td>
+</tr>
+<tr>
+<td>ADC_GLOBAL_CALLBACK_OBJECT</td>
+<td>Struct</td>
+<td>ADC Global Callback structure</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

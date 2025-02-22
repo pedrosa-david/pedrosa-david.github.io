@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTC TIMER32 CALLBACK Typedef | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.93.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.93.html">Real-time Clock (RTC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">RTC TIMER32 CALLBACK Typedef</li>
+    </ol>
+</nav>
+
+<h1>RTC TIMER32 CALLBACK Typedef</h1>
+<h1>2.93.61</h1>
+<p>RTC_TIMER32_CALLBACK Typedef</p>
+<p><em>Generated on: 2025-02-20 07:44:05</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-4AF24290-80AB-4FB1-9ED0-5694D98A1449.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-4AF24290-80AB-4FB1-9ED0-5694D98A1449.html</a></p>
+<h1><span id="2-93-61-rtc-timer32-callback-typedef"></span>2.93.61 RTC_TIMER32_CALLBACK Typedef</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">typedef void (*RTC_TIMER32_CALLBACK)( RTC_TIMER32_INT_MASK interruptCause, uintptr_t context );</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Defines the data type and function signature of the RTC 32-bit Timer Counter callback function.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This data type defines the function signature of the RTC 32-bit Timer Counter Callback function. The RTC peripheral will call back the client's function with this signature every time when the 32-bit Time Counter related event has occurred. Refer to the description of the RTC_TIMER32_INT_MASK enumeration for possible events. Hardware event flags are cleared when the
+callback function exits.</p>
+<p>The application should register a callback function whose signature (input arguments and return type) must match the signature of this function. The callback function should be registered by calling the RTC_Timer32CallbackRegister() function. The callback function should be registered before starting the timer.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>The RTC_Initialize() function should have been called to initialize the RTC peripheral. The
+        RTC_Timer32CallbackRegister() function should have been called to register the callback
+        function. The RTC peripheral should have been configured for 32-bit Timer Counter mode in
+        MCC. The RTC peripheral should have been configured for Interrupt mode operation in MCC.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>event</td>
+<td>The 32-bit Timer Counter event that caused the callback function to be called. Multiple events can be active. The application should check for all events in the callback function</td>
+</tr>
+<tr>
+<td>context</td>
+<td>Allows the caller to provide a context value (usually a pointer to the callers context for multi-instance clients)</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>event</td>
+<td>The 32-bit Timer Counter event that caused the callback function to be called. Multiple events can be active. The application should check for all events in the callback function</td>
+</tr>
+<tr>
+<td>context</td>
+<td>Allows the caller to provide a context value (usually a pointer to the callers context for multi-instance clients)</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>This callback if only available when the RTC peripheral is configured for 32-bit Timer Counter operation. The callback function will be execute in an interrupt context. Avoid calling blocking , computationally intensive or interrupt un-safe function from the callback function.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

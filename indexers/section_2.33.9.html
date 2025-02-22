@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWDT WDTx Clear Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.33.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.33.html">Dual Watchdog Timer (DWDT)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DWDT WDTx Clear Function</li>
+    </ol>
+</nav>
+
+<h1>DWDT WDTx Clear Function</h1>
+<h1>2.33.9</h1>
+<p>DWDT_WDTx_Clear Function</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-52D57D49-C8D6-4B0C-A27A-6F9D6B952676.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-52D57D49-C8D6-4B0C-A27A-6F9D6B952676.html</a></p>
+<h1><span id="2-33-9-dwdt-wdtx-clear-function"></span>2.33.9 DWDT_WDTx_Clear Function</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+/<em> x = WDT instance number </em>/</p>
+<p>void DWDT_WDTx_Clear(void);
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Clears the programmable watchdog timer</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function clears the programmable watchdog timer.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>DWDT_Initialize must have been called</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<p>None</p>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="example"></span>Example</h2>
+<p>```C
+DWDT_Initialize();</p>
+<p>// Clears the watchdog timer so that it restarts the count
+DWDT_WDT0_Clear();
+```</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

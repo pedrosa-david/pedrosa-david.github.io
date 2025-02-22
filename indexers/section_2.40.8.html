@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EIC PIN Enum | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.40.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.40.html">External Interrupt Controller (EIC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">EIC PIN Enum</li>
+    </ol>
+</nav>
+
+<h1>EIC PIN Enum</h1>
+<h1>2.40.8</h1>
+<p>EIC_PIN Enum</p>
+<p><em>Generated on: 2025-02-20 07:44:02</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C8B5F125-A022-4762-B05F-686147F3C71C.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-C8B5F125-A022-4762-B05F-686147F3C71C.html</a></p>
+<h1><span id="2-40-8-eic-pin-enum"></span>2.40.8 EIC_PIN Enum</h1>
+<h2><span id="c"></span>C</h2>
+<p>```C
+typedef enum
+{
+    /<em> External Interrupt Controller Pin 0 </em>/
+    EIC_PIN_0 = 0,</p>
+<pre class="code-block"><code class="language-c">/* External Interrupt Controller Pin 1 */
+EIC_PIN_1 = 1,
+
+/* External Interrupt Controller Pin 2 */
+EIC_PIN_2 = 2,
+
+/* External Interrupt Controller Pin 3 */
+EIC_PIN_3 = 3,
+
+/* External Interrupt Controller Pin 4 */
+EIC_PIN_4 = 4,
+
+/* External Interrupt Controller Pin 5 */
+EIC_PIN_5 = 5,
+
+/* External Interrupt Controller Pin 6 */
+EIC_PIN_6 = 6,
+
+/* External Interrupt Controller Pin 7 */
+EIC_PIN_7 = 7,
+
+/* External Interrupt Controller Pin 8 */
+EIC_PIN_8 = 8,
+
+/* External Interrupt Controller Pin 9 */
+EIC_PIN_9 = 9,
+
+/* External Interrupt Controller Pin 10 */
+EIC_PIN_10 = 10,
+
+/* External Interrupt Controller Pin 11 */
+EIC_PIN_11 = 11,
+
+/* External Interrupt Controller Pin 12 */
+EIC_PIN_12 = 12,
+
+/* External Interrupt Controller Pin 13 */
+EIC_PIN_13 = 13,
+
+/* External Interrupt Controller Pin 14 */
+EIC_PIN_14 = 14,
+
+/* External Interrupt Controller Pin 15 */
+EIC_PIN_15 = 15,
+
+/* Maximum number of EIC Pin */
+EIC_PIN_MAX = 16
+</code></pre>
+<p>} EIC_PIN;
+```</p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Identifies the available EIC pins.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This enumeration identifies all the available EIC pins. Not all pins will be implemented in
+        a device. The pins described here are for documentation purposes only. The MCC will generate
+        this enumeration with the enabled EIC pins only. The application should not use the constant
+        value that are assigned to enumeration constants as this may vary between devices.</p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>None.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

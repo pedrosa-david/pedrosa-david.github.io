@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEFCx CallbackRegister Function | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.102.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item"><a href="section_2.102.html">Secure Embedded Flash Controller (SEFC)</a></li>
+        <li class="breadcrumb-item active" aria-current="page">SEFCx CallbackRegister Function</li>
+    </ol>
+</nav>
+
+<h1>SEFCx CallbackRegister Function</h1>
+<h1>2.102.10</h1>
+<p>SEFCx_CallbackRegister Function</p>
+<p><em>Generated on: 2025-02-20 07:44:00</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-DBE83660-7C52-4226-9AA5-4BEBEC6DCC24.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-DBE83660-7C52-4226-9AA5-4BEBEC6DCC24.html</a></p>
+<h1><span id="2-102-10-sefcx-callbackregister-function"></span>2.102.10 SEFCx_CallbackRegister Function</h1>
+<h2><span id="c"></span>C code</h2>
+<p><pre class="code-block"><code class="language-c">void SEFCx_CallbackRegister( SEFCx_CALLBACK callback, uintptr_t context ) // x - Instance of the SEFC peripheral</code></pre></p>
+<h2><span id="summary"></span>Summary</h2>
+<p>Sets the pointer to the function (and it's context) to be called when the operation is complete.</p>
+<h2><span id="description"></span>Description</h2>
+<p>This function sets the pointer to a client function to be called "back" when the SEFCx is ready to receive new command.  It also passes a context value that is passed into the function when it is called.  This function is available only in interrupt mode of operation.</p>
+<h2><span id="precondition"></span>Precondition</h2>
+<p>None.</p>
+<h2><span id="parameters"></span>Parameters</h2>
+<h3>Parameters</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>callback</td>
+<td>A pointer to a function with a calling signature definedby the SEFCx_CALLBACK data type.</td>
+</tr>
+<tr>
+<td>context</td>
+<td>A value (usually a pointer) passed (unused) into the functionidentified by the callback parameter.</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>callback</td>
+<td>A pointer to a function with a calling signature definedby the SEFCx_CALLBACK data type.</td>
+</tr>
+<tr>
+<td>context</td>
+<td>A value (usually a pointer) passed (unused) into the functionidentified by the callback parameter.</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="returns"></span>Returns</h2>
+<p>None.</p>
+<h2><span id="example"></span>Example</h2>
+<p><pre class="code-block"><code class="language-c">SEFC0_CallbackRegister(MyCallback, &amp;myData);</code></pre></p>
+<h2><span id="remarks"></span>Remarks</h2>
+<p>The context value may be set to NULL if it is not required. Note that the value of NULL will still be passed to the callback function.</p>
+<p>To disable the callback function, pass a NULL for the callback parameter. See the SEFCx_CALLBACK type definition for additional information.</p>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

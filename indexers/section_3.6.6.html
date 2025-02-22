@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divide and Square Root Accelerator (DIVAS) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.6.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.6.html">PIC32CM MC00 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Divide and Square Root Accelerator (DIVAS)</li>
+    </ol>
+</nav>
+
+<h1>Divide and Square Root Accelerator (DIVAS)</h1>
+<h1>3.6.6</h1>
+<p>Divide and Square Root Accelerator (DIVAS)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-82FFA351-1359-4D76-9A5E-D52148F51CB9_2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-82FFA351-1359-4D76-9A5E-D52148F51CB9_2.html</a></p>
+<h1>3.6.6 Divide and Square Root Accelerator (DIVAS)</h1>
+<p>The Divide and Square Root Accelerator (DIVAS) is a programmable 32-bit signed or unsigned hardware divider and a 32-bit unsigned square root hardware engine. The DIVAS takes dividend and divisor values and returns the quotient and remainder when it is used as divider. The DIVAS takes unsigned input value and returns its square root and remainder when it is used as square root function.</p>
+<h2>Using The Library</h2>
+<p><pre class="code-block"><code class="language-c">int __aeabi_idiv(int numerator, int denominator);
+unsigned __aeabi_uidiv(unsigned numerator, unsigned denominator);
+uint64_t __aeabi_idivmod( int numerator, int denominator);
+uint64_t uidiv_return __aeabi_uidivmod( unsigned numerator, unsigned denominator);</code></pre></p>
+<p>This peripheral library provides an interface for the Divide and Square Root Accelerator on
+        the device. The DIVAS is a programmable 32-bit signed or unsigned hardware divider and a
+        32-bit unsigned square root hardware engine. When running signed division, both the input
+        and the result will be in two's complement format. The result of signed division is that the
+        remainder has the same sign as the dividend and the quotient is negative if the dividend and
+        divisor have opposite signs. When the square root input register is programmed, the square
+        root function starts and the result will be stored in the Remainder register.</p>
+<p>There are two ways to use DIVAS in firmware:
+Peripheral APIs
+Operator overloading</p>
+<p>Peripheral APIs</p>
+<p>DIVAS can be accessed by application program interfaces like any other peripheral. Refer to Library Interface section for API details.</p>
+<p>Compiler Operator Overloading</p>
+<p>A simpler way of using DIVAS is making it invisible to the programmer. This can be achieved by replacing the back end for compiler intrinsic operators ‘/’ and ‘%’. When compiler compiles the statements containing these operators, it uses DIVAS APIs instead of library generated code automatically. Unfortunately, it is not possible for square root because square root does not have a C intrinsic operator.</p>
+<p>The operation is implemented automatically by EABI (Enhanced Application Binary Interface). EABI is a standard calling convention, which is defined by ARM. The four functions interface can implement division and mod operation in EABI.</p>
+<p>The following are the prototypes for EABI division operation in GNUC tool chain:</p>
+<p>By using DIVAS module in the above four functions body, the user can transparently access the DIVAS module when writing normal C code. For example:</p>
+<p>Similarly, the user can use the "a = b % c;" symbol to implement the operation with DIVAS, and needn't to care about the internal operation process.</p>
+<p><pre class="code-block"><code class="language-c">void division(int32_t b, int32_t c)
+{
+   int32_t a;
+   a = b / c;
+   return a;
+}</code></pre></p>
+<h2>Library Interface</h2>
+<p>Divide and Square Root Accelerator peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DIVAS_Initialize</td>
+<td>Initializes DIVAS peripheral</td>
+</tr>
+<tr>
+<td>DIVAS_DivSigned</td>
+<td>This function uses the DIVAS peripheral to performs a signed 32-bit division</td>
+</tr>
+<tr>
+<td>DIVAS_DivUnsigned</td>
+<td>This function uses the DIVAS peripheral to performs a unsigned 32-bit division</td>
+</tr>
+<tr>
+<td>DIVAS_DivmodSigned</td>
+<td>This function uses the DIVAS peripheral to performs a signed 32-bit division, and returns both the quotient and remainder as 64-bit number</td>
+</tr>
+<tr>
+<td>DIVAS_DivmodUnsigned</td>
+<td>This function uses the DIVAS peripheral to performs a unsigned 32-bit division, and returns both the quotient and remainder as 64-bit number</td>
+</tr>
+<tr>
+<td>DIVAS_SquareRoot</td>
+<td>This function uses the DIVAS peripheral to perform a square root operation</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External Interrupt Controller (EIC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.34.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.34.html">SAM D20 D21 Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">External Interrupt Controller (EIC)</li>
+    </ol>
+</nav>
+
+<h1>External Interrupt Controller (EIC)</h1>
+<h1>3.34.7</h1>
+<p>External Interrupt Controller (EIC)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-B98A2279-B54B-459A-8806-6B2D5C5A79F1_3.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-B98A2279-B54B-459A-8806-6B2D5C5A79F1_3.html</a></p>
+<h1>3.34.7 External Interrupt Controller (EIC)</h1>
+<p>The External Interrupt Controller (EIC) allows external pins to be configured as interrupt lines. Each interrupt line can be individually masked and can generate an interrupt on edge or level. Each external pin has a configurable filter to remove spikes. Each external pin can also be configured to be asynchronous in order to wake up the device from sleep modes where all clocks have been disabled. External pins can also generate an event.</p>
+<p>A separate non-maskable interrupt (NMI) is also supported. It has properties similar to the other external interrupts, but is connected to the NMI request of the CPU, enabling it to interrupt any other interrupt mode.</p>
+<h2>Using The Library</h2>
+<p>The External Interrupt Controller (EIC) allows external pins to be
+configured as interrupt lines. The registered callback function will be
+call when the interrupt is triggered.</p>
+<p>```C
+void EIC15_Callback(uintptr_t context)
+{
+    LED_Toggle();
+}</p>
+<p>int main ( void )
+{</p>
+<pre class="code-block"><code class="language-c">EIC_CallbackRegister(EIC_PIN_15,EIC15_Callback, 0);
+</code></pre>
+<p>}
+```</p>
+<h2>Library Interface</h2>
+<p>External Interrupt Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EIC_Initialize</td>
+<td>Initializes given instance of EIC peripheral</td>
+</tr>
+<tr>
+<td>EIC_InterruptEnable</td>
+<td>Enable external interrupt on the specified pin</td>
+</tr>
+<tr>
+<td>EIC_InterruptDisable</td>
+<td>Disable external interrupt on the specified pin</td>
+</tr>
+<tr>
+<td>EIC_CallbackRegister</td>
+<td>Registers the function to be called when an interrupt condition has been sensed on the pin</td>
+</tr>
+<tr>
+<td>EIC_NMICallbackRegister</td>
+<td>Registers the function to be called when an interrupt condition has been sensed on the NMI pin</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EIC_PIN</td>
+<td>Enum</td>
+<td>Identifies the available EIC pins</td>
+</tr>
+<tr>
+<td>EIC_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature of the EIC peripheral callback function</td>
+</tr>
+<tr>
+<td>EIC_NMI_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature of the EIC peripheral NMI callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

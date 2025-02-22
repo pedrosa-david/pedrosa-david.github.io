@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Controller (RSTC) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.11.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.11.html">PIC32CX MT Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Reset Controller (RSTC)</li>
+    </ol>
+</nav>
+
+<h1>Reset Controller (RSTC)</h1>
+<h1>3.11.16</h1>
+<p>Reset Controller (RSTC)</p>
+<p><em>Generated on: 2025-02-19 08:42:43</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3D464F39-675A-4167-B807-A06049D5F799.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-3D464F39-675A-4167-B807-A06049D5F799.html</a></p>
+<h1>3.11.16 Reset Controller (RSTC)</h1>
+<p>The Reset Controller handles all resets of the system and is driven by power-on reset cells (POR), supply monitor cells (SM), software, the external reset pin, and peripheral events. The RSTC reports the type of reset.</p>
+<p>The RSTC drives independently or simultaneously the external reset and the peripheral and dual processor resets.</p>
+<p>The RSTC generates following reset signals:</p>
+<p>Processor and peripherals reset line (also resets the Watchdog Timers)</p>
+<p>Coprocessor (second processor) reset line</p>
+<p>Embedded peripherals driven by the coprocessor</p>
+<p>Power Management Controller (PMC) reset line</p>
+<p>NRST pin</p>
+<ul>
+<li>Processor and peripherals reset line (also resets the Watchdog Timers)</li>
+<li>Coprocessor (second processor) reset line</li>
+<li>Embedded peripherals driven by the coprocessor</li>
+<li>Power Management Controller (PMC) reset line</li>
+<li>NRST pin</li>
+</ul>
+<h2>Using The Library</h2>
+<p>The reset controller (RSTC) peripheral library provides API to find the cause of last device reset, generate specific reset, assert/de-assert reset of co-processor and its peripherals.</p>
+<h2>Library Interface</h2>
+<p>Reset Controller peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSTC_Initialize</td>
+<td>Initializes RSTC peripheral based on MCC configuration</td>
+</tr>
+<tr>
+<td>RSTC_ResetCauseGet</td>
+<td>Reports the cause of the latest reset</td>
+</tr>
+<tr>
+<td>RSTC_NRSTPinRead</td>
+<td>Reads the NRST pin level, sampled on each "Master Clock(MCK)" rising edge</td>
+</tr>
+<tr>
+<td>RSTC_CoProcessorEnable</td>
+<td>Asserts/de-asserts reset on co-processor</td>
+</tr>
+<tr>
+<td>RSTC_CoProcessorPeripheralEnable</td>
+<td>Asserts/de-asserts reset on co-processor peripherals</td>
+</tr>
+<tr>
+<td>RSTC_CallbackRegister</td>
+<td>Allows application to register callback with PLIB</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSTC_RESET_CAUSE</td>
+<td>Typedef</td>
+<td>Identifies the cause of reset</td>
+</tr>
+<tr>
+<td>RSTC_RESET_TYPE</td>
+<td>Enum</td>
+<td>Identifies the type of reset</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

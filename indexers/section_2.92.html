@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reinforced Safety Watchdog Timer (RSWDT) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_2.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_2.html">API Documentation</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Reinforced Safety Watchdog Timer (RSWDT)</li>
+    </ol>
+</nav>
+
+<h1>Reinforced Safety Watchdog Timer (RSWDT)</h1>
+<h1>2.92</h1>
+<p>Reinforced Safety Watchdog Timer (RSWDT)</p>
+<p><em>Generated on: 2025-02-20 07:44:04</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-45C22DCA-E822-4B0E-8B46-F2B584461D54.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-45C22DCA-E822-4B0E-8B46-F2B584461D54.html</a></p>
+<h1><span id="2-92-reinforced-safety-watchdog-timer-rswdt"></span>2.92 Reinforced Safety Watchdog Timer (RSWDT)</h1>
+<p>The RSWDT works in parallel with the Watchdog Timer (WDT) to reinforce
+safe watchdog operations.</p>
+<p>The RSWDT is a 12-bit down counter that allows a watchdog period of up
+to 16 seconds with a 32kHz slow clock. It should be fed periodically
+before it counts down to zero. If the timer counts down to zero, it
+will reset the device.</p>
+<p>The RSWDT uses the Main RC oscillator divided clock (frequency is
+equivalent to Slow RC) if the Main RC oscillator is enabled by the
+application, or if the WDT is driven by the 32kHz Slow clock.</p>
+<p>If the WDT clock source (for example, the 32 kHz crystal oscillator)
+fails, the system lock-up is no longer monitored by the WDT and the
+RSWDT performs the monitoring with the Main RC oscillator and resets
+the device.</p>
+<h2><span id="using-the-library"></span>Using The Library</h2>
+<p>The RSWDT module runs independent of the rest of the system, causing
+system resets whenever it times out. However, the application software
+should ensure that the timeout never occurs by resetting the RSWDT
+periodically as long as the software is in a known healthy state. If
+the system hangs or program execution is corrupted, the RSWDT will not
+receive its periodic reset, and will eventually time out and cause a
+system reset.</p>
+<p>In many systems, there is an obvious upper boundary to the amount of
+time each iteration of the main application loop can be expected to
+run, before a malfunction can be assumed (either due to a deadlock
+waiting on hardware or software, or due to other means). When the RSWDT
+is configured with a timeout period equal to this upper boundary, a
+malfunction in the system will force a full system reset to allow for a
+graceful recovery. The upper boundary is specified by a 12-bit watch
+dog period value.</p>
+<p>Window Mode</p>
+<p>In many system, there is also lower boundary to the amount of time each
+iteration of the main application loop can be expected to run. To guard
+against a system failure resetting the Watchdog in a tight loop (or a
+failure in the system application causing the main loop to run faster
+than expected) a watch dog delta value can be specified to disallow
+resetting of the Watchdog counter before a certain period of time. Any
+attempt to reset the watchdog when the watchdog counter has not counted
+down to the delta value results in device reset.</p>
+<h2><span id="library-interface"></span>Library Interface</h2>
+<p>Reinforced Safety Watchdog Timer peripheral library provides the following
+                interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSWDT_Initialize</td>
+<td>Initializes given instance of the RSWDT</td>
+</tr>
+<tr>
+<td>peripheral</td>
+<td></td>
+</tr>
+<tr>
+<td>RSWDT_Clear</td>
+<td>Restart the RSWDT counter</td>
+</tr>
+<tr>
+<td>RSWDT_CallbackRegister</td>
+<td>Sets the pointer to the function (and it's context)</td>
+</tr>
+<tr>
+<td>to be called when the Timeout events occur</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSWDT_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the</td>
+</tr>
+<tr>
+<td>RSWDT peripheral callback function</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

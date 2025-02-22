@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Volatile Memory (NVM) | Microchip Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            overflow: hidden;
+            width: 280px;
+        }
+
+        .nav-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #333;
+            padding: .5rem 1rem;
+        }
+
+        .nav-link.active {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .parameters-table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar">
+                <iframe class="nav-frame" src="navigation.html" title="Navigation"></iframe>
+            </nav>
+            <main class="main">
+<div class="doc-navigation">
+    <a href="section_3.18.html">↑ Up to Section</a><br />
+    <a href="index.html">↑↑ Back to Main Documentation</a>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="section_3.html">Device Families</a></li>
+        <li class="breadcrumb-item"><a href="section_3.18.html">PIC32MM GPM Peripheral Libraries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Non-Volatile Memory (NVM)</li>
+    </ol>
+</nav>
+
+<h1>Non-Volatile Memory (NVM)</h1>
+<h1>3.18.12</h1>
+<p>Non-Volatile Memory (NVM)</p>
+<p><em>Generated on: 2025-02-19 08:42:44</em></p>
+<p>Source: <a href="https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-267BA2D9-3001-4AB3-9AA0-1880EFA1018A_2.html">https://onlinedocs.microchip.com/oxy/GUID-450989FA-38E4-4D68-AB61-15ADB29AD718-en-US-5/GUID-267BA2D9-3001-4AB3-9AA0-1880EFA1018A_2.html</a></p>
+<h1>3.18.12 Non-Volatile Memory (NVM)</h1>
+<p>The Non-Volatile Memory (NVM) module provides an interface to the device's Non-Volatile Memory controller, so that memory pages can be written, read, erased, and reconfigured in a standardized manner.</p>
+<h2>Using The Library</h2>
+<p>The main Flash memory can not be read while it is being erased or written, the CPU is stalled during the entire operation. All functions that modify the main Flash can be run from RAM memory to avoid CPU stall while main main Flash is being erased or written.</p>
+<p>The program Flash array is built up of a series of rows to form a page. A page of Flash is the smallest unit of memory that can be erased at a single time. The program Flash array can be programmed in one of two ways:</p>
+<p>Row programming, with 64 instruction words at a time</p>
+<p>Double Word programming, with 2 instruction word at a time</p>
+<p>NVM APIs are implemented to be non-blocking, the API will return immediately unless stalled by Flash operation. The user application can either use polling or callback method to indicate the transfer status.</p>
+<p>With polling, the application will need to continuously check if the flash operation is completed.</p>
+<p>With callback, the registered callback function will be called once the flash operation is completed. This means the application do not have to poll continuously.</p>
+<p>Here is an example code to erase a page and program a row of memory using polling method</p>
+<p>```C</p>
+<h1>define APP_FLASH_ADDRESS  (NVM_FLASH_START_ADDRESS + (NVM_FLASH_SIZE / 2))</h1>
+<p>uint8_t CACHE_ALIGN rowBuffer[NVM_FLASH_ROWSIZE] = {0};</p>
+<p>void populate_buffer(uint8_t* data)
+{
+    int i = 0;</p>
+<pre class="code-block"><code class="language-c">for (i = 0; i &lt; (NVM_FLASH_ROWSIZE); i++)
+{
+    *(data + i) = i;
+}
+</code></pre>
+<p>}</p>
+<p>int main (void)
+{
+    /<em>Populate rowBuffer to programmed</em>/
+    populate_buffer(rowBuffer);</p>
+<pre class="code-block"><code class="language-c">while(NVM_IsBusy());
+
+/* Erase the page */
+NVM_PageErase(APP_FLASH_ADDRESS);
+
+/* Wait for page erase  to complete */
+while(NVM_IsBusy());
+
+/* Program a row of data */
+NVM_RowWrite((uint32_t *)rowBuffer, APP_FLASH_ADDRESS);
+
+/* Wait for row program to compete */
+while(NVM_IsBusy());
+</code></pre>
+<p>}
+```</p>
+<ul>
+<li>Row programming, with 64 instruction words at a time</li>
+<li>
+<p>Double Word programming, with 2 instruction word at a time</p>
+</li>
+<li>
+<p>With polling, the application will need to continuously check if the flash operation is completed.</p>
+</li>
+<li>With callback, the registered callback function will be called once the flash operation is completed. This means the application do not have to poll continuously.</li>
+</ul>
+<h2>Library Interface</h2>
+<p>Peripheral library provides the following interfaces:</p>
+<p>Functions</p>
+<p>Data types and constants</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NVM_Initialize</td>
+<td>Initializes given instance of the NVM peripheral</td>
+</tr>
+<tr>
+<td>NVM_Read</td>
+<td>Reads length number of bytes from a given address in FLASH memory</td>
+</tr>
+<tr>
+<td>NVM_RowWrite</td>
+<td>Writes one row of data to given NVM address</td>
+</tr>
+<tr>
+<td>NVM_DoubleWordWrite</td>
+<td>Writes two words into the Flash</td>
+</tr>
+<tr>
+<td>NVM_PageErase</td>
+<td>Erases a Page in the NVM</td>
+</tr>
+<tr>
+<td>NVM_ErrorGet</td>
+<td>Returns the error state of NVM controller</td>
+</tr>
+<tr>
+<td>NVM_IsBusy</td>
+<td>Returns the current status of NVM controller</td>
+</tr>
+<tr>
+<td>NVM_CallbackRegister</td>
+<td>Sets the pointer to the function (and it's context) to be called when the operation is complete</td>
+</tr>
+<tr>
+<td>NVM_ProgramFlashWriteProtect</td>
+<td>Protect Program Flash Memory from Writes</td>
+</tr>
+<tr>
+<td>NVM_ProgramFlashWriteProtectLock</td>
+<td>Disable Writes to Program Flash Write Protect Lock register</td>
+</tr>
+<tr>
+<td>NVM_BootFlashWriteProtectEnable</td>
+<td>Protect Boot Flash Memory Page from Writes</td>
+</tr>
+<tr>
+<td>NVM_BootFlashWriteProtectDisable</td>
+<td>Un-Protect Boot Flash Memory Page to perform Writes</td>
+</tr>
+<tr>
+<td>NVM_BootFlashWriteProtectLock</td>
+<td>Disable Writes to Boot flash Write Protect Lock register</td>
+</tr>
+</tbody>
+</table>
+<table class="data-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NVM_ERROR</td>
+<td>Enum</td>
+<td>Defines the NVM Error Type</td>
+</tr>
+<tr>
+<td>NVM_BOOT_FLASH_WRITE_PROTECT</td>
+<td>Enum</td>
+<td>Defines the Boot flash write protect pages</td>
+</tr>
+<tr>
+<td>NVM_CALLBACK</td>
+<td>Typedef</td>
+<td>Defines the data type and function signature for the NVM peripheral callback function</td>
+</tr>
+</tbody>
+</table>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
